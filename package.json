@@ -1,6 +1,6 @@
 {
-    "name": "vscode-mpx",
-    "displayName": "vscode-mpx",
+    "name": "mpx",
+    "displayName": "mpx",
     "description": "Syntax Highlight for mpx",
     "version": "0.0.1",
     "author": "pagnkelly",
