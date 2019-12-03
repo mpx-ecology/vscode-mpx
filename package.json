@@ -1,0 +1,37 @@
+{
+    "name": "vscode-mpx",
+    "displayName": "vscode-mpx",
+    "description": "Syntax Highlight for mpx",
+    "version": "0.0.1",
+    "author": "pagnkelly",
+	"publisher": "pagnkelly",
+    "keywords": [
+		"mpx"
+	],
+    "engines": {
+        "vscode": "^1.40.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "repository": {
+		"type": "git",
+		"url": "https://github.com/pagnkelly/vscode-mpx.git"
+	},
+    "contributes": {
+        "languages": [{
+			"id": "mpx",
+			"extensions": [".mpx"],
+			"configuration": "./mpx.configuration.json"
+		}],
+		"grammars": [{
+			"language": "mpx",
+			"scopeName": "text.html.mpx",
+			"path": "./syntaxes/mpx.tmLanguage.json"
+		}],
+		"snippets": [{
+			"language": "mpx",
+			"path": "./snippets/snippets.json"
+		}]
+    }
+}
