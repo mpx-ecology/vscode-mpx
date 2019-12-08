@@ -1,0 +1,22 @@
+{
+    "name": "mpx-server",
+    "description": "mpx server",
+    "version": "1.0.0",
+    "author": "pagnkelly",
+    "license": "MIT",
+    "engines": {
+        "node": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pagnkelly/vscode-mpx.git"
+    },
+    "scripts": {},
+    "dependencies": {
+        "log4js": "^6.1.0",
+        "vscode-languageserver": "^5.2.1"
+    },
+    "devDependencies": {
+        "@types/node": "^12.7.4"
+    }
+}

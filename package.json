@@ -7,8 +7,8 @@
     "publisher": "pagnkelly",
     "icon": "images/logo.png",
     "keywords": [
-		"mpx"
-	],
+        "mpx"
+    ],
     "engines": {
         "vscode": "^1.40.0"
     },
@@ -16,23 +16,50 @@
         "Programming Languages"
     ],
     "repository": {
-		"type": "git",
-		"url": "https://github.com/pagnkelly/vscode-mpx.git"
-	},
+        "type": "git",
+        "url": "https://github.com/pagnkelly/vscode-mpx.git"
+    },
+    "activationEvents": [
+        "onLanguage:mpx"
+    ],
+    "main": "./dist/client/index",
+    "dependencies": {
+        "path": "^0.12.7",
+        "vscode-languageclient": "^5.2.1"
+    },
+    "devDependencies": {
+        "@types/node": "^12.7.4",
+        "tslint": "^5.20.1",
+        "vscode": "^1.1.36"
+    },
+    "scripts": {
+        "update-vscode": "vscode-install",
+        "vscode:prepublish": "npm run update-vscode && npm run compile",
+        "compile": "tsc -b",
+        "watch": "tsc -b -w"
+    },
     "contributes": {
-        "languages": [{
-			"id": "mpx",
-			"extensions": [".mpx"],
-			"configuration": "./mpx.configuration.json"
-		}],
-		"grammars": [{
-			"language": "mpx",
-			"scopeName": "text.html.mpx",
-			"path": "./syntaxes/mpx.tmLanguage.json"
-		}],
-		"snippets": [{
-			"language": "mpx",
-			"path": "./snippets/snippets.json"
-		}]
+        "languages": [
+            {
+                "id": "mpx",
+                "extensions": [
+                    ".mpx"
+                ],
+                "configuration": "./mpx.configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "mpx",
+                "scopeName": "text.html.mpx",
+                "path": "./syntaxes/mpx.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "mpx",
+                "path": "./snippets/snippets.json"
+            }
+        ]
     }
 }

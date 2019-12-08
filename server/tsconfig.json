@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.options.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
+    "rootDir": "src",
+
+    "lib": ["es2015", "es2016.array.include"],
+    "strictPropertyInitialization": false
+  },
+  "include": [
+    "src"
+  ]
+}
