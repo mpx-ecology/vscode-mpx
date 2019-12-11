@@ -1,7 +1,9 @@
 {
   "files": [],
   "references": [
+    { "path": "scripts" },
     { "path": "client" },
-    { "path": "server" }
+    { "path": "server" },
+    { "path": "test" }
   ]
 }

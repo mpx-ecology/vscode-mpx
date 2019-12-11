@@ -1,4 +1,4 @@
-# vscode-mpx README
+# mpx
 
 mpx 高亮插件
 
@@ -10,4 +10,4 @@ mpx 高亮插件
 ## 声明
 
 站在巨人肩膀上
-[copy by vue](https://github.com/LiuJi-Jim/vscode-vue)
+[stand by vetur](https://github.com/vuejs/vetur)
