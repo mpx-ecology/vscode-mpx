@@ -64,11 +64,14 @@
     "glob": "^7.1.2",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
-    "source-map-support": "^0.5.0"
+    "source-map-support": "^0.5.0",
+    "ts-loader": "^6.2.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "scripts": {
-    "compile": "tsc -p .",
-    "watch": "tsc --watch",
+    "compile": "webpack --mode none",
+    "watch": "webpack --mode none --watch",
     "test": "mocha",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "newVersion": "yarn version --new-version patch -m \"vls %s\"",
