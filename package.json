@@ -2,7 +2,7 @@
   "name": "mpx",
   "displayName": "mpx",
   "description": "Syntax Highlight for mpx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "pagnkelly",
   "publisher": "pagnkelly",
   "icon": "images/logo.png",
@@ -56,35 +56,34 @@
     "vscode-languageserver-types": "^3.15.0-next.1"
   },
   "activationEvents": [
-    "onLanguage:vue"
+    "onLanguage:mpx"
   ],
   "main": "./dist/client/vueMain",
   "contributes": {
     "commands": [
       {
-        "command": "vetur.generateGrammar",
-        "title": "Vetur: Generate grammar from `vetur.grammar.customBlocks`"
+        "command": "mpx.generateGrammar",
+        "title": "mpx: Generate grammar from `mpx.grammar.customBlocks`"
       },
       {
-        "command": "vetur.showCorrespondingVirtualFile",
-        "title": "Vetur: Show corresponding virtual file and sourcemap"
+        "command": "mpx.showCorrespondingVirtualFile",
+        "title": "mpx: Show corresponding virtual file and sourcemap"
       },
       {
-        "command": "vetur.openUserScaffoldSnippetFolder",
-        "title": "Vetur: Open user scaffold snippet folder"
+        "command": "mpx.openUserScaffoldSnippetFolder",
+        "title": "mpx: Open user scaffold snippet folder"
       }
     ],
     "breakpoints": [
       {
-        "language": "vue"
+        "language": "mpx"
       }
     ],
     "languages": [
       {
-        "id": "vue",
+        "id": "mpx",
         "aliases": [
-          "Vue",
-          "vue"
+          "mpx"
         ],
         "extensions": [
           ".mpx"
@@ -110,7 +109,7 @@
     ],
     "grammars": [
       {
-        "language": "vue",
+        "language": "mpx",
         "scopeName": "source.vue",
         "path": "./syntaxes/vue-generated.json",
         "embeddedLanguages": {
