@@ -20,7 +20,7 @@ connection.onInitialize(
   async (params: InitializeParams): Promise<InitializeResult> => {
     await vls.init(params);
 
-    console.log("Vetur initialized");
+    console.log("mpx initialized");
 
     return {
       capabilities: vls.capabilities

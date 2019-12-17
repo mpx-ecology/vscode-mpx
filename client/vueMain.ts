@@ -26,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
    */
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      'vetur.generateGrammar',
+      'mpx.generateGrammar',
       generateGrammarCommandHandler(context.extensionPath)
     )
   );
@@ -36,14 +36,14 @@ export async function activate(context: vscode.ExtensionContext) {
    */
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      'vetur.openUserScaffoldSnippetFolder',
+      'mpx.openUserScaffoldSnippetFolder',
       generateOpenUserScaffoldSnippetFolderCommand(globalSnippetDir)
     )
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      'vetur.applyWorkspaceEdits',
+      'mpx.applyWorkspaceEdits',
       (args: WorkspaceEdit) => {
         const edit = client.protocol2CodeConverter.asWorkspaceEdit(args)!;
         vscode.workspace.applyEdit(edit);
@@ -53,7 +53,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      'vetur.chooseTypeScriptRefactoring',
+      'mpx.chooseTypeScriptRefactoring',
       (args: any) => {
         client
           .sendRequest<vscode.Command | undefined>(
@@ -119,7 +119,7 @@ function registerCustomLSPCommands(
 ) {
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      'vetur.showCorrespondingVirtualFile',
+      'mpx.showCorrespondingVirtualFile',
       generateShowVirtualFileCommand(client)
     )
   );
