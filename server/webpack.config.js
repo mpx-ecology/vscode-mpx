@@ -7,6 +7,8 @@
 
 "use strict";
 
+const webpack = require("webpack");
+
 const path = require("path");
 
 /**@type {import('webpack').Configuration}*/
@@ -41,6 +43,11 @@ const config = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env.STYLUS_COV": false
+    })
+  ]
 };
 module.exports = config;
