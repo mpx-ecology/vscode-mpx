@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from "path";
 
 import {
   DidChangeConfigurationParams,
@@ -15,7 +15,7 @@ import {
   DocumentFormattingRequest,
   Disposable,
   CodeActionParams
-} from 'vscode-languageserver';
+} from "vscode-languageserver";
 import {
   ColorInformation,
   CompletionItem,
@@ -34,22 +34,22 @@ import {
   TextEdit,
   ColorPresentation,
   Range
-} from 'vscode-languageserver-types';
+} from "vscode-languageserver-types";
 
-import Uri from 'vscode-uri';
+import Uri from "vscode-uri";
 import {
   LanguageModes,
   LanguageModeRange,
   LanguageMode
-} from '../embeddedSupport/languageModes';
-import { NULL_COMPLETION, NULL_HOVER, NULL_SIGNATURE } from '../modes/nullMode';
-import { VueInfoService } from './vueInfoService';
-import { DependencyService } from './dependencyService';
-import * as _ from 'lodash';
-import { DocumentContext, RefactorAction } from '../types';
-import { DocumentService } from './documentService';
-import { VueHTMLMode } from '../modes/template';
-import { logger } from '../log';
+} from "../embeddedSupport/languageModes";
+import { NULL_COMPLETION, NULL_HOVER, NULL_SIGNATURE } from "../modes/nullMode";
+import { VueInfoService } from "./vueInfoService";
+import { DependencyService } from "./dependencyService";
+import * as _ from "lodash";
+import { DocumentContext, RefactorAction } from "../types";
+import { DocumentService } from "./documentService";
+import { VueHTMLMode } from "../modes/template";
+import { logger } from "../log";
 
 export class VLS {
   // @Todo: Remove this and DocumentContext
@@ -64,7 +64,7 @@ export class VLS {
   private pendingValidationRequests: { [uri: string]: NodeJS.Timer } = {};
   private validationDelayMs = 200;
   private validation: { [k: string]: boolean } = {
-    'vue-html': true,
+    "vue-html": true,
     html: true,
     css: true,
     scss: true,
@@ -87,14 +87,14 @@ export class VLS {
     logger.setLevel(
       _.get(
         params.initializationOptions.config,
-        ['vetur', 'dev', 'logLevel'],
-        'INFO'
+        ["vetur", "dev", "logLevel"],
+        "INFO"
       )
     );
 
     const workspacePath = params.rootPath;
     if (!workspacePath) {
-      console.error('No workspace path found. Vetur initialization failed.');
+      console.error("No workspace path found. Vetur initialization failed.");
       return {
         capabilities: {}
       };
@@ -108,7 +108,7 @@ export class VLS {
       params.initializationOptions
         ? _.get(
             params.initializationOptions.config,
-            ['vetur', 'useWorkspaceDependencies'],
+            ["vetur", "useWorkspaceDependencies"],
             false
           )
         : false
@@ -119,7 +119,7 @@ export class VLS {
         infoService: this.vueInfoService,
         dependencyService: this.dependencyService
       },
-      params.initializationOptions['globalSnippetDir']
+      params.initializationOptions["globalSnippetDir"]
     );
 
     this.setupConfigListeners();
@@ -174,17 +174,17 @@ export class VLS {
     );
 
     this.lspConnection.onRequest(
-      'requestCodeActionEdits',
+      "requestCodeActionEdits",
       this.getRefactorEdits.bind(this)
     );
   }
 
   private setupCustomLSPHandlers() {
     this.lspConnection.onRequest(
-      '$/queryVirtualFileInfo',
+      "$/queryVirtualFileInfo",
       ({ fileName, currFileText }) => {
         return (this.languageModes.getMode(
-          'vue-html'
+          "vue-html"
         ) as VueHTMLMode).queryVirtualFileInfo(fileName, currFileText);
       }
     );
@@ -196,7 +196,7 @@ export class VLS {
         this.documentFormatterRegistration = await this.lspConnection.client.register(
           DocumentFormattingRequest.type,
           {
-            documentSelector: ['vue']
+            documentSelector: ["mpx"]
           }
         );
       }
@@ -221,7 +221,7 @@ export class VLS {
       });
     });
     this.lspConnection.onDidChangeWatchedFiles(({ changes }) => {
-      const jsMode = this.languageModes.getMode('javascript');
+      const jsMode = this.languageModes.getMode("javascript");
       if (!jsMode) {
         throw Error(`Can't find JS mode.`);
       }
@@ -241,7 +241,7 @@ export class VLS {
 
   configure(config: any): void {
     const veturValidationOptions = config.vetur.validation;
-    this.validation['vue-html'] = veturValidationOptions.template;
+    this.validation["vue-html"] = veturValidationOptions.template;
     this.validation.css = veturValidationOptions.style;
     this.validation.postcss = veturValidationOptions.style;
     this.validation.scss = veturValidationOptions.style;
@@ -260,13 +260,13 @@ export class VLS {
    */
 
   displayInfoMessage(msg: string): void {
-    this.lspConnection.sendNotification('$/displayInfo', msg);
+    this.lspConnection.sendNotification("$/displayInfo", msg);
   }
   displayWarningMessage(msg: string): void {
-    this.lspConnection.sendNotification('$/displayWarning', msg);
+    this.lspConnection.sendNotification("$/displayWarning", msg);
   }
   displayErrorMessage(msg: string): void {
-    this.lspConnection.sendNotification('$/displayError', msg);
+    this.lspConnection.sendNotification("$/displayError", msg);
   }
 
   /**
@@ -305,7 +305,7 @@ export class VLS {
 
     if (errMessages.length !== 0) {
       this.displayErrorMessage(
-        'Formatting failed: "' + errMessages.join('\n') + '"'
+        'Formatting failed: "' + errMessages.join("\n") + '"'
       );
       return [];
     }
@@ -397,11 +397,11 @@ export class VLS {
     const doc = this.documentService.getDocument(textDocument.uri)!;
     const documentContext: DocumentContext = {
       resolveReference: ref => {
-        if (this.workspacePath && ref[0] === '/') {
+        if (this.workspacePath && ref[0] === "/") {
           return Uri.file(path.resolve(this.workspacePath, ref)).toString();
         }
         const docUri = Uri.parse(doc.uri);
-        return Uri.file(path.resolve(docUri.fsPath, '..', ref)).toString();
+        return Uri.file(path.resolve(docUri.fsPath, "..", ref)).toString();
       }
     };
 
@@ -522,7 +522,7 @@ export class VLS {
 
   doValidate(doc: TextDocument): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
-    if (doc.languageId === 'vue') {
+    if (doc.languageId === "vue") {
       this.languageModes
         .getAllLanguageModeRangesInDocument(doc)
         .forEach(lmr => {
@@ -547,9 +547,9 @@ export class VLS {
       textDocumentSync: TextDocumentSyncKind.Full,
       completionProvider: {
         resolveProvider: true,
-        triggerCharacters: ['.', ':', '<', '"', "'", '/', '@', '*']
+        triggerCharacters: [".", ":", "<", '"', "'", "/", "@", "*"]
       },
-      signatureHelpProvider: { triggerCharacters: ['('] },
+      signatureHelpProvider: { triggerCharacters: ["("] },
       documentFormattingProvider: false,
       hoverProvider: true,
       documentHighlightProvider: true,

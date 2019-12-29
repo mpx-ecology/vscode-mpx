@@ -8,7 +8,8 @@
 "use strict";
 
 const webpack = require("webpack");
-
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 const path = require("path");
 
 /**@type {import('webpack').Configuration}*/
@@ -48,6 +49,20 @@ const config = {
     new webpack.DefinePlugin({
       "process.env.STYLUS_COV": false
     })
+    // new BundleAnalyzerPlugin(
+    //   {
+    //     analyzerMode: 'server',
+    //     analyzerHost: '127.0.0.1',
+    //     analyzerPort: 8890,
+    //     reportFilename: 'report.html',
+    //     defaultSizes: 'parsed',
+    //     openAnalyzer: true,
+    //     generateStatsFile: false,
+    //     statsFilename: 'stats.json',
+    //     statsOptions: null,
+    //     logLevel: 'info'
+    //   }
+    // )
   ]
 };
 module.exports = config;

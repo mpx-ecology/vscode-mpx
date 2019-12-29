@@ -67,14 +67,17 @@
     "source-map-support": "^0.5.0",
     "ts-loader": "^6.2.1",
     "webpack": "^4.41.2",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.10"
   },
   "scripts": {
+    "vscode:prepublish": "webpack --mode production",
     "compile": "webpack --mode none",
     "watch": "webpack --mode none --watch",
     "test": "mocha",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "newVersion": "yarn version --new-version patch -m \"vls %s\"",
-    "preversion": "npm run compile && npm test"
+    "preversion": "npm run compile && npm test",
+    "analyz": "NODE_ENV=production npm_config_report=true npm run watch"
   }
 }
