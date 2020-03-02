@@ -8,7 +8,7 @@
 "use strict";
 
 const webpack = require("webpack");
-
+const nodeExternals = require("webpack-node-externals");
 const path = require("path");
 
 /**@type {import('webpack').Configuration}*/
@@ -24,9 +24,7 @@ const config = {
     devtoolModuleFilenameTemplate: "../[resource-path]"
   },
   devtool: "source-map",
-  externals: {
-    vscode: "commonjs vscode" // vscode-module是热更新的临时目录，所以要排除掉。 在这里添加其他不应该被webpack打包的文件, 📖 -> https://webpack.js.org/configuration/externals/
-  },
+  externals: [nodeExternals()],
   resolve: {
     // 支持读取TypeScript和JavaScript文件, 📖 -> https://github.com/TypeStrong/ts-loader
     extensions: [".ts", ".js", ".json"]
