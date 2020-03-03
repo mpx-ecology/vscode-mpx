@@ -8,7 +8,7 @@
 "use strict";
 
 const webpack = require("webpack");
-const nodeExternals = require("webpack-node-externals");
+// const nodeExternals = require("webpack-node-externals");
 const path = require("path");
 
 /**@type {import('webpack').Configuration}*/
@@ -24,7 +24,7 @@ const config = {
     devtoolModuleFilenameTemplate: "../[resource-path]"
   },
   devtool: "source-map",
-  externals: [nodeExternals()],
+  // externals: [nodeExternals()],
   resolve: {
     // 支持读取TypeScript和JavaScript文件, 📖 -> https://github.com/TypeStrong/ts-loader
     extensions: [".ts", ".js", ".json"]
