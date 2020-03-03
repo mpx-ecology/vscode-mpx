@@ -6,8 +6,7 @@ docs/
 client/
 **/test/
 server/src/
-node_modules
-server/node_modules
+
 .**
 
 **/*.map

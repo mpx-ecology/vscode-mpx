@@ -10,10 +10,11 @@
     "mpx"
   ],
   "scripts": {
-    "vscode:prepublish": "webpack --mode production && npm run copy:snippets",
     "build:grammar": "tsc -p . && node dist/scripts/build_grammar",
-    "compile": "webpack --mode none && npm run copy:snippets",
-    "watch": "webpack --mode none --watch && npm run copy:snippets",
+    "compile": "run-s compile:source copy:snippets",
+    "compile:source": "tsc -b .",
+    "watch": "run-s compile copy:snippets watch:build",
+    "watch:build": "tsc -b -w .",
     "copy:snippets": "bash ./build/copy-snippets.sh",
     "lint": "tslint -c tslint.json client/**/*.ts server/**/*.ts scripts/**/*.ts",
     "test:server": "npm run compile && cd server && npm test",
@@ -57,7 +58,7 @@
   "activationEvents": [
     "onLanguage:mpx"
   ],
-  "main": "./dist/vueMain",
+  "main": "./dist/client/vueMain",
   "contributes": {
     "commands": [
       {
@@ -490,8 +491,6 @@
     "ts-loader": "^6.2.1",
     "tslint": "^5.18.0",
     "typescript": "^3.6.3",
-    "vscode": "1.1.29",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "vscode": "1.1.29"
   }
 }
