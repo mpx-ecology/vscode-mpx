@@ -1,5 +1,5 @@
 export function isVueFile(path: string) {
-  return path.endsWith(".vue");
+  return path.endsWith(".mpx");
 }
 
 /**

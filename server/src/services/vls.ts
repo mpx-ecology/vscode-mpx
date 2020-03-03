@@ -94,7 +94,7 @@ export class VLS {
 
     const workspacePath = params.rootPath;
     if (!workspacePath) {
-      console.error("No workspace path found. Vetur initialization failed.");
+      console.error("No workspace path found. Mpx initialization failed.");
       return {
         capabilities: {}
       };
@@ -503,7 +503,7 @@ export class VLS {
     this.cleanPendingValidation(textDocument);
     this.pendingValidationRequests[textDocument.uri] = setTimeout(() => {
       delete this.pendingValidationRequests[textDocument.uri];
-      // this.validateTextDocument(textDocument);
+      this.validateTextDocument(textDocument);
     }, this.validationDelayMs);
   }
 
@@ -522,7 +522,7 @@ export class VLS {
 
   doValidate(doc: TextDocument): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
-    if (doc.languageId === "vue") {
+    if (doc.languageId === "mpx") {
       this.languageModes
         .getAllLanguageModeRangesInDocument(doc)
         .forEach(lmr => {

@@ -10,7 +10,10 @@ const connection =
     ? createConnection(process.stdin, process.stdout)
     : createConnection();
 
-console.log = a => {
+console.log = (a, f = false) => {
+  if (f) {
+    return connection.console.log(a);
+  }
   connection.console.log(JSON.stringify(a));
 };
 console.error = connection.console.error.bind(connection.console);

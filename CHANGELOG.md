@@ -21,3 +21,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fix
 
 - 修复与vetur冲突
+
+## [0.1.2] - 2019-12-17
+
+### Opt
+
+- 增加webpack优化包体积，下载更快

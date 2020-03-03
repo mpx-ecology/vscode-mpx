@@ -90,7 +90,7 @@ export class VueInterpolationMode implements LanguageMode {
         severity: DiagnosticSeverity.Error,
         message: ts.flattenDiagnosticMessageText(diag.messageText, "\n"),
         code: diag.code,
-        source: "Vetur"
+        source: "Mpx"
       };
     });
   }

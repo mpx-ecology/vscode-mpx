@@ -1,5 +1,6 @@
 import { CLIEngine, Linter } from "eslint";
 import { configs } from "eslint-plugin-vue";
+
 import {
   TextDocument,
   Diagnostic,
@@ -12,6 +13,7 @@ function toDiagnostic(error: Linter.LintMessage): Diagnostic {
   const column = error.column - 1;
   const endLine = error.endLine ? error.endLine - 1 : line;
   const endColumn = error.endColumn ? error.endColumn - 1 : column;
+
   return {
     range: Range.create(line, column, endLine, endColumn),
     message: `\n[${error.ruleId}]\n${error.message}`,

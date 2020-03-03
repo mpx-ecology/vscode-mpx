@@ -127,6 +127,8 @@ export async function getJavascriptMode(
         ...service.getSemanticDiagnostics(fileFsPath)
       ];
 
+      // console.log(rawScriptDiagnostics, 1)
+
       return rawScriptDiagnostics.map(diag => {
         const tags: DiagnosticTag[] = [];
 
@@ -134,6 +136,8 @@ export async function getJavascriptMode(
           tags.push(DiagnosticTag.Unnecessary);
         }
 
+        console.log("-----");
+        console.log(diag.messageText);
         // syntactic/semantic diagnostic always has start and length
         // so we can safely cast diag to TextSpan
         return <Diagnostic>{
@@ -145,7 +149,7 @@ export async function getJavascriptMode(
           ),
           tags,
           code: diag.code,
-          source: "Vetur"
+          source: "Mpx"
         };
       });
     },
