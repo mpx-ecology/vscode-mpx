@@ -128,7 +128,7 @@ export async function getJavascriptMode(
       ];
 
       // console.log(rawScriptDiagnostics, 1)
-  
+
       return rawScriptDiagnostics.map(diag => {
         const tags: DiagnosticTag[] = [];
 

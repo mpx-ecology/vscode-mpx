@@ -24,7 +24,8 @@
     "test:int": "node ./dist/test/codeTestRunner.js interpolation",
     "test": "run-s compile test:server test:e2e",
     "docs": "bash ./build/update-docs.sh",
-    "prepare-publish": "./build/release-cleanup.sh"
+    "prepare-publish": "./build/release-cleanup.sh",
+    "analyz": "NODE_ENV=production npm_config_report=true npm run watch"
   },
   "husky": {
     "hooks": {
@@ -58,7 +59,7 @@
   "activationEvents": [
     "onLanguage:mpx"
   ],
-  "main": "./dist/client/vueMain",
+  "main": "./dist/vueMain",
   "contributes": {
     "commands": [
       {
@@ -491,6 +492,9 @@
     "ts-loader": "^6.2.1",
     "tslint": "^5.18.0",
     "typescript": "^3.6.3",
-    "vscode": "1.1.29"
+    "vscode": "1.1.29",
+    "webpack": "^4.41.2",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.10"
   }
 }
