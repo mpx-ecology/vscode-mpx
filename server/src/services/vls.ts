@@ -522,15 +522,15 @@ export class VLS {
 
   doValidate(doc: TextDocument): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
-    // if (doc.languageId === 'mpx') {
-    //   this.languageModes
-    //     .getAllLanguageModeRangesInDocument(doc)
-    //     .forEach(lmr => {
-    //       if (lmr.mode.doValidation && this.validation[lmr.mode.getId()]) {
-    //         pushAll(diagnostics, lmr.mode.doValidation(doc));
-    //       }
-    //     });
-    // }
+    if (doc.languageId === "mpx") {
+      this.languageModes
+        .getAllLanguageModeRangesInDocument(doc)
+        .forEach(lmr => {
+          if (lmr.mode.doValidation && this.validation[lmr.mode.getId()]) {
+            pushAll(diagnostics, lmr.mode.doValidation(doc));
+          }
+        });
+    }
     return diagnostics;
   }
 

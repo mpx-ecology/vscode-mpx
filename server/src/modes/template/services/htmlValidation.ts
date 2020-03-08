@@ -36,14 +36,16 @@ export function doESLintValidation(
   }
   const text = rawText.replace(/ {10}/, '<template>') + '</template>';
   const report = engine.executeOnText(text, document.uri);
-
+  console.log(report.results);
   return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
 }
 
 export function createLintEngine() {
-  return new CLIEngine({
+  const cli = new CLIEngine({
     useEslintrc: false,
     ...configs.base,
     ...configs.essential
   });
+  cli.addPlugin('eslint-plugin-vue', {});
+  return cli;
 }
