@@ -2,7 +2,7 @@
   "name": "mpx",
   "displayName": "mpx",
   "description": "Syntax Highlight for mpx",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "pagnkelly",
   "publisher": "pagnkelly",
   "icon": "images/logo.png",
@@ -471,12 +471,12 @@
       }
     },
     "iconThemes": [
-			{
-				"id": "vscode-mpx",
-				"label": "Mpx (Visual Studio Code)",
-				"path": "./images/mpx-icon-theme.json"
-			}
-		]
+      {
+        "id": "vscode-mpx",
+        "label": "Mpx (Visual Studio Code)",
+        "path": "./images/mpx-icon-theme.json"
+      }
+    ]
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
