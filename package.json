@@ -469,7 +469,14 @@
           "description": "Enable template interpolation service that offers diagnostics / hover / definition / references."
         }
       }
-    }
+    },
+    "iconThemes": [
+			{
+				"id": "vscode-mpx",
+				"label": "Mpx (Visual Studio Code)",
+				"path": "./images/mpx-icon-theme.json"
+			}
+		]
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",

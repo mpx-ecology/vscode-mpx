@@ -1,0 +1,10 @@
+{
+    "iconDefinitions": {
+        "_file": {
+			"iconPath": "./logol.png"
+		}
+    },
+    "languageIds": {
+        "mpx": "_file"
+    }
+}

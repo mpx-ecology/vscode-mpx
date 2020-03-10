@@ -1,7 +1,7 @@
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from "../../embeddedSupport/languageModelCache";
+} from '../../embeddedSupport/languageModelCache';
 import {
   SymbolInformation,
   SymbolKind,
@@ -27,38 +27,38 @@ import {
   FormattingOptions,
   DiagnosticTag,
   MarkupContent
-} from "vscode-languageserver-types";
-import { LanguageMode } from "../../embeddedSupport/languageModes";
+} from 'vscode-languageserver-types';
+import { LanguageMode } from '../../embeddedSupport/languageModes';
 import {
   VueDocumentRegions,
   LanguageRange
-} from "../../embeddedSupport/embeddedSupport";
+} from '../../embeddedSupport/embeddedSupport';
 import {
   prettierify,
   prettierEslintify,
   prettierTslintify
-} from "../../utils/prettier";
-import { getFileFsPath, getFilePath } from "../../utils/paths";
+} from '../../utils/prettier';
+import { getFileFsPath, getFilePath } from '../../utils/paths';
 
-import Uri from "vscode-uri";
-import * as ts from "typescript";
-import * as _ from "lodash";
+import Uri from 'vscode-uri';
+import * as ts from 'typescript';
+import * as _ from 'lodash';
 
-import { nullMode, NULL_SIGNATURE } from "../nullMode";
-import { VLSFormatConfig } from "../../config";
-import { VueInfoService } from "../../services/vueInfoService";
-import { getComponentInfo } from "./componentInfo";
+import { nullMode, NULL_SIGNATURE } from '../nullMode';
+import { VLSFormatConfig } from '../../config';
+import { VueInfoService } from '../../services/vueInfoService';
+import { getComponentInfo } from './componentInfo';
 import {
   DependencyService,
   T_TypeScript,
   State
-} from "../../services/dependencyService";
-import { RefactorAction } from "../../types";
-import { IServiceHost } from "../../services/typescriptService/serviceHost";
+} from '../../services/dependencyService';
+import { RefactorAction } from '../../types';
+import { IServiceHost } from '../../services/typescriptService/serviceHost';
 
 // Todo: After upgrading to LS server 4.0, use CompletionContext for filtering trigger chars
 // https://microsoft.github.io/language-server-protocol/specification#completion-request-leftwards_arrow_with_hook
-const NON_SCRIPT_TRIGGERS = ["<", "*", ":"];
+const NON_SCRIPT_TRIGGERS = ['<', '*', ':'];
 
 export async function getJavascriptMode(
   serviceHost: IServiceHost,
@@ -74,18 +74,18 @@ export async function getJavascriptMode(
   }
   const jsDocuments = getLanguageModelCache(10, 60, document => {
     const vueDocument = documentRegions.refreshAndGet(document);
-    return vueDocument.getSingleTypeDocument("script");
+    return vueDocument.getSingleTypeDocument('script');
   });
 
   const firstScriptRegion = getLanguageModelCache(10, 60, document => {
     const vueDocument = documentRegions.refreshAndGet(document);
-    const scriptRegions = vueDocument.getLanguageRangesOfType("script");
+    const scriptRegions = vueDocument.getLanguageRangesOfType('script');
     return scriptRegions.length > 0 ? scriptRegions[0] : undefined;
   });
 
   let tsModule: T_TypeScript = ts;
   if (dependencyService) {
-    const tsDependency = dependencyService.getDependency("typescript");
+    const tsDependency = dependencyService.getDependency('typescript');
     if (tsDependency && tsDependency.state === State.Loaded) {
       tsModule = tsDependency.module;
     }
@@ -97,7 +97,7 @@ export async function getJavascriptMode(
 
   return {
     getId() {
-      return "javascript";
+      return 'javascript';
     },
     configure(c: any) {
       config = c;
@@ -127,15 +127,12 @@ export async function getJavascriptMode(
         ...service.getSemanticDiagnostics(fileFsPath)
       ];
 
-      // console.log(rawScriptDiagnostics, 1)
-
       return rawScriptDiagnostics.map(diag => {
         const tags: DiagnosticTag[] = [];
 
         if (diag.reportsUnnecessary) {
           tags.push(DiagnosticTag.Unnecessary);
         }
-
         // syntactic/semantic diagnostic always has start and length
         // so we can safely cast diag to TextSpan
         return <Diagnostic>{
@@ -143,11 +140,11 @@ export async function getJavascriptMode(
           severity: DiagnosticSeverity.Error,
           message: tsModule.flattenDiagnosticMessageText(
             diag.messageText,
-            "\n"
+            '\n'
           ),
           tags,
           code: diag.code,
-          source: "Mpx"
+          source: 'Mpx'
         };
       });
     },
@@ -166,16 +163,16 @@ export async function getJavascriptMode(
       const completions = service.getCompletionsAtPosition(fileFsPath, offset, {
         includeCompletionsWithInsertText: true,
         includeCompletionsForModuleExports: _.get(config, [
-          "vetur",
-          "completion",
-          "autoImport"
+          'vetur',
+          'completion',
+          'autoImport'
         ])
       });
       if (!completions) {
         return { isIncomplete: false, items: [] };
       }
       const entries = completions.entries.filter(
-        entry => entry.name !== "__vueEditorBridge"
+        entry => entry.name !== '__vueEditorBridge'
       );
       return {
         isIncomplete: false,
@@ -216,9 +213,9 @@ export async function getJavascriptMode(
               detail: entry.name + entry.kindModifiers
             };
           } else {
-            if (entry.name.endsWith(".vue")) {
+            if (entry.name.endsWith('.vue')) {
               return {
-                label: entry.name.slice(0, -".vue".length),
+                label: entry.name.slice(0, -'.vue'.length),
                 detail: entry.name
               };
             }
@@ -245,8 +242,8 @@ export async function getJavascriptMode(
         getFormatCodeSettings(config),
         item.data.source,
         {
-          importModuleSpecifierEnding: "minimal",
-          importModuleSpecifierPreference: "relative",
+          importModuleSpecifierEnding: 'minimal',
+          importModuleSpecifierPreference: 'relative',
           includeCompletionsWithInsertText: true
         }
       );
@@ -257,7 +254,7 @@ export async function getJavascriptMode(
       ) {
         item.detail = tsModule.displayPartsToString(details.displayParts);
         const documentation: MarkupContent = {
-          kind: "markdown",
+          kind: 'markdown',
           value: tsModule.displayPartsToString(details.documentation)
         };
         if (details.codeActions && config.vetur.completion.autoImport) {
@@ -270,7 +267,7 @@ export async function getJavascriptMode(
 
           details.codeActions.forEach(action => {
             if (action.description) {
-              documentation.value += "\n" + action.description;
+              documentation.value += '\n' + action.description;
             }
           });
         }
@@ -294,10 +291,10 @@ export async function getJavascriptMode(
         const display = tsModule.displayPartsToString(info.displayParts);
         const doc = tsModule.displayPartsToString(info.documentation);
         const markedContents: MarkedString[] = [
-          { language: "ts", value: display }
+          { language: 'ts', value: display }
         ];
         if (doc) {
-          markedContents.unshift(doc, "\n");
+          markedContents.unshift(doc, '\n');
         }
         return {
           range: convertRange(scriptDoc, info.textSpan),
@@ -331,7 +328,7 @@ export async function getJavascriptMode(
       };
       signHelp.items.forEach(item => {
         const signature: SignatureInformation = {
-          label: "",
+          label: '',
           documentation: undefined,
           parameters: []
         };
@@ -404,7 +401,7 @@ export async function getJavascriptMode(
         containerLabel?: string
       ) => {
         const sig = item.text + item.kind + item.spans[0].start;
-        if (item.kind !== "script" && !existing[sig]) {
+        if (item.kind !== 'script' && !existing[sig]) {
           const symbol: SymbolInformation = {
             name: item.text,
             kind: convertSymbolKind(item.kind),
@@ -551,10 +548,10 @@ export async function getJavascriptMode(
       );
       if (!response) {
         // TODO: What happens when there's no response?
-        return createApplyCodeActionCommand("", {});
+        return createApplyCodeActionCommand('', {});
       }
       const uriMapping = createUriMappingForEdits(response.edits, service);
-      return createApplyCodeActionCommand("", uriMapping);
+      return createApplyCodeActionCommand('', uriMapping);
     },
     format(
       doc: TextDocument,
@@ -564,30 +561,30 @@ export async function getJavascriptMode(
       const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
 
       const defaultFormatter =
-        scriptDoc.languageId === "javascript"
+        scriptDoc.languageId === 'javascript'
           ? config.vetur.format.defaultFormatter.js
           : config.vetur.format.defaultFormatter.ts;
 
-      if (defaultFormatter === "none") {
+      if (defaultFormatter === 'none') {
         return [];
       }
 
       const parser =
-        scriptDoc.languageId === "javascript" ? "babylon" : "typescript";
+        scriptDoc.languageId === 'javascript' ? 'babylon' : 'typescript';
       const needInitialIndent = config.vetur.format.scriptInitialIndent;
       const vlsFormatConfig: VLSFormatConfig = config.vetur.format;
 
       if (
-        defaultFormatter === "prettier" ||
-        defaultFormatter === "prettier-eslint" ||
-        defaultFormatter === "prettier-tslint"
+        defaultFormatter === 'prettier' ||
+        defaultFormatter === 'prettier-eslint' ||
+        defaultFormatter === 'prettier-tslint'
       ) {
         const code = doc.getText(range);
         const filePath = getFileFsPath(scriptDoc.uri);
         let doFormat;
-        if (defaultFormatter === "prettier-eslint") {
+        if (defaultFormatter === 'prettier-eslint') {
           doFormat = prettierEslintify;
-        } else if (defaultFormatter === "prettier-tslint") {
+        } else if (defaultFormatter === 'prettier-tslint') {
           doFormat = prettierTslintify;
         } else {
           doFormat = prettierify;
@@ -603,7 +600,7 @@ export async function getJavascriptMode(
       } else {
         const initialIndentLevel = needInitialIndent ? 1 : 0;
         const formatSettings: ts.FormatCodeSettings =
-          scriptDoc.languageId === "javascript"
+          scriptDoc.languageId === 'javascript'
             ? config.javascript.format
             : config.typescript.format;
         const convertedFormatSettings = convertOptions(
@@ -691,7 +688,7 @@ function collectRefactoringCommands(
   }
   for (const action of actions) {
     result.push({
-      command: "vetur.chooseTypeScriptRefactoring",
+      command: 'vetur.chooseTypeScriptRefactoring',
       title: action.description,
       arguments: [action]
     });
@@ -717,7 +714,7 @@ function createApplyCodeActionCommand(
 ): Command {
   return {
     title,
-    command: "vetur.applyWorkspaceEdits",
+    command: 'vetur.applyWorkspaceEdits',
     arguments: [
       {
         changes: uriTextEditMapping
@@ -750,7 +747,7 @@ function createUriMappingForEdits(
 
 function getSourceDoc(fileName: string, program: ts.Program): TextDocument {
   const sourceFile = program.getSourceFile(fileName)!;
-  return TextDocument.create(fileName, "vue", 0, sourceFile.getFullText());
+  return TextDocument.create(fileName, 'vue', 0, sourceFile.getFullText());
 }
 
 export function languageServiceIncludesFile(
@@ -770,35 +767,35 @@ function convertRange(document: TextDocument, span: ts.TextSpan): Range {
 
 function convertKind(kind: ts.ScriptElementKind): CompletionItemKind {
   switch (kind) {
-    case "primitive type":
-    case "keyword":
+    case 'primitive type':
+    case 'keyword':
       return CompletionItemKind.Keyword;
-    case "var":
-    case "local var":
+    case 'var':
+    case 'local var':
       return CompletionItemKind.Variable;
-    case "property":
-    case "getter":
-    case "setter":
+    case 'property':
+    case 'getter':
+    case 'setter':
       return CompletionItemKind.Field;
-    case "function":
-    case "method":
-    case "construct":
-    case "call":
-    case "index":
+    case 'function':
+    case 'method':
+    case 'construct':
+    case 'call':
+    case 'index':
       return CompletionItemKind.Function;
-    case "enum":
+    case 'enum':
       return CompletionItemKind.Enum;
-    case "module":
+    case 'module':
       return CompletionItemKind.Module;
-    case "class":
+    case 'class':
       return CompletionItemKind.Class;
-    case "interface":
+    case 'interface':
       return CompletionItemKind.Interface;
-    case "warning":
+    case 'warning':
       return CompletionItemKind.File;
-    case "script":
+    case 'script':
       return CompletionItemKind.File;
-    case "directory":
+    case 'directory':
       return CompletionItemKind.Folder;
   }
 
@@ -807,26 +804,26 @@ function convertKind(kind: ts.ScriptElementKind): CompletionItemKind {
 
 function convertSymbolKind(kind: ts.ScriptElementKind): SymbolKind {
   switch (kind) {
-    case "var":
-    case "local var":
-    case "const":
+    case 'var':
+    case 'local var':
+    case 'const':
       return SymbolKind.Variable;
-    case "function":
-    case "local function":
+    case 'function':
+    case 'local function':
       return SymbolKind.Function;
-    case "enum":
+    case 'enum':
       return SymbolKind.Enum;
-    case "module":
+    case 'module':
       return SymbolKind.Module;
-    case "class":
+    case 'class':
       return SymbolKind.Class;
-    case "interface":
+    case 'interface':
       return SymbolKind.Interface;
-    case "method":
+    case 'method':
       return SymbolKind.Method;
-    case "property":
-    case "getter":
-    case "setter":
+    case 'property':
+    case 'getter':
+    case 'setter':
       return SymbolKind.Property;
   }
   return SymbolKind.Variable;
