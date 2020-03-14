@@ -27,7 +27,6 @@ export function parseVueDocumentRegions(document: TextDocument) {
   let lastAttributeName = "";
   let languageIdFromType: LanguageId | "" = "";
   const importedScripts: string[] = [];
-
   let token = scanner.scan();
   while (token !== TokenType.EOS) {
     switch (token) {
@@ -70,7 +69,7 @@ export function parseVueDocumentRegions(document: TextDocument) {
         lastAttributeName = scanner.getTokenText();
         break;
       case TokenType.AttributeValue:
-        if (lastAttributeName === "lang") {
+        if (lastAttributeName === "lang" || lastAttributeName === "type") {
           languageIdFromType = getLanguageIdFromLangAttr(
             scanner.getTokenText()
           );
@@ -95,7 +94,6 @@ export function parseVueDocumentRegions(document: TextDocument) {
     }
     token = scanner.scan();
   }
-
   return {
     regions,
     importedScripts
@@ -191,7 +189,6 @@ function scanTemplateRegion(
     type: "template"
   };
 }
-
 function getLanguageIdFromLangAttr(lang: string): LanguageId {
   let languageIdFromType = removeQuotes(lang);
   if (languageIdFromType === "jade") {
@@ -199,6 +196,9 @@ function getLanguageIdFromLangAttr(lang: string): LanguageId {
   }
   if (languageIdFromType === "ts") {
     languageIdFromType = "typescript";
+  }
+  if (/JSON|json/.test(languageIdFromType)) {
+    languageIdFromType = "json";
   }
   return languageIdFromType as LanguageId;
 }

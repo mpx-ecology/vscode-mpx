@@ -19,36 +19,36 @@ import {
   Color,
   ColorPresentation,
   Command
-} from 'vscode-languageserver-types';
+} from "vscode-languageserver-types";
 
 import {
   getLanguageModelCache,
   LanguageModelCache
-} from './languageModelCache';
+} from "./languageModelCache";
 import {
   getVueDocumentRegions,
   VueDocumentRegions,
   LanguageId,
   LanguageRange
-} from './embeddedSupport';
-import { getVueMode } from '../modes/vue';
+} from "./embeddedSupport";
+import { getVueMode } from "../modes/vue";
 import {
   getCSSMode,
   getSCSSMode,
   getLESSMode,
   getPostCSSMode
-} from '../modes/style';
-import { getJavascriptMode } from '../modes/script/javascript';
-import { VueHTMLMode } from '../modes/template';
-import { getStylusMode } from '../modes/style/stylus';
-import { DocumentContext, RefactorAction } from '../types';
-import { VueInfoService } from '../services/vueInfoService';
-import { DependencyService, State } from '../services/dependencyService';
-import { nullMode } from '../modes/nullMode';
+} from "../modes/style";
+import { getJavascriptMode } from "../modes/script/javascript";
+import { VueHTMLMode } from "../modes/template";
+import { getStylusMode } from "../modes/style/stylus";
+import { DocumentContext, RefactorAction } from "../types";
+import { VueInfoService } from "../services/vueInfoService";
+import { DependencyService, State } from "../services/dependencyService";
+import { nullMode } from "../modes/nullMode";
 import {
   getServiceHost,
   IServiceHost
-} from '../services/typescriptService/serviceHost';
+} from "../services/typescriptService/serviceHost";
 
 export interface VLSServices {
   infoService?: VueInfoService;
@@ -112,7 +112,7 @@ export class LanguageModes {
     mpx: nullMode,
     vue: nullMode,
     pug: nullMode,
-    'vue-html': nullMode,
+    "vue-html": nullMode,
     css: nullMode,
     postcss: nullMode,
     scss: nullMode,
@@ -120,6 +120,7 @@ export class LanguageModes {
     stylus: nullMode,
     javascript: nullMode,
     typescript: nullMode,
+    json: nullMode,
     tsx: nullMode
   };
 
@@ -143,9 +144,9 @@ export class LanguageModes {
     services: VLSServices,
     globalSnippetDir?: string
   ) {
-    let tsModule = await import('typescript');
+    let tsModule = await import("typescript");
     if (services.dependencyService) {
-      const ts = services.dependencyService.getDependency('typescript');
+      const ts = services.dependencyService.getDependency("typescript");
       if (ts && ts.state === State.Loaded) {
         tsModule = ts.module;
       }
@@ -156,7 +157,7 @@ export class LanguageModes {
      */
     const scriptRegionDocuments = getLanguageModelCache(10, 60, document => {
       const vueDocument = this.documentRegions.refreshAndGet(document);
-      return vueDocument.getSingleTypeDocument('script');
+      return vueDocument.getSingleTypeDocument("script");
     });
     this.serviceHost = getServiceHost(
       tsModule,
@@ -178,16 +179,16 @@ export class LanguageModes {
       services.dependencyService
     );
 
-    this.modes['vue'] = getVueMode(workspacePath, globalSnippetDir);
-    this.modes['vue-html'] = vueHtmlMode;
-    this.modes['css'] = getCSSMode(this.documentRegions);
-    this.modes['postcss'] = getPostCSSMode(this.documentRegions);
-    this.modes['scss'] = getSCSSMode(this.documentRegions);
-    this.modes['less'] = getLESSMode(this.documentRegions);
-    this.modes['stylus'] = getStylusMode(this.documentRegions);
-    this.modes['javascript'] = jsMode;
-    this.modes['typescript'] = jsMode;
-    this.modes['tsx'] = jsMode;
+    this.modes["vue"] = getVueMode(workspacePath, globalSnippetDir);
+    this.modes["vue-html"] = vueHtmlMode;
+    this.modes["css"] = getCSSMode(this.documentRegions);
+    this.modes["postcss"] = getPostCSSMode(this.documentRegions);
+    this.modes["scss"] = getSCSSMode(this.documentRegions);
+    this.modes["less"] = getLESSMode(this.documentRegions);
+    this.modes["stylus"] = getStylusMode(this.documentRegions);
+    this.modes["javascript"] = jsMode;
+    this.modes["typescript"] = jsMode;
+    this.modes["tsx"] = jsMode;
   }
 
   getModeAtPosition(

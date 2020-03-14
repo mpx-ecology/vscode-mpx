@@ -144,7 +144,7 @@ export function getServiceHost(
     const filePath = getFilePath(doc.uri);
     // When file is not in language service, add it
     if (!localScriptRegionDocuments.has(fileFsPath)) {
-      if (fileFsPath.endsWith(".vue") || fileFsPath.endsWith(".vue.template")) {
+      if (fileFsPath.endsWith(".mpx") || fileFsPath.endsWith(".mpx.template")) {
         scriptFileNameSet.add(filePath);
       }
     }
@@ -165,11 +165,7 @@ export function getServiceHost(
     const filePath = getFilePath(doc.uri);
     // When file is not in language service, add it
     if (!localScriptRegionDocuments.has(fileFsPath)) {
-      if (
-        fileFsPath.endsWith(".mpx") ||
-        fileFsPath.endsWith(".vue") ||
-        fileFsPath.endsWith(".vue.template")
-      ) {
+      if (fileFsPath.endsWith(".mpx") || fileFsPath.endsWith(".mpx.template")) {
         scriptFileNameSet.add(filePath);
       }
     }
@@ -241,7 +237,7 @@ export function getServiceHost(
             doc = updatedScriptRegionDocuments.refreshAndGet(
               TextDocument.create(
                 uri.toString(),
-                "vue",
+                "mpx",
                 0,
                 tsModule.sys.readFile(fileName) || ""
               )
@@ -272,7 +268,7 @@ export function getServiceHost(
         depth?: number
       ): string[] {
         const allExtensions = extensions
-          ? extensions.concat([".vue"])
+          ? extensions.concat([".mpx"])
           : extensions;
         return vueSys.readDirectory(
           path,
@@ -334,7 +330,7 @@ export function getServiceHost(
               return undefined;
             }
 
-            if (tsResolvedModule.resolvedFileName.endsWith(".vue.ts")) {
+            if (tsResolvedModule.resolvedFileName.endsWith(".mpx.ts")) {
               const resolvedFileName = tsResolvedModule.resolvedFileName.slice(
                 0,
                 -".ts".length
@@ -346,7 +342,7 @@ export function getServiceHost(
                 doc = updatedScriptRegionDocuments.refreshAndGet(
                   TextDocument.create(
                     uri.toString(),
-                    "vue",
+                    "mpx",
                     0,
                     tsModule.sys.readFile(resolvedFileName) || ""
                   )
@@ -572,6 +568,6 @@ function getParsedConfig(tsModule: T_TypeScript, workspacePath: string) {
     /*existingOptions*/ {},
     configFilename,
     /*resolutionStack*/ undefined,
-    [{ extension: "vue", isMixedContent: true }]
+    [{ extension: "mpx", isMixedContent: true }]
   );
 }

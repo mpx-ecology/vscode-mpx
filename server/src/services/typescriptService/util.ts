@@ -7,7 +7,7 @@ export function isVueFile(path: string) {
  * to be used in TS Language Service
  */
 export function isVirtualVueFile(path: string) {
-  return path.endsWith(".vue.ts") && !path.includes("node_modules");
+  return path.endsWith(".mpx.ts") && !path.includes("node_modules");
 }
 
 /**
@@ -15,5 +15,5 @@ export function isVirtualVueFile(path: string) {
  * pre-processed by Vetur to calculate template diagnostics in TS Language Service
  */
 export function isVirtualVueTemplateFile(path: string) {
-  return path.endsWith(".vue.template");
+  return path.endsWith(".mpx.template");
 }

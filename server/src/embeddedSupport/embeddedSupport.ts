@@ -16,6 +16,7 @@ export type LanguageId =
   | "stylus"
   | "javascript"
   | "typescript"
+  | "json"
   | "tsx";
 
 export interface LanguageRange extends Range {
@@ -111,7 +112,7 @@ function getLanguageAtPosition(
       break;
     }
   }
-  return "vue";
+  return "mpx";
 }
 
 export function getSingleLanguageDocument(
