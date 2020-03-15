@@ -714,7 +714,7 @@ function createApplyCodeActionCommand(
 ): Command {
   return {
     title,
-    command: "vetur.applyWorkspaceEdits",
+    command: "mpx.applyWorkspaceEdits",
     arguments: [
       {
         changes: uriTextEditMapping
@@ -747,7 +747,7 @@ function createUriMappingForEdits(
 
 function getSourceDoc(fileName: string, program: ts.Program): TextDocument {
   const sourceFile = program.getSourceFile(fileName)!;
-  return TextDocument.create(fileName, "vue", 0, sourceFile.getFullText());
+  return TextDocument.create(fileName, "mpx", 0, sourceFile.getFullText());
 }
 
 export function languageServiceIncludesFile(
