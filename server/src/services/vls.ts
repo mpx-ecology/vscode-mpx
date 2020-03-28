@@ -70,7 +70,8 @@ export class VLS {
     scss: true,
     less: true,
     postcss: true,
-    javascript: true
+    javascript: true,
+    json: true
   };
 
   private documentFormatterRegistration: Disposable | undefined;

@@ -430,7 +430,7 @@
           "default": false,
           "description": "Whether to have initial indent for <script> region"
         },
-        "vetur.trace.server": {
+        "mpx.trace.server": {
           "type": "string",
           "enum": [
             "off",

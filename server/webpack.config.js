@@ -28,6 +28,9 @@ const config = {
     // 支持读取TypeScript和JavaScript文件, 📖 -> https://github.com/TypeStrong/ts-loader
     extensions: [".ts", ".js", ".json"]
   },
+  externals: {
+    "jsonc-parser": "commonjs jsonc-parser"
+  },
   module: {
     rules: [
       {

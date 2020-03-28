@@ -759,7 +759,7 @@ export function languageServiceIncludesFile(
   return filePaths.includes(filePath);
 }
 
-function convertRange(document: TextDocument, span: ts.TextSpan): Range {
+export function convertRange(document: TextDocument, span: ts.TextSpan): Range {
   const startPosition = document.positionAt(span.start);
   const endPosition = document.positionAt(span.start + span.length);
   return Range.create(startPosition, endPosition);

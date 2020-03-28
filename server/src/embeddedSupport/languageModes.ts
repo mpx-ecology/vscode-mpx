@@ -39,6 +39,7 @@ import {
   getPostCSSMode
 } from "../modes/style";
 import { getJavascriptMode } from "../modes/script/javascript";
+import { getJsonMode } from "../modes/script/json";
 import { VueHTMLMode } from "../modes/template";
 import { getStylusMode } from "../modes/style/stylus";
 import { DocumentContext, RefactorAction } from "../types";
@@ -189,6 +190,7 @@ export class LanguageModes {
     this.modes["javascript"] = jsMode;
     this.modes["typescript"] = jsMode;
     this.modes["tsx"] = jsMode;
+    this.modes["json"] = getJsonMode(this.serviceHost, this.documentRegions);
   }
 
   getModeAtPosition(
