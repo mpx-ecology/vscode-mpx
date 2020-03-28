@@ -431,7 +431,7 @@
           "default": false,
           "description": "Whether to have initial indent for <script> region"
         },
-        "vetur.trace.server": {
+        "mpx.trace.server": {
           "type": "string",
           "enum": [
             "off",
@@ -469,6 +469,22 @@
           "default": false,
           "description": "Enable template interpolation service that offers diagnostics / hover / definition / references."
         }
+      }
+    },
+    "icons": {
+      "iconDefinitions": {
+        "_file": {
+          "iconPath": "./images/logol.png"
+        }
+      },
+      "fileExtensions": {
+        "mpx": "_file"
+      },
+      "light": {
+
+      },
+      "highContrast": {
+        
       }
     }
   },

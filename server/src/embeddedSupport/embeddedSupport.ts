@@ -1,22 +1,23 @@
-import { TextDocument, Position, Range } from "vscode-languageserver-types";
+import { TextDocument, Position, Range } from 'vscode-languageserver-types';
 import {
   parseVueDocumentRegions,
   EmbeddedRegion
-} from "./vueDocumentRegionParser";
+} from './vueDocumentRegionParser';
 
 export type LanguageId =
-  | "mpx"
-  | "vue"
-  | "vue-html"
-  | "pug"
-  | "css"
-  | "postcss"
-  | "scss"
-  | "less"
-  | "stylus"
-  | "javascript"
-  | "typescript"
-  | "tsx";
+  | 'mpx'
+  | 'vue'
+  | 'vue-html'
+  | 'pug'
+  | 'css'
+  | 'postcss'
+  | 'scss'
+  | 'less'
+  | 'stylus'
+  | 'javascript'
+  | 'typescript'
+  | 'json'
+  | 'tsx';
 
 export interface LanguageRange extends Range {
   languageId: LanguageId;
@@ -54,12 +55,12 @@ export interface VueDocumentRegions {
   getImportedScripts(): string[];
 }
 
-type RegionType = "template" | "script" | "style" | "custom";
+type RegionType = 'template' | 'script' | 'style' | 'custom';
 
 const defaultLanguageIdForBlockTypes: { [type: string]: string } = {
-  template: "vue-html",
-  script: "javascript",
-  style: "css"
+  template: 'vue-html',
+  script: 'javascript',
+  style: 'css'
 };
 
 export function getVueDocumentRegions(
@@ -111,7 +112,7 @@ function getLanguageAtPosition(
       break;
     }
   }
-  return "vue";
+  return 'mpx';
 }
 
 export function getSingleLanguageDocument(
@@ -121,9 +122,9 @@ export function getSingleLanguageDocument(
 ): TextDocument {
   const oldContent = document.getText();
   let newContent = oldContent
-    .split("\n")
-    .map(line => " ".repeat(line.length))
-    .join("\n");
+    .split('\n')
+    .map(line => ' '.repeat(line.length))
+    .join('\n');
 
   for (const r of regions) {
     if (r.languageId === languageId) {
@@ -149,9 +150,9 @@ export function getSingleTypeDocument(
 ): TextDocument {
   const oldContent = document.getText();
   let newContent = oldContent
-    .split("\n")
-    .map(line => " ".repeat(line.length))
-    .join("\n");
+    .split('\n')
+    .map(line => ' '.repeat(line.length))
+    .join('\n');
 
   let langId: string = defaultLanguageIdForBlockTypes[type];
 
