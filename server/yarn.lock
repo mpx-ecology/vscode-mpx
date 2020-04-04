@@ -6785,10 +6785,10 @@ webpack-bundle-analyzer@^3.6.0:
     opener "^1.5.1"
     ws "^6.0.0"
 
-webpack-cli@^3.3.10:
-  version "3.3.10"
-  resolved "http://artifactory.intra.xiaojukeji.com:80/artifactory/api/npm/npm/webpack-cli/download/webpack-cli-3.3.10.tgz#17b279267e9b4fb549023fae170da8e6e766da13"
-  integrity sha1-F7J5Jn6bT7VJAj+uFw2o5udm2hM=
+webpack-cli@^3.3.11:
+  version "3.3.11"
+  resolved "http://artifactory.intra.xiaojukeji.com:80/artifactory/api/npm/npm/webpack-cli/download/webpack-cli-3.3.11.tgz#3bf21889bf597b5d82c38f215135a411edfdc631"
+  integrity sha1-O/IYib9Ze12Cw48hUTWkEe39xjE=
   dependencies:
     chalk "2.4.2"
     cross-spawn "6.0.5"
