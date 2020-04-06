@@ -2,20 +2,20 @@ import {
   TextDocument,
   Diagnostic,
   DiagnosticSeverity
-} from "vscode-languageserver-types";
-import { CLIEngine, Linter } from "eslint";
-const { rules, configs, processors } = require("eslint-plugin-json");
+} from 'vscode-languageserver-types';
+import { CLIEngine, Linter } from 'eslint';
+const { rules, configs, processors } = require('eslint-plugin-json');
 
-import { LanguageMode } from "../../embeddedSupport/languageModes";
-import { IServiceHost } from "../../services/typescriptService/serviceHost";
+import { LanguageMode } from '../../embeddedSupport/languageModes';
+import { IServiceHost } from '../../services/typescriptService/serviceHost';
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from "../../embeddedSupport/languageModelCache";
+} from '../../embeddedSupport/languageModelCache';
 import {
   VueDocumentRegions,
   LanguageRange
-} from "../../embeddedSupport/embeddedSupport";
+} from '../../embeddedSupport/embeddedSupport';
 
 const linter = createLintEngine();
 
@@ -24,18 +24,18 @@ export function getJsonMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const jsonDocuments = getLanguageModelCache<TextDocument>(10, 60, document =>
-    documentRegions.refreshAndGet(document).getSingleLanguageDocument("json")
+    documentRegions.refreshAndGet(document).getSingleLanguageDocument('json')
   );
 
   return {
     getId() {
-      return "json";
+      return 'json';
     },
     doValidation(document: TextDocument): Diagnostic[] {
-      const jsonDoc = jsonDocuments.refreshAndGet(document);
-      const rawText = jsonDoc.getText();
-      const report = linter.executeOnText(rawText, document.uri);
-      console.log(report.results[0].messages);
+      // const jsonDoc = jsonDocuments.refreshAndGet(document);
+      // const rawText = jsonDoc.getText();
+      // const report = linter.executeOnText(rawText, document.uri);
+      // console.log(report.results[0].messages);
       // return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
       // const tags: DiagnosticTag[] = [];
       // return [<Diagnostic>{
@@ -66,25 +66,25 @@ export function getJsonMode(
 }
 
 function createLintEngine() {
-  const conf = {
-    useEslintrc: false,
-    ...configs.recommended,
-    parser: "jsonc-parser",
-    parserOptions: {
-      ecmaVersion: 2018,
-      sourceType: "module",
-      ecmaFeatures: {
-        jsx: true
-      }
-    }
-  };
-  console.log(conf.parser);
-  console.log("console.log(conf.parser)");
-  const cli = new CLIEngine(conf);
-  cli.addPlugin("eslint-plugin-json", {
-    rules,
-    configs,
-    processors
-  });
-  return cli;
+  // const conf = {
+  //   useEslintrc: false,
+  //   ...configs.recommended,
+  //   parser: "jsonc-parser",
+  //   parserOptions: {
+  //     ecmaVersion: 2018,
+  //     sourceType: "module",
+  //     ecmaFeatures: {
+  //       jsx: true
+  //     }
+  //   }
+  // };
+  // console.log(conf.parser);
+  // console.log("console.log(conf.parser)");
+  // const cli = new CLIEngine(conf);
+  // cli.addPlugin("eslint-plugin-json", {
+  //   rules,
+  //   configs,
+  //   processors
+  // });
+  // return cli;
 }
