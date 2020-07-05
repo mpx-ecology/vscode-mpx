@@ -17,7 +17,7 @@ export function getVueMode(
 
   return {
     getId() {
-      return "vue";
+      return "mpx";
     },
     configure(c) {
       config = c;

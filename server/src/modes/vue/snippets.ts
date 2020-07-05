@@ -40,6 +40,8 @@ export class SnippetManager {
     );
 
     this._snippets = [...workspaceSnippets, ...userSnippets, ...veturSnippets];
+    console.log(this._snippets);
+    console.log("__dirname");
   }
 
   // Return all snippets in order
