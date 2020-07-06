@@ -1,38 +1,38 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 import {
   LanguageClient,
   RevealOutputChannelOn,
   ServerOptions,
   TransportKind,
   LanguageClientOptions
-} from "vscode-languageclient";
-import { resolve } from "path";
-import { existsSync } from "fs";
+} from 'vscode-languageclient';
+import { resolve } from 'path';
+import { existsSync } from 'fs';
 
 export function initializeLanguageClient(
   vlsModulePath: string,
   globalSnippetDir: string
 ): LanguageClient {
-  const debugOptions = { execArgv: ["--nolazy", "--inspect=6005"] };
+  const debugOptions = { execArgv: ['--nolazy', '--inspect=6005'] };
 
-  const documentSelector = ["mpx"];
+  const documentSelector = ['mpx'];
   const config = vscode.workspace.getConfiguration();
 
   let serverPath;
 
-  const devVlsPackagePath = config.get("vetur.dev.vlsPath", "");
+  const devVlsPackagePath = config.get('mpx.dev.vlsPath', '');
   if (
     devVlsPackagePath &&
-    devVlsPackagePath !== "" &&
+    devVlsPackagePath !== '' &&
     existsSync(devVlsPackagePath)
   ) {
-    serverPath = resolve(devVlsPackagePath, "dist/vueServerMain.js");
+    serverPath = resolve(devVlsPackagePath, 'dist/vueServerMain.js');
   } else {
     serverPath = vlsModulePath;
   }
 
   const runExecArgv: string[] = [];
-  const vlsPort = config.get("vetur.dev.vlsPort");
+  const vlsPort = config.get('mpx.dev.vlsPort');
   if (vlsPort !== -1) {
     runExecArgv.push(`--inspect=${vlsPort}`);
     console.log(`Will launch VLS in port: ${vlsPort}`);
@@ -55,16 +55,16 @@ export function initializeLanguageClient(
     documentSelector,
     synchronize: {
       configurationSection: [
-        "vetur",
-        "emmet",
-        "html",
-        "javascript",
-        "typescript",
-        "prettier",
-        "stylusSupremacy"
+        'mpx',
+        'emmet',
+        'html',
+        'javascript',
+        'typescript',
+        'prettier',
+        'stylusSupremacy'
       ],
       fileEvents: vscode.workspace.createFileSystemWatcher(
-        "{**/*.js,**/*.ts}",
+        '{**/*.js,**/*.ts}',
         false,
         false,
         true
@@ -78,8 +78,8 @@ export function initializeLanguageClient(
   };
 
   return new LanguageClient(
-    "mpx",
-    "mpx Language Server",
+    'mpx',
+    'mpx Language Server',
     serverOptions,
     clientOptions
   );

@@ -1,4 +1,4 @@
-import { LanguageMode } from '../../embeddedSupport/languageModes';
+import { LanguageMode } from "../../embeddedSupport/languageModes";
 import {
   Diagnostic,
   TextDocument,
@@ -8,18 +8,18 @@ import {
   Range,
   Location,
   Definition
-} from 'vscode-languageserver-types';
-import { IServiceHost } from '../../services/typescriptService/serviceHost';
-import { languageServiceIncludesFile } from '../script/javascript';
-import { getFileFsPath } from '../../utils/paths';
+} from "vscode-languageserver-types";
+import { IServiceHost } from "../../services/typescriptService/serviceHost";
+import { languageServiceIncludesFile } from "../script/javascript";
+import { getFileFsPath } from "../../utils/paths";
 import {
   mapBackRange,
   mapFromPositionToOffset
-} from '../../services/typescriptService/sourceMap';
-import * as ts from 'typescript';
-import { T_TypeScript } from '../../services/dependencyService';
-import * as _ from 'lodash';
-import { createTemplateDiagnosticFilter } from '../../services/typescriptService/templateDiagnosticFilter';
+} from "../../services/typescriptService/sourceMap";
+import * as ts from "typescript";
+import { T_TypeScript } from "../../services/dependencyService";
+import * as _ from "lodash";
+import { createTemplateDiagnosticFilter } from "../../services/typescriptService/templateDiagnosticFilter";
 
 export class VueInterpolationMode implements LanguageMode {
   private config: any = {};
@@ -30,7 +30,7 @@ export class VueInterpolationMode implements LanguageMode {
   ) {}
 
   getId() {
-    return 'vue-html-interpolation';
+    return "vue-html-interpolation";
   }
 
   configure(c: any) {
@@ -45,7 +45,7 @@ export class VueInterpolationMode implements LanguageMode {
     if (
       !_.get(
         this.config,
-        ['vetur', 'experimental', 'templateInterpolationService'],
+        ["mpx", "experimental", "templateInterpolationService"],
         true
       )
     ) {
@@ -54,7 +54,7 @@ export class VueInterpolationMode implements LanguageMode {
 
     // Add suffix to process this doc as vue template.
     const templateDoc = TextDocument.create(
-      document.uri + '.template',
+      document.uri + ".template",
       document.languageId,
       document.version,
       document.getText()
@@ -88,9 +88,9 @@ export class VueInterpolationMode implements LanguageMode {
           templateSourceMap
         ),
         severity: DiagnosticSeverity.Error,
-        message: ts.flattenDiagnosticMessageText(diag.messageText, '\n'),
+        message: ts.flattenDiagnosticMessageText(diag.messageText, "\n"),
         code: diag.code,
-        source: 'Mpx'
+        source: "Mpx"
       };
     });
   }
@@ -105,7 +105,7 @@ export class VueInterpolationMode implements LanguageMode {
     if (
       !_.get(
         this.config,
-        ['vetur', 'experimental', 'templateInterpolationService'],
+        ["mpx", "experimental", "templateInterpolationService"],
         true
       )
     ) {
@@ -114,7 +114,7 @@ export class VueInterpolationMode implements LanguageMode {
 
     // Add suffix to process this doc as vue template.
     const templateDoc = TextDocument.create(
-      document.uri + '.template',
+      document.uri + ".template",
       document.languageId,
       document.version,
       document.getText()
@@ -145,10 +145,10 @@ export class VueInterpolationMode implements LanguageMode {
       const display = this.tsModule.displayPartsToString(info.displayParts);
       const doc = this.tsModule.displayPartsToString(info.documentation);
       const markedContents: MarkedString[] = [
-        { language: 'ts', value: display }
+        { language: "ts", value: display }
       ];
       if (doc) {
-        markedContents.unshift(doc, '\n');
+        markedContents.unshift(doc, "\n");
       }
       return {
         range: mapBackRange(templateDoc, info.textSpan, templateSourceMap),
@@ -162,7 +162,7 @@ export class VueInterpolationMode implements LanguageMode {
     if (
       !_.get(
         this.config,
-        ['vetur', 'experimental', 'templateInterpolationService'],
+        ["mpx", "experimental", "templateInterpolationService"],
         true
       )
     ) {
@@ -171,7 +171,7 @@ export class VueInterpolationMode implements LanguageMode {
 
     // Add suffix to process this doc as vue template.
     const templateDoc = TextDocument.create(
-      document.uri + '.template',
+      document.uri + ".template",
       document.languageId,
       document.version,
       document.getText()
@@ -229,7 +229,7 @@ export class VueInterpolationMode implements LanguageMode {
     if (
       !_.get(
         this.config,
-        ['vetur', 'experimental', 'templateInterpolationService'],
+        ["mpx", "experimental", "templateInterpolationService"],
         true
       )
     ) {
@@ -238,7 +238,7 @@ export class VueInterpolationMode implements LanguageMode {
 
     // Add suffix to process this doc as vue template.
     const templateDoc = TextDocument.create(
-      document.uri + '.template',
+      document.uri + ".template",
       document.languageId,
       document.version,
       document.getText()
@@ -299,7 +299,7 @@ export class VueInterpolationMode implements LanguageMode {
 
 function getSourceDoc(fileName: string, program: ts.Program): TextDocument {
   const sourceFile = program.getSourceFile(fileName)!;
-  return TextDocument.create(fileName, 'vue', 0, sourceFile.getFullText());
+  return TextDocument.create(fileName, "vue", 0, sourceFile.getFullText());
 }
 
 function convertRange(document: TextDocument, span: ts.TextSpan): Range {

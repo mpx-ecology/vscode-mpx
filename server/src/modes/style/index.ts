@@ -1,54 +1,54 @@
-import { TextDocument, Position, Range } from "vscode-languageserver-types";
+import { TextDocument, Position, Range } from 'vscode-languageserver-types';
 import {
   getCSSLanguageService,
   getSCSSLanguageService,
   getLESSLanguageService,
   LanguageService
-} from "vscode-css-languageservice";
-import * as _ from "lodash";
-import * as emmet from "vscode-emmet-helper";
+} from 'vscode-css-languageservice';
+import * as _ from 'lodash';
+import * as emmet from 'vscode-emmet-helper';
 
-import { Priority } from "./emmet";
+import { Priority } from './emmet';
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from "../../embeddedSupport/languageModelCache";
-import { LanguageMode } from "../../embeddedSupport/languageModes";
+} from '../../embeddedSupport/languageModelCache';
+import { LanguageMode } from '../../embeddedSupport/languageModes';
 import {
   VueDocumentRegions,
   LanguageId
-} from "../../embeddedSupport/embeddedSupport";
-import { getFileFsPath } from "../../utils/paths";
-import { prettierify } from "../../utils/prettier";
-import { ParserOption } from "../../utils/prettier/prettier.d";
-import { NULL_HOVER } from "../nullMode";
-import { VLSFormatConfig } from "../../config";
+} from '../../embeddedSupport/embeddedSupport';
+import { getFileFsPath } from '../../utils/paths';
+import { prettierify } from '../../utils/prettier';
+import { ParserOption } from '../../utils/prettier/prettier.d';
+import { NULL_HOVER } from '../nullMode';
+import { VLSFormatConfig } from '../../config';
 
 export function getCSSMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const languageService = getCSSLanguageService();
-  return getStyleMode("css", languageService, documentRegions);
+  return getStyleMode('css', languageService, documentRegions);
 }
 
 export function getPostCSSMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const languageService = getCSSLanguageService();
-  return getStyleMode("postcss", languageService, documentRegions);
+  return getStyleMode('postcss', languageService, documentRegions);
 }
 
 export function getSCSSMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const languageService = getSCSSLanguageService();
-  return getStyleMode("scss", languageService, documentRegions);
+  return getStyleMode('scss', languageService, documentRegions);
 }
 export function getLESSMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const languageService = getLESSLanguageService();
-  return getStyleMode("less", languageService, documentRegions);
+  return getStyleMode('less', languageService, documentRegions);
 }
 
 function getStyleMode(
@@ -75,7 +75,7 @@ function getStyleMode(
       config = c;
     },
     doValidation(document) {
-      if (languageId === "postcss") {
+      if (languageId === 'postcss') {
         return [];
       } else {
         const embedded = embeddedDocuments.refreshAndGet(document);
@@ -87,7 +87,7 @@ function getStyleMode(
     },
     doComplete(document, position) {
       const embedded = embeddedDocuments.refreshAndGet(document);
-      const emmetSyntax = languageId === "postcss" ? "css" : languageId;
+      const emmetSyntax = languageId === 'postcss' ? 'css' : languageId;
       const lsCompletions = languageService.doComplete(
         embedded,
         position,
@@ -185,23 +185,23 @@ function getStyleMode(
       );
     },
     format(document, currRange, formattingOptions) {
-      if (config.vetur.format.defaultFormatter[languageId] === "none") {
+      if (config.mpx.format.defaultFormatter[languageId] === 'none') {
         return [];
       }
 
       const { value, range } = getValueAndRange(document, currRange);
-      const needIndent = config.vetur.format.styleInitialIndent;
+      const needIndent = config.mpx.format.styleInitialIndent;
       const parserMap: { [k: string]: ParserOption } = {
-        css: "css",
-        postcss: "css",
-        scss: "scss",
-        less: "less"
+        css: 'css',
+        postcss: 'css',
+        scss: 'scss',
+        less: 'less'
       };
       return prettierify(
         value,
         getFileFsPath(document.uri),
         range,
-        config.vetur.format as VLSFormatConfig,
+        config.mpx.format as VLSFormatConfig,
         parserMap[languageId],
         needIndent
       );

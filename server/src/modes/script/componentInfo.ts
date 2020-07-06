@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 import {
   VueFileInfo,
   PropInfo,
@@ -6,9 +6,9 @@ import {
   DataInfo,
   MethodInfo,
   ChildComponent
-} from "../../services/vueInfoService";
-import { getChildComponents } from "./childComponents";
-import { T_TypeScript } from "../../services/dependencyService";
+} from '../../services/vueInfoService';
+import { getChildComponents } from './childComponents';
+import { T_TypeScript } from '../../services/dependencyService';
 
 export function getComponentInfo(
   tsModule: T_TypeScript,
@@ -47,7 +47,7 @@ export function getComponentInfo(
     tsModule,
     defaultExportType,
     checker,
-    config.vetur.completion.tagCasing
+    config.mpx.completion.tagCasing
   );
 
   if (internalChildComponents) {
@@ -110,7 +110,7 @@ function getProps(
   defaultExportType: ts.Type,
   checker: ts.TypeChecker
 ): PropInfo[] | undefined {
-  const propsSymbol = checker.getPropertyOfType(defaultExportType, "props");
+  const propsSymbol = checker.getPropertyOfType(defaultExportType, 'props');
   if (!propsSymbol || !propsSymbol.valueDeclaration) {
     return undefined;
   }
@@ -179,7 +179,7 @@ function getData(
   defaultExportType: ts.Type,
   checker: ts.TypeChecker
 ): DataInfo[] | undefined {
-  const dataSymbol = checker.getPropertyOfType(defaultExportType, "data");
+  const dataSymbol = checker.getPropertyOfType(defaultExportType, 'data');
   if (!dataSymbol || !dataSymbol.valueDeclaration) {
     return undefined;
   }
@@ -210,7 +210,7 @@ function getComputed(
 ): ComputedInfo[] | undefined {
   const computedSymbol = checker.getPropertyOfType(
     defaultExportType,
-    "computed"
+    'computed'
   );
   if (!computedSymbol || !computedSymbol.valueDeclaration) {
     return undefined;
@@ -245,7 +245,7 @@ function getMethods(
   defaultExportType: ts.Type,
   checker: ts.TypeChecker
 ): MethodInfo[] | undefined {
-  const methodsSymbol = checker.getPropertyOfType(defaultExportType, "methods");
+  const methodsSymbol = checker.getPropertyOfType(defaultExportType, 'methods');
   if (!methodsSymbol || !methodsSymbol.valueDeclaration) {
     return undefined;
   }
@@ -303,9 +303,9 @@ export function buildDocumentation(
   let documentation = s
     .getDocumentationComment(checker)
     .map(d => d.text)
-    .join("\n");
+    .join('\n');
 
-  documentation += "\n";
+  documentation += '\n';
 
   if (s.valueDeclaration) {
     if (s.valueDeclaration.kind === tsModule.SyntaxKind.PropertyAssignment) {
@@ -322,7 +322,7 @@ export function buildDocumentation(
 }
 
 function formatJSLikeDocumentation(src: string): string {
-  const segments = src.split("\n");
+  const segments = src.split('\n');
   if (segments.length === 1) {
     return src;
   }
@@ -331,10 +331,10 @@ function formatJSLikeDocumentation(src: string): string {
 
   return (
     segments[0] +
-    "\n" +
+    '\n' +
     segments
       .slice(1)
       .map(s => s.slice(spacesToDeindent))
-      .join("\n")
+      .join('\n')
   );
 }

@@ -12,7 +12,7 @@ export function getVueMode(
   let scaffoldSnippetSources: ScaffoldSnippetSources = {
     workspace: "💼",
     user: "🗒️",
-    vetur: "✌"
+    mpx: "✌"
   };
 
   return {
@@ -21,15 +21,16 @@ export function getVueMode(
     },
     configure(c) {
       config = c;
-      if (c.vetur.completion["scaffoldSnippetSources"]) {
-        scaffoldSnippetSources = c.vetur.completion["scaffoldSnippetSources"];
+      
+      if (c.mpx.completion["scaffoldSnippetSources"]) {
+        scaffoldSnippetSources = c.mpx.completion["scaffoldSnippetSources"];
       }
     },
     doComplete(document, position) {
       if (
         scaffoldSnippetSources["workspace"] === "" &&
         scaffoldSnippetSources["user"] === "" &&
-        scaffoldSnippetSources["vetur"] === ""
+        scaffoldSnippetSources["mpx"] === ""
       ) {
         return { isIncomplete: false, items: [] };
       }
