@@ -1,14 +1,14 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 import {
   CompletionItem,
   InsertTextFormat,
   CompletionItemKind,
   MarkupContent
-} from 'vscode-languageserver-types';
+} from "vscode-languageserver-types";
 
-type SnippetSource = 'workspace' | 'user' | 'vetur';
-type SnippetType = 'file' | 'template' | 'style' | 'script' | 'custom';
+type SnippetSource = "workspace" | "user" | "vetur";
+type SnippetType = "file" | "template" | "style" | "script" | "custom";
 interface Snippet {
   source: SnippetSource;
   name: string;
@@ -28,20 +28,20 @@ export class SnippetManager {
 
   constructor(workspacePath: string, globalSnippetDir?: string) {
     const workspaceSnippets = loadAllSnippets(
-      path.resolve(workspacePath, '.vscode/vetur/snippets'),
-      'workspace'
+      path.resolve(workspacePath, ".vscode/vetur/snippets"),
+      "workspace"
     );
     const userSnippets = globalSnippetDir
-      ? loadAllSnippets(globalSnippetDir, 'user')
+      ? loadAllSnippets(globalSnippetDir, "user")
       : [];
     const veturSnippets = loadAllSnippets(
-      path.resolve(__dirname, './veturSnippets'),
-      'vetur'
+      path.resolve(__dirname, "./veturSnippets"),
+      "vetur"
     );
 
     this._snippets = [...workspaceSnippets, ...userSnippets, ...veturSnippets];
     console.log(this._snippets);
-    console.log('__dirname');
+    console.log("__dirname");
   }
 
   // Return all snippets in order
@@ -50,20 +50,20 @@ export class SnippetManager {
   ): CompletionItem[] {
     return this._snippets
       .filter(s => {
-        return scaffoldSnippetSources[s.source] !== '';
+        return scaffoldSnippetSources[s.source] !== "";
       })
       .map(s => {
-        let scaffoldLabelPre = '';
+        let scaffoldLabelPre = "";
         switch (s.type) {
-          case 'file':
-            scaffoldLabelPre = '<vue> with';
+          case "file":
+            scaffoldLabelPre = "<mpx> with";
             break;
-          case 'custom':
-            scaffoldLabelPre = `<${s.customTypeName || 'custom'}> with`;
+          case "custom":
+            scaffoldLabelPre = `<${s.customTypeName || "custom"}> with`;
             break;
-          case 'template':
-          case 'style':
-          case 'script':
+          case "template":
+          case "style":
+          case "script":
             scaffoldLabelPre = `<${s.type}>`;
             break;
         }
@@ -87,31 +87,31 @@ export class SnippetManager {
 
 function loadAllSnippets(rootDir: string, source: SnippetSource): Snippet[] {
   let snippets = [
-    ...loadSnippetsFromDir(rootDir, source, 'file'),
+    ...loadSnippetsFromDir(rootDir, source, "file"),
     ...loadSnippetsFromDir(
-      path.resolve(rootDir, 'template'),
+      path.resolve(rootDir, "template"),
       source,
-      'template'
+      "template"
     ),
-    ...loadSnippetsFromDir(path.resolve(rootDir, 'style'), source, 'style'),
-    ...loadSnippetsFromDir(path.resolve(rootDir, 'script'), source, 'script')
+    ...loadSnippetsFromDir(path.resolve(rootDir, "style"), source, "style"),
+    ...loadSnippetsFromDir(path.resolve(rootDir, "script"), source, "script")
   ];
 
   try {
     fs.readdirSync(rootDir).forEach(p => {
-      if (p === 'template' || p === 'style' || p === 'script') {
+      if (p === "template" || p === "style" || p === "script") {
         return;
       }
       const absPath = path.resolve(rootDir, p);
       if (
-        !absPath.endsWith('.mpx') &&
+        !absPath.endsWith(".mpx") &&
         fs.existsSync(absPath) &&
         fs.lstatSync(absPath).isDirectory()
       ) {
         const customDirSnippets = loadSnippetsFromDir(
           absPath,
           source,
-          'custom'
+          "custom"
         ).map(s => {
           return {
             ...s,
@@ -140,15 +140,15 @@ function loadSnippetsFromDir(
 
   try {
     fs.readdirSync(dir)
-      .filter(p => p.endsWith('.mpx'))
+      .filter(p => p.endsWith(".mpx"))
       .forEach(p => {
         snippets.push({
           source,
           name: p,
           type,
           content: fs
-            .readFileSync(path.resolve(dir, p), 'utf-8')
-            .replace(/\\t/g, '\t')
+            .readFileSync(path.resolve(dir, p), "utf-8")
+            .replace(/\\t/g, "\t")
         });
       });
   } catch (err) {}
@@ -164,11 +164,11 @@ function computeSortTextPrefix(snippet: Snippet) {
   }[snippet.source];
 
   const t = {
-    file: 'a',
-    template: 'b',
-    style: 'c',
-    script: 'd',
-    custom: 'e'
+    file: "a",
+    template: "b",
+    style: "c",
+    script: "d",
+    custom: "e"
   }[snippet.type];
 
   return s + t;
@@ -176,22 +176,22 @@ function computeSortTextPrefix(snippet: Snippet) {
 
 function computeDetailsForFileIcon(s: Snippet) {
   switch (s.type) {
-    case 'file':
-      return s.name + ' | .mpx';
-    case 'template':
-      return s.name + ' | .html';
-    case 'style':
-      return s.name + ' | .css';
-    case 'template':
-      return s.name + ' | .js';
-    case 'custom':
+    case "file":
+      return s.name + " | .mpx";
+    case "template":
+      return s.name + " | .html";
+    case "style":
+      return s.name + " | .css";
+    case "template":
+      return s.name + " | .js";
+    case "custom":
       return s.name;
   }
 }
 
 function computeDocumentation(s: Snippet): MarkupContent {
   return {
-    kind: 'markdown',
+    kind: "markdown",
     value: `\`\`\`mpx\n${s.content}\n\`\`\``
   };
 }

@@ -1,0 +1,7 @@
+<script>
+  import { createApp } from '@mpxjs/core'
+
+  createApp({
+  
+  })
+</script>
