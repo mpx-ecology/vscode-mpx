@@ -471,22 +471,13 @@
         }
       }
     },
-    "icons": {
-      "iconDefinitions": {
-        "_file": {
-          "iconPath": "./images/logol.png"
-        }
-      },
-      "fileExtensions": {
-        "mpx": "_file"
-      },
-      "light": {
-
-      },
-      "highContrast": {
-        
+    "iconThemes": [
+      {
+        "id": "vscode-mpx",
+        "label": "Mpx (Visual Studio Code)",
+        "path": "./images/mpx-icon-theme.json"
       }
-    }
+    ]
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",

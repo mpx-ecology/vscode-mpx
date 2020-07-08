@@ -104,7 +104,7 @@ function loadAllSnippets(rootDir: string, source: SnippetSource): Snippet[] {
       }
       const absPath = path.resolve(rootDir, p);
       if (
-        !absPath.endsWith('.vue') &&
+        !absPath.endsWith('.mpx') &&
         fs.existsSync(absPath) &&
         fs.lstatSync(absPath).isDirectory()
       ) {
@@ -140,7 +140,7 @@ function loadSnippetsFromDir(
 
   try {
     fs.readdirSync(dir)
-      .filter(p => p.endsWith('.vue'))
+      .filter(p => p.endsWith('.mpx'))
       .forEach(p => {
         snippets.push({
           source,
@@ -177,7 +177,7 @@ function computeSortTextPrefix(snippet: Snippet) {
 function computeDetailsForFileIcon(s: Snippet) {
   switch (s.type) {
     case 'file':
-      return s.name + ' | .vue';
+      return s.name + ' | .mpx';
     case 'template':
       return s.name + ' | .html';
     case 'style':
@@ -192,6 +192,6 @@ function computeDetailsForFileIcon(s: Snippet) {
 function computeDocumentation(s: Snippet): MarkupContent {
   return {
     kind: 'markdown',
-    value: `\`\`\`vue\n${s.content}\n\`\`\``
+    value: `\`\`\`mpx\n${s.content}\n\`\`\``
   };
 }
