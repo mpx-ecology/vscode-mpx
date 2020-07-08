@@ -8,6 +8,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
 
 </style>
+
+<script type="application/json">
+{
+  "component": true,
+  "usingComponents": {}
+}
+</script>
