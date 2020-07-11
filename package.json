@@ -239,6 +239,11 @@
           "default": true,
           "description": "Validate js/ts in <script>"
         },
+        "mpx.validation.json": {
+          "type": "boolean",
+          "default": true,
+          "description": "Validate json in <script name=\"json\">/<script type=\"application/json\">"
+        },
         "mpx.format.enable": {
           "type": "boolean",
           "default": true,

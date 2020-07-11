@@ -4,26 +4,23 @@ All notable changes to the "vscode-mpx" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.0.1] - 2019-12-03
+### 0.1.11 | 2020-07-13 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.11/vspackage)
 
-### Added
+- 因存在无法解决问题，移除weppack，体积增大了
+- 增加snippets语法,可以尝试输入`mpx`查看相关代码块
 
-- 文字高亮 同vue插件
+### 0.1.2 | 2019-12-17 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.2/vspackage)
 
-## [0.1.0] - 2019-12-11
+- 增加webpack优化包体积，下载更快
 
-### Added
-
-- 增加语言服务器语言
-
-## [0.1.1] - 2019-12-16
-
-### Fix
+### 0.1.1 | 2019-12-16 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.1/vspackage)
 
 - 修复与vetur冲突
 
-## [0.1.2] - 2019-12-17
+### 0.1.0 | 2019-12-11 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.0/vspackage)
 
-### Opt
+- 增加语言服务器语言
 
-- 增加webpack优化包体积，下载更快
+### 0.0.1 | 2019-12-03 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.0.1/vspackage)
+
+- 文字高亮 同vue插件
