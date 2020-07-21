@@ -89,22 +89,6 @@
           ".mpx"
         ],
         "configuration": "./languages/vue-language-configuration.json"
-      },
-      {
-        "id": "vue-html",
-        "aliases": [
-          "Vue-html"
-        ],
-        "configuration": "./languages/vue-html-language-configuration.json"
-      },
-      {
-        "id": "vue-postcss",
-        "aliases": [
-          "Vue-PostCSS",
-          "Vue-POSTCSS",
-          "vue-postcss"
-        ],
-        "configuration": "./languages/vue-postcss-language-configuration.json"
       }
     ],
     "grammars": [
@@ -188,20 +172,20 @@
             "workspace": {
               "type": "string",
               "default": "💼",
-              "description": "Show Scaffold Snippets from `<WORKSPACE>/.vscode/vetur/snippets`."
+              "description": "Show Scaffold Snippets from `<WORKSPACE>/.vscode/mpx/snippets`."
             },
             "user": {
               "type": "string",
               "default": "🗒️",
-              "description": "Show Scaffold Snippets from `<USER-DATA-DIR>/User/snippets/vetur`."
+              "description": "Show Scaffold Snippets from `<USER-DATA-DIR>/User/snippets/mpx`."
             },
             "mpx": {
               "type": "string",
               "default": "✌",
-              "description": "Show Scaffold Snippets bundled in Vetur."
+              "description": "Show Scaffold Snippets bundled in Mpx."
             }
           },
-          "description": "Where Vetur source Scaffold Snippets from and how to indicate them. Set a source to \"\" to disable it.\n\n- workspace: `<WORKSPACE>/.vscode/vetur/snippets`.\n- user: `<USER-DATA-DIR>/User/snippets/vetur`.\n- vetur: Bundled in Vetur.\n\nThe default is:\n```\n\"vetur.completion.scaffoldSnippetSources\": {\n  \"workspace\": \"💼\",\n  \"user\": \"🗒️\",\n  \"vetur\": \"✌\"\n}\n```\n\nAlternatively, you can do:\n\n```\n\"vetur.completion.scaffoldSnippetSources\": {\n  \"workspace\": \"(W)\",\n  \"user\": \"(U)\",\n  \"vetur\": \"(V)\"\n}\n```\n\nRead more: https://vuejs.github.io/vetur/snippet.html."
+          "description": "Where Mpx source Scaffold Snippets from and how to indicate them. Set a source to \"\" to disable it.\n\n- workspace: `<WORKSPACE>/.vscode/mpx/snippets`.\n- user: `<USER-DATA-DIR>/User/snippets/mpx`.\n- mpx: Bundled in mpx.\n\nThe default is:\n```\n\"mpx.completion.scaffoldSnippetSources\": {\n  \"workspace\": \"💼\",\n  \"user\": \"🗒️\",\n  \"mpx\": \"✌\"\n}\n```\n\nAlternatively, you can do:\n\n```\n\"mpx.completion.scaffoldSnippetSources\": {\n  \"workspace\": \"(W)\",\n  \"user\": \"(U)\",\n  \"mpx\": \"(V)\"\n}\n```\n\n"
         },
         "mpx.completion.tagCasing": {
           "type": "string",
@@ -227,7 +211,7 @@
         "mpx.validation.template": {
           "type": "boolean",
           "default": true,
-          "description": "Validate vue-html in <template> using eslint-plugin-vue"
+          "description": "Validate in <template> using eslint-plugin-mpx"
         },
         "mpx.validation.style": {
           "type": "boolean",
@@ -247,7 +231,7 @@
         "mpx.format.enable": {
           "type": "boolean",
           "default": true,
-          "description": "Enable/disable the Vetur document formatter."
+          "description": "Enable/disable the mpx document formatter."
         },
         "mpx.format.options.tabSize": {
           "type": "number",
@@ -379,7 +363,7 @@
           "properties": {
             "prettier": {
               "type": "object",
-              "description": "Global prettier config used by prettier formatter. Used by `prettier` and `prettier-eslint`.\n\nVetur will prefer a prettier config file at home directory if one exists.",
+              "description": "Global prettier config used by prettier formatter. Used by `prettier` and `prettier-eslint`.\n\nmpx will prefer a prettier config file at home directory if one exists.",
               "properties": {}
             },
             "prettyhtml": {
@@ -444,11 +428,11 @@
             "verbose"
           ],
           "default": "off",
-          "description": "Traces the communication between VS Code and Vue Language Server."
+          "description": "Traces the communication between VS Code and Mpx Language Server."
         },
         "mpx.dev.vlsPath": {
           "type": "string",
-          "description": "Path to VLS for Vetur developers. There are two ways of using it. \n\n1. Clone vuejs/vetur from GitHub, build it and point it to the ABSOLUTE path of `/server`.\n2. `yarn global add vue-language-server` and point Vetur to the installed location (`yarn global dir` + node_modules/vue-language-server)",
+          "description": "Path to VLS for mpx developers. There are two ways of using it. \n\n1. Clone mpxjs/mpx from GitHub, build it and point it to the ABSOLUTE path of `/server`.\n2. `yarn global add vue-language-server` and point mpx to the installed location (`yarn global dir` + node_modules/vue-language-server)",
           "scope": "machine"
         },
         "mpx.dev.vlsPort": {
