@@ -120,19 +120,6 @@
         }
       },
       {
-        "language": "vue-postcss",
-        "scopeName": "source.css.postcss",
-        "path": "./syntaxes/vue-postcss.json"
-      },
-      {
-        "language": "vue-html",
-        "scopeName": "text.html.vue-html",
-        "path": "./syntaxes/vue-html.tmLanguage.json",
-        "embeddedLanguages": {
-          "source.js": "javascript"
-        }
-      },
-      {
         "path": "./syntaxes/pug/directives.tmLanguage.json",
         "scopeName": "vue.pug.directives",
         "injectTo": [
