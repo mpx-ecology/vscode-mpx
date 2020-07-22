@@ -2,20 +2,20 @@ import {
   TextDocument,
   Diagnostic,
   DiagnosticSeverity
-} from "vscode-languageserver-types";
-import { CLIEngine, Linter } from "eslint";
-const { rules, configs, processors } = require("eslint-plugin-json");
+} from 'vscode-languageserver-types';
+import { CLIEngine, Linter } from 'eslint';
+const { rules, configs, processors } = require('eslint-plugin-json');
 
-import { LanguageMode } from "../../embeddedSupport/languageModes";
-import { IServiceHost } from "../../services/typescriptService/serviceHost";
+import { LanguageMode } from '../../embeddedSupport/languageModes';
+import { IServiceHost } from '../../services/typescriptService/serviceHost';
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from "../../embeddedSupport/languageModelCache";
+} from '../../embeddedSupport/languageModelCache';
 import {
   VueDocumentRegions,
   LanguageRange
-} from "../../embeddedSupport/embeddedSupport";
+} from '../../embeddedSupport/embeddedSupport';
 
 const linter = createLintEngine();
 
@@ -24,12 +24,12 @@ export function getJsonMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const jsonDocuments = getLanguageModelCache<TextDocument>(10, 60, document =>
-    documentRegions.refreshAndGet(document).getSingleLanguageDocument("json")
+    documentRegions.refreshAndGet(document).getSingleLanguageDocument('json')
   );
 
   return {
     getId() {
-      return "json";
+      return 'json';
     },
     doValidation(document: TextDocument): Diagnostic[] {
       const jsonDoc = jsonDocuments.refreshAndGet(document);
@@ -40,7 +40,7 @@ export function getJsonMode(
       // return [<Diagnostic>{
       //     range: convertRange(scriptDoc, diag as ts.TextSpan),
       //     severity: DiagnosticSeverity.Error,
-      //     message: '1111',
+      //     message: '1234',
       //     tags,
       //     code: diag.code,
       //     source: 'Mpx'
@@ -68,7 +68,7 @@ function createLintEngine() {
   const conf = {
     useEslintrc: false,
     ...configs.recommended,
-    parser: "jsonc-parser"
+    parser: 'jsonc-parser'
   };
   const cli = new CLIEngine(conf);
 
