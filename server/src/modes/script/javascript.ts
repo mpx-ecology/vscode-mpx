@@ -56,7 +56,7 @@ import {
 } from "../../services/dependencyService";
 import { RefactorAction } from "../../types";
 import { IServiceHost } from "../../services/typescriptService/serviceHost";
-
+import API from "./api";
 // Todo: After upgrading to LS server 4.0, use CompletionContext for filtering trigger chars
 // https://microsoft.github.io/language-server-protocol/specification#completion-request-leftwards_arrow_with_hook
 const NON_SCRIPT_TRIGGERS = ["<", "*", ":"];
@@ -174,9 +174,11 @@ export async function getJavascriptMode(
       if (!completions) {
         return { isIncomplete: false, items: [] };
       }
-      const entries = completions.entries.filter(
+      let entries = completions.entries.filter(
         entry => entry.name !== "__vueEditorBridge"
       );
+      // 加入wxAPI并且替换了mpx前缀
+      entries = entries.concat(API.mpx);
       return {
         isIncomplete: false,
         items: entries.map((entry, index) => {
@@ -191,6 +193,8 @@ export async function getJavascriptMode(
             position,
             label,
             detail,
+            insertText: entry.insertText,
+            insertTextFormat: InsertTextFormat.Snippet,
             sortText: entry.sortText + index,
             kind: convertKind(entry.kind),
             textEdit: range && TextEdit.replace(range, entry.name),
@@ -223,6 +227,13 @@ export async function getJavascriptMode(
               };
             }
           }
+        }
+
+        if (entry.name.startsWith("mpx.")) {
+          return {
+            label: entry.name,
+            detail: entry.source
+          };
         }
 
         return {

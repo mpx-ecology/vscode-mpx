@@ -6,7 +6,6 @@
     "indent": [true, "spaces", 2],
     "interface-over-type-literal": true,
     "label-position": true,
-    "max-line-length": [true, 120],
     "no-arg": true,
     "no-duplicate-variable": true,
     "no-eval": true,
