@@ -2,7 +2,7 @@
   "name": "mpx",
   "displayName": "mpx",
   "description": "Syntax Highlight for mpx",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "author": "pagnkelly",
   "publisher": "pagnkelly",
   "icon": "images/logo.png",
@@ -24,7 +24,8 @@
     "test:int": "node ./dist/test/codeTestRunner.js interpolation",
     "test": "run-s compile test:server test:e2e",
     "docs": "bash ./build/update-docs.sh",
-    "prepare-publish": "./build/release-cleanup.sh"
+    "prepare-publish": "./build/release-cleanup.sh",
+    "chlog": "node ./build/vsix-links.js"
   },
   "husky": {
     "hooks": {

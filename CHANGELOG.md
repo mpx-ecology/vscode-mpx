@@ -4,6 +4,11 @@ All notable changes to the "vscode-mpx" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.1.13 | 2020-07-26 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.13/vspackage)
+
+- 修复bug
+- 增加wxapi，可以在`<script>`里通过mpx.xxx查看wxapi
+
 ### 0.1.11 | 2020-07-13 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.11/vspackage)
 
 - 因存在无法解决问题，移除weppack，体积增大了
