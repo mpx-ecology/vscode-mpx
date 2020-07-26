@@ -7,7 +7,6 @@ export default {
       kind: ts.ScriptElementKind.functionElement,
       sortText: "4",
       source: "网络请求",
-      // tslint:disable-next-line:max-line-length
       insertText:
         "mpx.request({\n  url: '${1:url}', //开发者服务器接口地址\",\n  data: '${2:data}', //请求的参数\",\n  method: '${3|GET,OPTIONS, HEAD, POST, PUT, DELETE, TRACE, CONNECT|}',\n  dataType: '${4:json}', //如果设为json，会尝试对返回的数据做一次 JSON.parse\n  success: res => {},\n  fail: () => {},\n  complete: () => {}\n});"
     },
@@ -16,7 +15,6 @@ export default {
       kind: ts.ScriptElementKind.functionElement,
       sortText: "4",
       source: "文件上传",
-      // tslint:disable-next-line:max-line-length
       insertText:
         "mpx.uploadFile({\n  url: '${1:url}', //开发者服务器 url\n  filePath: '${2:filePath}', //要上传文件资源的路径\n  name: '${3:name}', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容\n  success: res => {},\n  fail: () => {},\n  complete: () => {}\n});"
     },
