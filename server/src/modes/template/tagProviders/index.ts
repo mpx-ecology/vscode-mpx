@@ -2,6 +2,7 @@ import { IHTMLTagProvider } from "./common";
 import { getHTML5TagProvider } from "./htmlTags";
 import { getVueTagProvider } from "./vueTags";
 import { getRouterTagProvider } from "./routerTags";
+import { getWXMLTagProvider } from "./wxTags";
 import {
   elementTagProvider,
   onsenTagProvider,
@@ -24,6 +25,7 @@ export let allTagProviders: IHTMLTagProvider[] = [
   getHTML5TagProvider(),
   getVueTagProvider(),
   getRouterTagProvider(),
+  getWXMLTagProvider(),
   elementTagProvider,
   onsenTagProvider,
   bootstrapTagProvider,
@@ -50,7 +52,8 @@ export function getTagProviderSettings(
     quasar: false, // Quasar v1+
     "quasar-framework": false, // Quasar pre v1
     nuxt: false,
-    gridsome: false
+    gridsome: false,
+    wxml: true
   };
   if (!workspacePath) {
     return settings;
