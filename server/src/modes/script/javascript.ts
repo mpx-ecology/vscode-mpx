@@ -32,7 +32,8 @@ import {
 import { LanguageMode } from "../../embeddedSupport/languageModes";
 import {
   VueDocumentRegions,
-  LanguageRange
+  LanguageRange,
+  LanguageId
 } from "../../embeddedSupport/embeddedSupport";
 import {
   prettierify,
@@ -127,29 +128,35 @@ export async function getJavascriptMode(
         ...service.getSyntacticDiagnostics(fileFsPath),
         ...service.getSemanticDiagnostics(fileFsPath)
       ];
-
       // console.log(rawScriptDiagnostics, 1)
-
-      return rawScriptDiagnostics.map(diag => {
-        const tags: DiagnosticTag[] = [];
-
-        if (diag.reportsUnnecessary) {
-          tags.push(DiagnosticTag.Unnecessary);
-        }
-        // syntactic/semantic diagnostic always has start and length
-        // so we can safely cast diag to TextSpan
-        return <Diagnostic>{
-          range: convertRange(scriptDoc, diag as ts.TextSpan),
-          severity: DiagnosticSeverity.Error,
-          message: tsModule.flattenDiagnosticMessageText(
-            diag.messageText,
-            "\n"
-          ),
-          tags,
-          code: diag.code,
-          source: "Mpx"
-        };
-      });
+      return rawScriptDiagnostics
+        .filter(diag => {
+          const languageId = convertLanguageId(
+            doc,
+            documentRegions,
+            diag as ts.TextSpan
+          );
+          return languageId !== "json";
+        })
+        .map(diag => {
+          const tags: DiagnosticTag[] = [];
+          if (diag.reportsUnnecessary) {
+            tags.push(DiagnosticTag.Unnecessary);
+          }
+          // syntactic/semantic diagnostic always has start and length
+          // so we can safely cast diag to TextSpan
+          return <Diagnostic>{
+            range: convertRange(scriptDoc, diag as ts.TextSpan),
+            severity: DiagnosticSeverity.Error,
+            message: tsModule.flattenDiagnosticMessageText(
+              diag.messageText,
+              "\n"
+            ),
+            tags,
+            code: diag.code,
+            source: "Mpx"
+          };
+        });
     },
     doComplete(doc: TextDocument, position: Position): CompletionList {
       const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
@@ -777,6 +784,16 @@ function convertRange(document: TextDocument, span: ts.TextSpan): Range {
   const startPosition = document.positionAt(span.start);
   const endPosition = document.positionAt(span.start + span.length);
   return Range.create(startPosition, endPosition);
+}
+
+function convertLanguageId(
+  document: TextDocument,
+  documentRegions: LanguageModelCache<VueDocumentRegions>,
+  span: ts.TextSpan
+): LanguageId {
+  const startPosition = document.positionAt(span.start);
+  const vueDocument = documentRegions.refreshAndGet(document);
+  return vueDocument.getLanguageAtPosition(startPosition);
 }
 
 function convertKind(kind: ts.ScriptElementKind): CompletionItemKind {

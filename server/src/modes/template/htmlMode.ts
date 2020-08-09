@@ -1,40 +1,40 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from '../../embeddedSupport/languageModelCache';
+} from "../../embeddedSupport/languageModelCache";
 import {
   TextDocument,
   Position,
   Range,
   FormattingOptions
-} from 'vscode-languageserver-types';
-import { LanguageMode } from '../../embeddedSupport/languageModes';
-import { VueDocumentRegions } from '../../embeddedSupport/embeddedSupport';
-import { HTMLDocument } from './parser/htmlParser';
-import { doComplete } from './services/htmlCompletion';
-import { doHover } from './services/htmlHover';
-import { findDocumentHighlights } from './services/htmlHighlighting';
-import { findDocumentLinks } from './services/htmlLinks';
-import { findDocumentSymbols } from './services/htmlSymbolsProvider';
-import { htmlFormat } from './services/htmlFormat';
-import { parseHTMLDocument } from './parser/htmlParser';
+} from "vscode-languageserver-types";
+import { LanguageMode } from "../../embeddedSupport/languageModes";
+import { VueDocumentRegions } from "../../embeddedSupport/embeddedSupport";
+import { HTMLDocument } from "./parser/htmlParser";
+import { doComplete } from "./services/htmlCompletion";
+import { doHover } from "./services/htmlHover";
+import { findDocumentHighlights } from "./services/htmlHighlighting";
+import { findDocumentLinks } from "./services/htmlLinks";
+import { findDocumentSymbols } from "./services/htmlSymbolsProvider";
+import { htmlFormat } from "./services/htmlFormat";
+import { parseHTMLDocument } from "./parser/htmlParser";
 import {
   doESLintValidation,
   createLintEngine
-} from './services/htmlValidation';
-import { findDefinition } from './services/htmlDefinition';
+} from "./services/htmlValidation";
+import { findDefinition } from "./services/htmlDefinition";
 import {
   getTagProviderSettings,
   IHTMLTagProvider,
-  CompletionConfiguration
-} from './tagProviders';
-import { getEnabledTagProviders } from './tagProviders';
-import { DocumentContext } from '../../types';
-import { VLSFormatConfig } from '../../config';
-import { VueInfoService } from '../../services/vueInfoService';
-import { getComponentInfoTagProvider } from './tagProviders/componentInfoTagProvider';
+  CompletionConfiguration,
+  getEnabledTagProviders
+} from "./tagProviders";
+import { DocumentContext } from "../../types";
+import { VLSFormatConfig } from "../../config";
+import { VueInfoService } from "../../services/vueInfoService";
+import { getComponentInfoTagProvider } from "./tagProviders/componentInfoTagProvider";
 
 export class HTMLMode implements LanguageMode {
   private tagProviderSettings: CompletionConfiguration;
@@ -59,7 +59,7 @@ export class HTMLMode implements LanguageMode {
       document =>
         documentRegions
           .refreshAndGet(document)
-          .getSingleLanguageDocument('vue-html')
+          .getSingleLanguageDocument("vue-html")
     );
     this.vueDocuments = getLanguageModelCache<HTMLDocument>(10, 60, document =>
       parseHTMLDocument(document)
@@ -67,7 +67,7 @@ export class HTMLMode implements LanguageMode {
   }
 
   getId() {
-    return 'html';
+    return "html";
   }
 
   configure(c: any) {
