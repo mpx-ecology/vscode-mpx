@@ -169,7 +169,7 @@ const keys = [
   "navigator",
   // 'audio',
   "camera",
-  // 'image',
+  "image",
   "live-player",
   "live-pusher",
   // 'video',
@@ -184,7 +184,10 @@ const keys = [
 ];
 
 // 确定提示的位置
-function provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+function provideCompletionItems(
+  document: vscode.TextDocument,
+  position: vscode.Position
+) {
   const text = document.getText();
   const tempEnd = text.lastIndexOf("</template>");
   const temp = text.slice(0, tempEnd + 11);

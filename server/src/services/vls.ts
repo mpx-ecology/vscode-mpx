@@ -529,7 +529,6 @@ export class VLS {
         .getAllLanguageModeRangesInDocument(doc)
         .forEach(lmr => {
           if (lmr.mode.doValidation && this.validation[lmr.mode.getId()]) {
-            console.log(lmr.mode.getId());
             pushAll(diagnostics, lmr.mode.doValidation(doc));
           }
         });
