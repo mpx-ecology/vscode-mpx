@@ -134,3 +134,59 @@ export function genAttribute(
 ): Attribute {
   return { label, type, documentation };
 }
+
+export interface RelateApi {
+  name: string;
+  link: string;
+}
+
+export interface SubAttr {
+  equal: string;
+  attrs: ComponentAttr[];
+}
+
+export interface Extra {
+  key: string;
+  value?: string;
+}
+
+export interface EnumItem {
+  value: string;
+  desc: string;
+  since?: string;
+}
+
+export interface Component {
+  name: string;
+  docLink?: string;
+  since?: string;
+  desc: string[];
+  attrs?: ComponentAttr[];
+  authorize?: { name: string; link: string };
+  relateApis?: RelateApi[];
+  notices?: string[];
+  tips?: string[];
+  bugs?: string[];
+}
+
+export interface ComponentAttrValue {
+  value: string;
+  desc?: string;
+  since?: string;
+}
+
+export interface ComponentAttr {
+  name: string;
+  type?: { name: string; returns?: { name: string } };
+  desc?: string[];
+  required?: boolean;
+  since?: string;
+  defaultValue?: string;
+  enum?: EnumItem[];
+  extras?: Extra[];
+  subAttrs?: SubAttr[];
+}
+
+export interface IEventSet {
+  [event: string]: string;
+}

@@ -184,7 +184,7 @@ const keys = [
 ];
 
 // 确定提示的位置
-function provideCompletionItems(document: any, position: any) {
+function provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
   const text = document.getText();
   const tempEnd = text.lastIndexOf("</template>");
   const temp = text.slice(0, tempEnd + 11);
@@ -203,7 +203,7 @@ function provideCompletionItems(document: any, position: any) {
     return null;
   }
   return keys.map(key => {
-    let item = new vscode.CompletionItem(
+    const item = new vscode.CompletionItem(
       key,
       vscode.CompletionItemKind.Property
     );

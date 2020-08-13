@@ -7,13 +7,21 @@ import {
   collectValuesDefault,
   genAttribute,
   AttributeCollector,
-  Priority
+  Priority,
+  Component,
+  ComponentAttrValue,
+  ComponentAttr,
+  IEventSet,
+  ITagSet,
+  RelateApi,
+  SubAttr,
+  Extra
 } from "./common";
 import wxJson from "./wx";
 
 const u = undefined;
 
-const vueDirectives = [
+const wxDirectives = [
   genAttribute("wx:if", u, "在框架中，使用 `wx:if` 来判断是否需要渲染该代码块"),
   genAttribute(
     "wx:else",
@@ -47,15 +55,44 @@ const vueDirectives = [
   )
 ];
 
+const eventHandlers: IEventSet = {
+  touchstart: '手指触摸动作开始',
+  touchmove: '手指触摸后移动',
+  touchcancel: '手指触摸动作被打断，如来电提醒，弹窗',
+  touchend: '手指触摸动作结束',
+  tap: '手指触摸后马上离开',
+  longpress: '手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发',
+  longtap: '手指触摸后，超过350ms再离开（推荐使用longpress事件代替）',
+  transitionend: '会在 WXSS transition 或 wx.createAnimation 动画结束后触发',
+  animationstart: '会在一个 WXSS animation 动画开始时触发',
+  animationiteration: '会在一个 WXSS animation 一次迭代结束时触发',
+  animationend: '会在一个 WXSS animation 动画完成时触发',
+  touchforcechange: '在支持 3D Touch 的 iPhone 设备，重按时会触发'
+};
+
+// bind catch mut-bind
+function generatorEvent (key: string) {
+  for (const eventName in eventHandlers) {
+    wxDirectives.push(genAttribute(`${key}${eventName}`, u, eventHandlers[eventName]));
+  }
+}
+
+generatorEvent('bind');
+// generatorEvent('bind:')
+generatorEvent('catch');
+// generatorEvent('catch:')
+generatorEvent('mut-bind');
+// generatorEvent('mut-bind:')
+
 const valueSets = {
   transMode: ["out-in", "in-out"],
   transType: ["transition", "animation"],
   b: ["true", "false"]
 };
 
-const wxTags: any = {};
+const wxTags: ITagSet = {};
 
-export function getComponentMarkdown(c: any) {
+function getComponentMarkdown(c: Component) {
   const rows: string[] = c.desc ? [...c.desc] : [c.name];
 
   if (c.since) {
@@ -71,7 +108,7 @@ export function getComponentMarkdown(c: any) {
 
   if (c.relateApis) {
     rows.push(
-      ...list("相关接口", c.relateApis.map((l: any) => link(l.name, l.link)))
+      ...list("相关接口", c.relateApis.map((l: RelateApi) => link(l.name, l.link)))
     );
   }
   if (c.docLink) {
@@ -81,7 +118,7 @@ export function getComponentMarkdown(c: any) {
   return rows.join("\n\n");
 }
 
-export function getComponentAttrMarkdown(a: any) {
+function getComponentAttrMarkdown(a: ComponentAttr) {
   const rows = a.desc ? [...a.desc] : [a.name];
   if (a.type) {
     rows.push(field("类型", a.type.name));
@@ -96,22 +133,22 @@ export function getComponentAttrMarkdown(a: any) {
     rows.push(
       ...list(
         "可选值",
-        a.subAttrs.map((s: any) => _formatAttrValue({ value: s.equal }))
+        a.subAttrs.map((s: SubAttr) => _formatAttrValue({ value: s.equal }))
       )
     );
   }
   if (a.extras) {
     rows.push(
       ...a.extras
-        .filter((e: any) => e.key && e.value)
-        .map((e: any) => field(e.key, e.value))
+        .filter((e: Extra) => e.key && e.value)
+        .map((e: Extra) => field(e.key, e.value as string))
     );
   }
 
   return rows.join("\n\n");
 }
 
-export function getComponentAttrValueMarkdown(v: any) {
+function getComponentAttrValueMarkdown(v: ComponentAttrValue) {
   const rows = [v.desc || v.value];
   if (v.since) {
     rows.push(since(v.since));
@@ -165,7 +202,7 @@ function _formatAttrValue(av: {
   return rows.join(" ");
 }
 
-wxJson.forEach((comp: any) => {
+(wxJson as Component[]).forEach((comp: Component) => {
   wxTags[comp.name] = new HTMLTagSpecification(
     { kind: "markdown", value: getComponentMarkdown(comp) },
     comp.attrs
@@ -188,7 +225,7 @@ export function getWXMLTagProvider(): IHTMLTagProvider {
     priority: Priority.Framework,
     collectTags: collector => collectTagsDefault(collector, wxTags),
     collectAttributes: (tag: string, collector: AttributeCollector) => {
-      collectAttributesDefault(tag, collector, wxTags, vueDirectives);
+      collectAttributesDefault(tag, collector, wxTags, wxDirectives);
     },
     collectValues: (
       tag: string,
@@ -200,7 +237,7 @@ export function getWXMLTagProvider(): IHTMLTagProvider {
         attribute,
         collector,
         wxTags,
-        vueDirectives,
+        wxDirectives,
         valueSets
       );
     }
