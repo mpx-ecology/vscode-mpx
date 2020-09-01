@@ -8,10 +8,10 @@
   -- | --- | --- | --
   语法高亮 | 90% | p0 | Eazy
   snippets | 90% | p0 | Eazy
-  emmet | 0% | p0 | Medium
-  格式化 | 10% | p1 | Hard
-  eslint | 10% | p2 | Hard
-  自动补全 | 0% | p0 | Hard
+  emmet | 0% | p2 | Medium
+  格式化 | 10% | p0 | Hard
+  eslint | 10% | p0 | Hard
+  自动补全 | 0% | p2 | Hard
   定义跳转 | 90% | p0 | Medium
   工具提示 | 0% | p2 | Eazy
 

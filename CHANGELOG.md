@@ -1,8 +1,13 @@
 # Change Log
 
-All notable changes to the "vscode-mpx" extension will be documented in this file.
+## All notable changes to the "vscode-mpx" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+
+### 0.1.14 | 2020-08-14 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.14/vspackage)
+
+- 增加js模块的lint
+- 增加template的补全标签属性
 
 ### 0.1.13 | 2020-07-26 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.13/vspackage)
 
