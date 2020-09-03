@@ -1,5 +1,5 @@
 import { CLIEngine, Linter } from "eslint";
-import { configs } from "eslint-plugin-vue";
+import { configs } from "eslint-plugin-mpx";
 
 import {
   TextDocument,
@@ -17,7 +17,7 @@ function toDiagnostic(error: Linter.LintMessage): Diagnostic {
   return {
     range: Range.create(line, column, endLine, endColumn),
     message: `\n[${error.ruleId}]\n${error.message}`,
-    source: "eslint-plugin-vue",
+    source: "eslint-plugin-mpx",
     severity:
       error.severity === 1
         ? DiagnosticSeverity.Warning
@@ -44,6 +44,6 @@ export function createLintEngine() {
   return new CLIEngine({
     useEslintrc: false,
     ...configs.base,
-    ...configs.essential
+    ...configs["mpx-essential"]
   });
 }

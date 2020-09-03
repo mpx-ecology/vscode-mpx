@@ -22,8 +22,8 @@ type RuntimeDependency<T> = LoadedDependency<T> | UnloadedDependency;
 
 export type T_PrettyHtml = typeof import("@starptech/prettyhtml");
 export type T_ESLint = typeof import("eslint");
-export type T_ESLintPluginVue = typeof import("eslint-plugin-vue");
-export type T_JSBeautify = typeof import("eslint-plugin-vue");
+export type T_ESLintPluginVue = typeof import("eslint-plugin-mpx");
+export type T_JSBeautify = typeof import("eslint-plugin-mpx");
 export type T_Prettier = typeof import("prettier");
 // export type T_PrettierEslint = typeof import('prettier-eslint');
 export type T_StylusSupremacy = typeof import("stylus-supremacy");
@@ -44,7 +44,7 @@ export class DependencyService {
   private dependencies: VLSDependencies = {
     prettyhtml: { name: "prettyhtml", state: State.Unloaded },
     eslint: { name: "eslint", state: State.Unloaded },
-    eslintPluginVue: { name: "eslint-plugin-vue", state: State.Unloaded },
+    eslintPluginVue: { name: "eslint-plugin-mpx", state: State.Unloaded },
     jsbeautify: { name: "js-beautify", state: State.Unloaded },
     prettier: { name: "prettier", state: State.Unloaded },
     // prettierEslint: { name: 'prettier-eslint', state: State.Unloaded },
