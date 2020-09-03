@@ -1,35 +1,35 @@
-import * as _ from 'lodash';
-import * as emmet from 'vscode-emmet-helper';
-import { CompletionList, TextEdit } from 'vscode-languageserver-types';
-import { IStylusSupremacy } from './stylus-supremacy';
+import * as _ from "lodash";
+import * as emmet from "vscode-emmet-helper";
+import { CompletionList, TextEdit } from "vscode-languageserver-types";
+import { IStylusSupremacy } from "./stylus-supremacy";
 
-import { Priority } from '../emmet';
+import { Priority } from "../emmet";
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from '../../../embeddedSupport/languageModelCache';
-import { LanguageMode } from '../../../embeddedSupport/languageModes';
-import { VueDocumentRegions } from '../../../embeddedSupport/embeddedSupport';
+} from "../../../embeddedSupport/languageModelCache";
+import { LanguageMode } from "../../../embeddedSupport/languageModes";
+import { VueDocumentRegions } from "../../../embeddedSupport/embeddedSupport";
 
-import { provideCompletionItems } from './completion-item';
-import { provideDocumentSymbols } from './symbols-finder';
-import { stylusHover } from './stylus-hover';
-import { requireLocalPkg } from '../../../utils/prettier/requirePkg';
-import { getFileFsPath } from '../../../utils/paths';
-import { VLSFormatConfig } from '../../../config';
+import { provideCompletionItems } from "./completion-item";
+import { provideDocumentSymbols } from "./symbols-finder";
+import { stylusHover } from "./stylus-hover";
+import { requireLocalPkg } from "../../../utils/prettier/requirePkg";
+import { getFileFsPath } from "../../../utils/paths";
+import { VLSFormatConfig } from "../../../config";
 
 export function getStylusMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const embeddedDocuments = getLanguageModelCache(10, 60, document =>
-    documentRegions.refreshAndGet(document).getSingleLanguageDocument('stylus')
+    documentRegions.refreshAndGet(document).getSingleLanguageDocument("stylus")
   );
   let baseIndentShifted = false;
   let config: any = {};
   return {
-    getId: () => 'stylus',
+    getId: () => "stylus",
     configure(c) {
-      baseIndentShifted = _.get(c, 'mpx.format.styleInitialIndent', false);
+      baseIndentShifted = _.get(c, "mpx.format.styleInitialIndent", false);
       config = c;
     },
     onDocumentRemoved() {},
@@ -48,7 +48,7 @@ export function getStylusMode(
       const emmetCompletions: CompletionList = emmet.doComplete(
         document,
         position,
-        'stylus',
+        "stylus",
         config.emmet
       );
       if (!emmetCompletions) {
@@ -75,33 +75,33 @@ export function getStylusMode(
       return stylusHover(embedded, position);
     },
     format(document, range, formatParams) {
-      if (config.mpx.format.defaultFormatter.stylus === 'none') {
+      if (config.mpx.format.defaultFormatter.stylus === "none") {
         return [];
       }
 
       const stylusSupremacy: IStylusSupremacy = requireLocalPkg(
         getFileFsPath(document.uri),
-        'stylus-supremacy'
+        "stylus-supremacy"
       );
 
       const inputText = document.getText(range);
 
       const vlsFormatConfig = config.mpx.format as VLSFormatConfig;
       const tabStopChar = vlsFormatConfig.options.useTabs
-        ? '\t'
-        : ' '.repeat(vlsFormatConfig.options.tabSize);
+        ? "\t"
+        : " ".repeat(vlsFormatConfig.options.tabSize);
 
       // Note that this would have been `document.eol` ideally
-      const newLineChar = inputText.includes('\r\n') ? '\r\n' : '\n';
+      const newLineChar = inputText.includes("\r\n") ? "\r\n" : "\n";
 
       // Determine the base indentation for the multi-line Stylus content
-      let baseIndent = '';
+      let baseIndent = "";
       if (range.start.line !== range.end.line) {
         const styleTagLine = document.getText().split(/\r?\n/)[
           range.start.line
         ];
         if (styleTagLine) {
-          baseIndent = _.get(styleTagLine.match(/^(\t|\s)+/), '0', '');
+          baseIndent = _.get(styleTagLine.match(/^(\t|\s)+/), "0", "");
         }
       }
 
@@ -110,15 +110,18 @@ export function getStylusMode(
         baseIndent += tabStopChar;
       }
 
+      const vscodePrettierOptions =
+        config.mpx.format.defaultFormatterOptions["stylus-supremacy"] || {};
+
       // Build the formatting options for Stylus Supremacy
       // See https://thisismanta.github.io/stylus-supremacy/#options
       const stylusSupremacyFormattingOptions = stylusSupremacy.createFormattingOptions(
-        config.stylusSupremacy || {}
+        vscodePrettierOptions
       );
       const formattingOptions = {
         ...stylusSupremacyFormattingOptions,
         tabStopChar,
-        newLineChar: '\n'
+        newLineChar: "\n"
       };
 
       const formattedText = stylusSupremacy.format(
@@ -129,7 +132,7 @@ export function getStylusMode(
       // Add the base indentation and correct the new line characters
       const outputText = formattedText
         .split(/\n/)
-        .map(line => (line.length > 0 ? baseIndent + line : ''))
+        .map(line => (line.length > 0 ? baseIndent + line : ""))
         .join(newLineChar);
 
       return [TextEdit.replace(range, outputText)];
