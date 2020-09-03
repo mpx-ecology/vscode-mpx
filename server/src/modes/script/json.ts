@@ -1,21 +1,33 @@
 import {
   TextDocument,
   Diagnostic,
+  Range,
+  FormattingOptions,
+  TextEdit,
   DiagnosticSeverity
-} from 'vscode-languageserver-types';
-import { CLIEngine, Linter } from 'eslint';
-const { rules, configs, processors } = require('eslint-plugin-json');
+} from "vscode-languageserver-types";
+import { CLIEngine, Linter } from "eslint";
+const { rules, configs, processors } = require("eslint-plugin-json");
 
-import { LanguageMode } from '../../embeddedSupport/languageModes';
-import { IServiceHost } from '../../services/typescriptService/serviceHost';
+import { LanguageMode } from "../../embeddedSupport/languageModes";
+import { IServiceHost } from "../../services/typescriptService/serviceHost";
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from '../../embeddedSupport/languageModelCache';
+} from "../../embeddedSupport/languageModelCache";
 import {
   VueDocumentRegions,
   LanguageRange
-} from '../../embeddedSupport/embeddedSupport';
+} from "../../embeddedSupport/embeddedSupport";
+import { VLSFormatConfig } from "../../config";
+import { getFileFsPath, getFilePath } from "../../utils/paths";
+import * as ts from "typescript";
+import * as _ from "lodash";
+import {
+  prettierify,
+  prettierEslintify,
+  prettierTslintify
+} from "../../utils/prettier";
 
 const linter = createLintEngine();
 
@@ -24,12 +36,18 @@ export function getJsonMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const jsonDocuments = getLanguageModelCache<TextDocument>(10, 60, document =>
-    documentRegions.refreshAndGet(document).getSingleLanguageDocument('json')
+    documentRegions.refreshAndGet(document).getSingleLanguageDocument("json")
   );
+
+  const { updateCurrentVueTextDocument } = serviceHost;
+  let config: any = {};
 
   return {
     getId() {
-      return 'json';
+      return "json";
+    },
+    configure(c: any) {
+      config = c;
     },
     doValidation(document: TextDocument): Diagnostic[] {
       const jsonDoc = jsonDocuments.refreshAndGet(document);
@@ -60,7 +78,93 @@ export function getJsonMode(
     // findDefinition?(document: TextDocument, position: Position): Definition;
 
     onDocumentRemoved(document: TextDocument) {},
-    dispose() {}
+    dispose() {},
+    format(
+      doc: TextDocument,
+      range: Range,
+      formatParams: FormattingOptions
+    ): TextEdit[] {
+      const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
+
+      const defaultFormatter =
+        scriptDoc.languageId === "json"
+          ? config.mpx.format.defaultFormatter.json
+          : config.mpx.format.defaultFormatter.ts;
+
+      if (defaultFormatter === "none") {
+        return [];
+      }
+
+      const parser = scriptDoc.languageId === "json" ? "json" : "typescript";
+      const needInitialIndent = config.mpx.format.scriptInitialIndent;
+      const vlsFormatConfig: VLSFormatConfig = config.mpx.format;
+
+      if (
+        defaultFormatter === "prettier" ||
+        defaultFormatter === "prettier-eslint" ||
+        defaultFormatter === "prettier-tslint"
+      ) {
+        const code = doc.getText(range);
+        const filePath = getFileFsPath(scriptDoc.uri);
+        let doFormat;
+        if (defaultFormatter === "prettier-eslint") {
+          doFormat = prettierEslintify;
+        } else if (defaultFormatter === "prettier-tslint") {
+          doFormat = prettierTslintify;
+        } else {
+          doFormat = prettierify;
+        }
+        return doFormat(
+          code,
+          filePath,
+          range,
+          vlsFormatConfig,
+          parser,
+          needInitialIndent
+        );
+      } else {
+        const initialIndentLevel = needInitialIndent ? 1 : 0;
+        const formatSettings: ts.FormatCodeSettings =
+          scriptDoc.languageId === "javascript"
+            ? config.javascript.format
+            : config.typescript.format;
+        const convertedFormatSettings = convertOptions(
+          formatSettings,
+          {
+            tabSize: vlsFormatConfig.options.tabSize,
+            insertSpaces: !vlsFormatConfig.options.useTabs
+          },
+          initialIndentLevel
+        );
+
+        const fileFsPath = getFileFsPath(doc.uri);
+        const start = scriptDoc.offsetAt(range.start);
+        const end = scriptDoc.offsetAt(range.end);
+        const edits = service.getFormattingEditsForRange(
+          fileFsPath,
+          start,
+          end,
+          convertedFormatSettings
+        );
+
+        if (!edits) {
+          return [];
+        }
+        const result = [];
+        for (const edit of edits) {
+          if (
+            edit.span.start >= start &&
+            edit.span.start + edit.span.length <= end
+          ) {
+            result.push({
+              range: convertRange(scriptDoc, edit.span),
+              newText: edit.newText
+            });
+          }
+        }
+        return result;
+      }
+    }
   };
 }
 
@@ -68,9 +172,28 @@ function createLintEngine() {
   const conf = {
     useEslintrc: false,
     ...configs.recommended,
-    parser: 'jsonc-parser'
+    parser: "jsonc-parser"
   };
   const cli = new CLIEngine(conf);
 
   return cli;
+}
+
+function convertRange(document: TextDocument, span: ts.TextSpan): Range {
+  const startPosition = document.positionAt(span.start);
+  const endPosition = document.positionAt(span.start + span.length);
+  return Range.create(startPosition, endPosition);
+}
+
+function convertOptions(
+  formatSettings: ts.FormatCodeSettings,
+  options: FormattingOptions,
+  initialIndentLevel: number
+): ts.FormatCodeSettings {
+  return _.assign(formatSettings, {
+    convertTabsToSpaces: options.insertSpaces,
+    tabSize: options.tabSize,
+    indentSize: options.tabSize,
+    baseIndentSize: options.tabSize * initialIndentLevel
+  });
 }
