@@ -25,9 +25,9 @@
     "bootstrap-vue-helper-json": "^1.1.1",
     "buefy-helper-json": "^1.0.2",
     "element-helper-json": "^2.0.6",
-    "eslint": "^5.9.0",
+    "eslint": "^7.8.1",
     "eslint-plugin-json": "^2.1.1",
-    "eslint-plugin-mpx": "^0.0.9",
+    "eslint-plugin-mpx": "^0.0.10",
     "gridsome-helper-json": "^1.0.3",
     "js-beautify": "^1.10.0",
     "jsonc-parser": "^2.2.1",
@@ -51,7 +51,7 @@
     "vue-onsenui-helper-json": "^1.0.2"
   },
   "devDependencies": {
-    "@types/eslint": "^4.16.5",
+    "@types/eslint": "^7.2.2",
     "@types/eslint-scope": "^3.7.0",
     "@types/eslint-visitor-keys": "^1.0.0",
     "@types/glob": "^7.1.0",

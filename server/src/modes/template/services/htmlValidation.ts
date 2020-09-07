@@ -1,4 +1,5 @@
 import { CLIEngine, Linter } from "eslint";
+import { resolve } from "path";
 import { configs } from "eslint-plugin-mpx";
 
 import {
@@ -36,13 +37,15 @@ export function doESLintValidation(
   }
   const text = rawText.replace(/ {10}/, "<template>") + "</template>";
   const report = engine.executeOnText(text, document.uri);
-  return [];
-  // return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
+  // return [];
+  return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
 }
 
 export function createLintEngine() {
+  const SERVER_ROOT = resolve(__dirname, "../../../../");
   return new CLIEngine({
     useEslintrc: false,
+    cwd: SERVER_ROOT,
     ...configs.base,
     ...configs["mpx-essential"]
   });

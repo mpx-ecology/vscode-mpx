@@ -2,20 +2,21 @@ import {
   TextDocument,
   Diagnostic,
   DiagnosticSeverity
-} from 'vscode-languageserver-types';
-import { CLIEngine, Linter } from 'eslint';
-const { rules, configs, processors } = require('eslint-plugin-json');
+} from "vscode-languageserver-types";
+import { CLIEngine, Linter } from "eslint";
+import { resolve } from "path";
+const { rules, configs, processors } = require("eslint-plugin-json");
 
-import { LanguageMode } from '../../embeddedSupport/languageModes';
-import { IServiceHost } from '../../services/typescriptService/serviceHost';
+import { LanguageMode } from "../../embeddedSupport/languageModes";
+import { IServiceHost } from "../../services/typescriptService/serviceHost";
 import {
   LanguageModelCache,
   getLanguageModelCache
-} from '../../embeddedSupport/languageModelCache';
+} from "../../embeddedSupport/languageModelCache";
 import {
   VueDocumentRegions,
   LanguageRange
-} from '../../embeddedSupport/embeddedSupport';
+} from "../../embeddedSupport/embeddedSupport";
 
 const linter = createLintEngine();
 
@@ -24,12 +25,12 @@ export function getJsonMode(
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
   const jsonDocuments = getLanguageModelCache<TextDocument>(10, 60, document =>
-    documentRegions.refreshAndGet(document).getSingleLanguageDocument('json')
+    documentRegions.refreshAndGet(document).getSingleLanguageDocument("json")
   );
 
   return {
     getId() {
-      return 'json';
+      return "json";
     },
     doValidation(document: TextDocument): Diagnostic[] {
       const jsonDoc = jsonDocuments.refreshAndGet(document);
@@ -65,10 +66,12 @@ export function getJsonMode(
 }
 
 function createLintEngine() {
+  const SERVER_ROOT = resolve(__dirname, "../../../");
   const conf = {
     useEslintrc: false,
+    cwd: SERVER_ROOT,
     ...configs.recommended,
-    parser: 'jsonc-parser'
+    parser: "jsonc-parser"
   };
   const cli = new CLIEngine(conf);
 

@@ -81,6 +81,7 @@ export class HTMLMode implements LanguageMode {
 
   doValidation(document: TextDocument) {
     const embedded = this.embeddedDocuments.refreshAndGet(document);
+    console.log(1212313123);
     return doESLintValidation(embedded, this.lintEngine);
   }
   doComplete(document: TextDocument, position: Position) {
