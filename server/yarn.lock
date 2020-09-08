@@ -4847,10 +4847,10 @@ typescript@^2.5.1:
   version "2.8.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.4.tgz#0b1db68e6bdfb0b767fa2ab642136a35b059b199"
 
-typescript@^3.9.7:
-  version "3.9.7"
-  resolved "http://artifactory.intra.xiaojukeji.com:80/artifactory/api/npm/npm/typescript/download/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
-  integrity sha1-mNYApevcOPQMsndSLxLcgA6eJfo=
+typescript@^4.0.2:
+  version "4.0.2"
+  resolved "http://registry.npm.xiaojukeji.com/typescript/download/typescript-4.0.2.tgz#7ea7c88777c723c681e33bf7988be5d008d05ac2"
+  integrity sha1-fqfIh3fHI8aB4zv3mIvl0AjQWsI=
 
 uglify-js@^3.1.4:
   version "3.10.0"
