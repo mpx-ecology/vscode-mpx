@@ -252,7 +252,6 @@ export class LanguageModes {
     for (const mode in this.modes) {
       this.modes[<LanguageId>mode].dispose();
     }
-    delete this.modes;
     this.serviceHost.dispose();
   }
 }

@@ -128,7 +128,6 @@ export async function getJavascriptMode(
         ...service.getSyntacticDiagnostics(fileFsPath),
         ...service.getSemanticDiagnostics(fileFsPath)
       ];
-      console.log(rawScriptDiagnostics.length);
       return rawScriptDiagnostics
         .filter(diag => {
           const languageId = convertLanguageId(
