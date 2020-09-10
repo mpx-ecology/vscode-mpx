@@ -1,7 +1,7 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Vue Component
-scopeName: source.vue
-fileTypes: [vue]
+name: Mpx Component
+scopeName: source.mpx
+fileTypes: [mpx]
 uuid: 5512c10d-4cc5-434c-b8fc-53b912f55ab3
 patterns:
   # comment

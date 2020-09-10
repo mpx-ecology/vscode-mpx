@@ -95,7 +95,7 @@
     "grammars": [
       {
         "language": "mpx",
-        "scopeName": "source.vue",
+        "scopeName": "source.mpx",
         "path": "./syntaxes/vue-generated.json",
         "embeddedLanguages": {
           "text.html.basic": "html",
@@ -124,14 +124,14 @@
         "path": "./syntaxes/pug/directives.tmLanguage.json",
         "scopeName": "vue.pug.directives",
         "injectTo": [
-          "source.vue"
+          "source.mpx"
         ]
       },
       {
         "path": "./syntaxes/pug/interpolations.tmLanguage.json",
         "scopeName": "vue.pug.interpolations",
         "injectTo": [
-          "source.vue"
+          "source.mpx"
         ]
       }
     ],

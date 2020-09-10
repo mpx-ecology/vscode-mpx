@@ -3,7 +3,7 @@
   "injectionSelector": "L:text.pug",
   "patterns": [
     {
-      "include": "source.vue#vue-interpolations"
+      "include": "source.mpx#vue-interpolations"
     }
   ]
 }
