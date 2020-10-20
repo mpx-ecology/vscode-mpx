@@ -60,7 +60,8 @@ type RegionType = "template" | "script" | "style" | "custom";
 const defaultLanguageIdForBlockTypes: { [type: string]: string } = {
   template: "vue-html",
   script: "javascript",
-  style: "css"
+  style: "css",
+  custom: "json"
 };
 
 export function getVueDocumentRegions(
@@ -164,7 +165,6 @@ export function getSingleTypeDocument(
       langId = r.languageId;
     }
   }
-
   return TextDocument.create(
     document.uri,
     langId,
