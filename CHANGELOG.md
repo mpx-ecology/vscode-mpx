@@ -4,6 +4,10 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.1.17 | 2020-10-20 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.17/vspackage)
+
+- 修复<script lang="ts">eslint错误
+
 ### 0.1.16 | 2020-09-10 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.16/vspackage)
 
 - 修复高亮与vetur冲突
