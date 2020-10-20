@@ -81,7 +81,11 @@ export function parseVueDocumentRegions(document: TextDocument) {
         lastAttributeName = scanner.getTokenText();
         break;
       case TokenType.AttributeValue:
-        if (lastAttributeName === "lang" || lastAttributeName === "type") {
+        if (
+          lastAttributeName === "lang" ||
+          lastAttributeName === "type" ||
+          lastAttributeName === "name"
+        ) {
           languageIdFromType = getLanguageIdFromLangAttr(
             scanner.getTokenText()
           );
