@@ -250,7 +250,7 @@ function modifyVueScript(
         end: objectLiteral.pos + 1
       }
     );
-    (exportDefaultObject as ts.ExportAssignment).expression = setObjPos(
+    (exportDefaultObject as any).expression = setObjPos(
       tsModule.createCall(vue, undefined, [objectLiteral])
     );
     setObjPos(
@@ -345,7 +345,7 @@ export function injectVueTemplate(
   );
 
   // replace the original statements with wrapped code.
-  sourceFile.statements = tsModule.createNodeArray([
+  (sourceFile as any).statements = tsModule.createNodeArray([
     componentImport,
     helperImport,
     renderElement
