@@ -1,14 +1,14 @@
-## Vue Language Server
+## mpx Language Server
 
-`vue-language-server` is a language server implementation compatible with [`language-server-protocol`](https://github.com/Microsoft/language-server-protocol).
+`mpx-language-server` is a language server implementation compatible with [`language-server-protocol`](https://github.com/Microsoft/language-server-protocol).
 
-Vetur is the VS Code client consuming `vue-language-server`.
+Vetur is the VS Code client consuming `mpx-language-server`.
 
 It's possible for other `language-server-protocol` compatible editors to build language server clients that consume VLS.
 
 ## Usage
 
-There are two ways to integrate `vue-language-server` into editors:
+There are two ways to integrate `mpx-language-server` into editors:
 
 1. As a global executable.
 
@@ -17,7 +17,7 @@ There are two ways to integrate `vue-language-server` into editors:
   First, install VLS globally.
 
   ```bash
-  npm install vue-language-server -g
+  npm install mpx-language-server -g
   ```
 
   This will provide you the global `vls` command.
@@ -27,7 +27,7 @@ There are two ways to integrate `vue-language-server` into editors:
 
   ```vim
   let g:LanguageClient_serverCommands = {
-      \ 'vue': ['vls']
+      \ 'mpx': ['vls']
       \ }
   ```
 

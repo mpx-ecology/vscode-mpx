@@ -1399,12 +1399,13 @@ eslint-plugin-json@^2.1.1:
     lodash "^4.17.15"
     vscode-json-languageservice "^3.5.1"
 
-eslint-plugin-mpx@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mpx/-/eslint-plugin-mpx-0.0.11.tgz#5dd7894ca36e33e8ea2b0a0baa9c1d961392eda0"
-  integrity sha512-3bkDlZrTHzhR/RiDfxP65plJccUCmqjFQ39yDMKCksaepuiNQzdlksn3gq168wRAvN32b0x9JN3ZiAqAkvHXIw==
+eslint-plugin-mpx@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mpx/-/eslint-plugin-mpx-0.0.14.tgz#bc4e1b94d12fb7138c058a32c5672bd179cf9b28"
+  integrity sha512-3wQ8zSEJOlaHUufbnmVvvzrbp8wymbnXAyi/Iih3rI+PyOM5VNW59eOLMkSiuzwzFikWBVAVUtdFJEHDeBemNA==
   dependencies:
     eslint-utils "^2.1.0"
+    mpx-eslint-parser "0.0.5"
     natural-compare "^1.4.0"
     semver "^7.3.2"
     vue-eslint-parser "^7.1.0"
@@ -3202,6 +3203,18 @@ mocha@^5.2.0:
 mout@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/mout/-/mout-0.5.0.tgz#ff967566a90f29595e9cb8b6e7800a5b56635583"
+
+mpx-eslint-parser@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/mpx-eslint-parser/-/mpx-eslint-parser-0.0.5.tgz#2d5686faceeb7c25659dfba24d2155e77c9c2e91"
+  integrity sha512-pMpIHXty+4j6uckjeP6eyswpUOVIx4gsTi0JSMPj14YcFfAhcdgWYuxHBGdq8t8fw1wSUeqNrFUFgp/1Wd0G/A==
+  dependencies:
+    debug "^4.1.1"
+    eslint-scope "^5.0.0"
+    eslint-visitor-keys "^1.1.0"
+    espree "^6.2.1"
+    esquery "^1.0.1"
+    lodash "^4.17.15"
 
 ms@2.0.0:
   version "2.0.0"
