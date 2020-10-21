@@ -1399,10 +1399,10 @@ eslint-plugin-json@^2.1.1:
     lodash "^4.17.15"
     vscode-json-languageservice "^3.5.1"
 
-eslint-plugin-mpx@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mpx/-/eslint-plugin-mpx-0.0.14.tgz#bc4e1b94d12fb7138c058a32c5672bd179cf9b28"
-  integrity sha512-3wQ8zSEJOlaHUufbnmVvvzrbp8wymbnXAyi/Iih3rI+PyOM5VNW59eOLMkSiuzwzFikWBVAVUtdFJEHDeBemNA==
+eslint-plugin-mpx@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mpx/-/eslint-plugin-mpx-0.0.17.tgz#c27542d40b03fec95c46fabf5e2fde42113c09cf"
+  integrity sha512-EKWV/NiYZMB45s7MaIcv3yog422A3m2I91TD03O4yG1VJGsJPXbeLQUJFSusm6O89Jr/F+lnsedUrzIyKiW8Tw==
   dependencies:
     eslint-utils "^2.1.0"
     mpx-eslint-parser "0.0.5"

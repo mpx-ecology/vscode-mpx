@@ -4,6 +4,10 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.1.19 | 2020-10-21 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.19/vspackage)
+
+- 下掉eslint - wx:for检测 wx:key没有兼容好
+- 下掉eslint-plugin-mpx中`mpx/no-multiple-template-root`, 但仍然不建议在一个template下多个根节点
 
 ### 0.1.18 | 2020-10-21 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.18/vspackage)
 
