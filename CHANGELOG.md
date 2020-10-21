@@ -4,6 +4,11 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+
+### 0.1.18 | 2020-10-21 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.18/vspackage)
+
+- 打开eslint对于template的检查，进行一些简单的检查，如不需要可在settings中关闭相应模块的检查
+
 ### 0.1.17 | 2020-10-20 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.17/vspackage)
 
 - 修复<script lang="ts">eslint错误
