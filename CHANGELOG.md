@@ -4,6 +4,10 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.1.20 | 2020-10-26 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.20/vspackage)
+
+- 修复eslint wx:elif错误提示
+
 ### 0.1.19 | 2020-10-21 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.19/vspackage)
 
 - 下掉eslint - wx:for检测 wx:key没有兼容好
