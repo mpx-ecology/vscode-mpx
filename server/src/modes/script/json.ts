@@ -7,6 +7,7 @@ import {
   DiagnosticSeverity
 } from "vscode-languageserver-types";
 import { CLIEngine, Linter } from "eslint";
+import { resolve } from "path";
 const { rules, configs, processors } = require("eslint-plugin-json");
 
 import { LanguageMode } from "../../embeddedSupport/languageModes";
@@ -169,8 +170,10 @@ export function getJsonMode(
 }
 
 function createLintEngine() {
+  const SERVER_ROOT = resolve(__dirname, "../../../");
   const conf = {
     useEslintrc: false,
+    cwd: SERVER_ROOT,
     ...configs.recommended,
     parser: "jsonc-parser"
   };

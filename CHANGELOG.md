@@ -4,6 +4,27 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.1.20 | 2020-10-26 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.20/vspackage)
+
+- 修复eslint wx:elif错误提示
+
+### 0.1.19 | 2020-10-21 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.19/vspackage)
+
+- 下掉eslint - wx:for检测 wx:key没有兼容好
+- 下掉eslint-plugin-mpx中`mpx/no-multiple-template-root`, 但仍然不建议在一个template下多个根节点
+
+### 0.1.18 | 2020-10-21 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.18/vspackage)
+
+- 打开eslint对于template的检查，进行一些简单的检查，如不需要可在settings中关闭相应模块的检查
+
+### 0.1.17 | 2020-10-20 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.17/vspackage)
+
+- 修复<script lang="ts">eslint错误
+
+### 0.1.16 | 2020-09-10 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.16/vspackage)
+
+- 修复高亮与vetur冲突
+
 ### 0.1.15 | 2020-09-03 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.15/vspackage)
 
 - 增加format功能

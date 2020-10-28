@@ -1,13 +1,13 @@
-import { TextDocument } from 'vscode-languageserver-types';
+import { TextDocument } from "vscode-languageserver-types";
 import {
   createScanner,
   TokenType,
   Scanner
-} from '../modes/template/parser/htmlScanner';
-import { removeQuotes } from '../utils/strings';
-import { LanguageId } from './embeddedSupport';
+} from "../modes/template/parser/htmlScanner";
+import { removeQuotes } from "../utils/strings";
+import { LanguageId } from "./embeddedSupport";
 
-export type RegionType = 'template' | 'script' | 'style' | 'custom';
+export type RegionType = "template" | "script" | "style" | "custom";
 
 export interface EmbeddedRegion {
   languageId: LanguageId;
@@ -16,16 +16,16 @@ export interface EmbeddedRegion {
   type: RegionType;
 }
 
-const defaultScriptLang = 'javascript';
-const defaultCSSLang = 'css';
+const defaultScriptLang = "javascript";
+const defaultCSSLang = "css";
 
 export function parseVueDocumentRegions(document: TextDocument) {
   const regions: EmbeddedRegion[] = [];
   const text = document.getText();
   const scanner = createScanner(text);
-  let lastTagName = '';
-  let lastAttributeName = '';
-  let languageIdFromType: LanguageId | '' = '';
+  let lastTagName = "";
+  let lastAttributeName = "";
+  let languageIdFromType: LanguageId | "" = "";
   const importedScripts: string[] = [];
 
   let token = scanner.scan();
@@ -40,44 +40,59 @@ export function parseVueDocumentRegions(document: TextDocument) {
             : defaultCSSLang,
           start: scanner.getTokenOffset(),
           end: scanner.getTokenEnd(),
-          type: 'style'
+          type: "style"
         });
-        languageIdFromType = '';
+        languageIdFromType = "";
         break;
       case TokenType.Script:
-        regions.push({
-          languageId: languageIdFromType
-            ? languageIdFromType
-            : defaultScriptLang,
-          start: scanner.getTokenOffset(),
-          end: scanner.getTokenEnd(),
-          type: 'script'
-        });
-        languageIdFromType = '';
+        if (languageIdFromType === "json") {
+          regions.push({
+            languageId: languageIdFromType
+              ? languageIdFromType
+              : defaultScriptLang,
+            start: scanner.getTokenOffset(),
+            end: scanner.getTokenEnd(),
+            type: "custom"
+          });
+        } else {
+          regions.push({
+            languageId: languageIdFromType
+              ? languageIdFromType
+              : defaultScriptLang,
+            start: scanner.getTokenOffset(),
+            end: scanner.getTokenEnd(),
+            type: "script"
+          });
+        }
+        languageIdFromType = "";
         break;
       case TokenType.StartTag:
         const tagName = scanner.getTokenText();
-        if (tagName === 'template') {
+        if (tagName === "template") {
           const templateRegion = scanTemplateRegion(scanner, text);
           if (templateRegion) {
             regions.push(templateRegion);
           }
         }
         lastTagName = tagName;
-        lastAttributeName = '';
+        lastAttributeName = "";
         break;
       case TokenType.AttributeName:
         lastAttributeName = scanner.getTokenText();
         break;
       case TokenType.AttributeValue:
-        if (lastAttributeName === 'lang' || lastAttributeName === 'type') {
+        if (
+          lastAttributeName === "lang" ||
+          lastAttributeName === "type" ||
+          lastAttributeName === "name"
+        ) {
           languageIdFromType = getLanguageIdFromLangAttr(
             scanner.getTokenText()
           );
         } else {
           if (
-            lastAttributeName === 'src' &&
-            lastTagName.toLowerCase() === 'script'
+            lastAttributeName === "src" &&
+            lastTagName.toLowerCase() === "script"
           ) {
             let value = scanner.getTokenText();
             if (value[0] === "'" || value[0] === '"') {
@@ -86,11 +101,11 @@ export function parseVueDocumentRegions(document: TextDocument) {
             importedScripts.push(value);
           }
         }
-        lastAttributeName = '';
+        lastAttributeName = "";
         break;
       case TokenType.EndTagClose:
-        lastAttributeName = '';
-        languageIdFromType = '';
+        lastAttributeName = "";
+        languageIdFromType = "";
         break;
     }
     token = scanner.scan();
@@ -106,7 +121,7 @@ function scanTemplateRegion(
   scanner: Scanner,
   text: string
 ): EmbeddedRegion | null {
-  let languageId: LanguageId = 'vue-html';
+  let languageId: LanguageId = "vue-html";
 
   let token: number;
   let start = 0;
@@ -118,7 +133,7 @@ function scanTemplateRegion(
   let lastAttributeName = null;
   while (unClosedTemplate !== 0) {
     // skip parsing on non html syntax, just search terminator
-    if (languageId !== 'vue-html' && start !== 0) {
+    if (languageId !== "vue-html" && start !== 0) {
       token = scanner.scanForRegexp(/<\/template>/);
       if (token === TokenType.EOS) {
         return null;
@@ -136,7 +151,7 @@ function scanTemplateRegion(
       if (token === TokenType.AttributeName) {
         lastAttributeName = scanner.getTokenText();
       } else if (token === TokenType.AttributeValue) {
-        if (lastAttributeName === 'lang') {
+        if (lastAttributeName === "lang") {
           languageId = getLanguageIdFromLangAttr(scanner.getTokenText());
         }
         lastAttributeName = null;
@@ -146,32 +161,32 @@ function scanTemplateRegion(
     } else {
       if (
         token === TokenType.StartTag &&
-        scanner.getTokenText() === 'template'
+        scanner.getTokenText() === "template"
       ) {
         unClosedTemplate++;
       } else if (
         token === TokenType.EndTag &&
-        scanner.getTokenText() === 'template'
+        scanner.getTokenText() === "template"
       ) {
         unClosedTemplate--;
         // test leading </template>
         const charPosBeforeEndTag = scanner.getTokenOffset() - 3;
-        if (text[charPosBeforeEndTag] === '\n') {
+        if (text[charPosBeforeEndTag] === "\n") {
           break;
         }
       } else if (token === TokenType.Unknown) {
-        if (scanner.getTokenText().charAt(0) === '<') {
+        if (scanner.getTokenText().charAt(0) === "<") {
           const offset = scanner.getTokenOffset();
           const unknownText = text.substr(offset, 11);
-          if (unknownText === '</template>') {
+          if (unknownText === "</template>") {
             unClosedTemplate--;
             // test leading </template>
-            if (text[offset - 1] === '\n') {
+            if (text[offset - 1] === "\n") {
               return {
                 languageId,
                 start,
                 end: offset,
-                type: 'template'
+                type: "template"
               };
             }
           }
@@ -188,20 +203,20 @@ function scanTemplateRegion(
     languageId,
     start,
     end,
-    type: 'template'
+    type: "template"
   };
 }
 
 function getLanguageIdFromLangAttr(lang: string): LanguageId {
   let languageIdFromType = removeQuotes(lang);
-  if (languageIdFromType === 'jade') {
-    languageIdFromType = 'pug';
+  if (languageIdFromType === "jade") {
+    languageIdFromType = "pug";
   }
-  if (languageIdFromType === 'ts') {
-    languageIdFromType = 'typescript';
+  if (languageIdFromType === "ts") {
+    languageIdFromType = "typescript";
   }
   if (/JSON|json/.test(languageIdFromType)) {
-    languageIdFromType = 'json';
+    languageIdFromType = "json";
   }
   return languageIdFromType as LanguageId;
 }

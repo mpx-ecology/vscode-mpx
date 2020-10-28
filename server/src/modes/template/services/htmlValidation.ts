@@ -1,5 +1,6 @@
 import { CLIEngine, Linter } from "eslint";
-import { configs } from "eslint-plugin-vue";
+import { resolve } from "path";
+import { configs } from "eslint-plugin-mpx";
 
 import {
   TextDocument,
@@ -17,7 +18,7 @@ function toDiagnostic(error: Linter.LintMessage): Diagnostic {
   return {
     range: Range.create(line, column, endLine, endColumn),
     message: `\n[${error.ruleId}]\n${error.message}`,
-    source: "eslint-plugin-vue",
+    source: "eslint-plugin-mpx",
     severity:
       error.severity === 1
         ? DiagnosticSeverity.Warning
@@ -36,14 +37,16 @@ export function doESLintValidation(
   }
   const text = rawText.replace(/ {10}/, "<template>") + "</template>";
   const report = engine.executeOnText(text, document.uri);
-  return [];
-  // return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
+  // return [];
+  return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
 }
 
 export function createLintEngine() {
+  const SERVER_ROOT = resolve(__dirname, "../../../../");
   return new CLIEngine({
     useEslintrc: false,
+    cwd: SERVER_ROOT,
     ...configs.base,
-    ...configs.essential
+    ...configs["mpx-essential"]
   });
 }

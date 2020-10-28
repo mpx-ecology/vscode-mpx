@@ -2,7 +2,7 @@
   "name": "mpx",
   "displayName": "mpx",
   "description": "Syntax Highlight for mpx",
-  "version": "0.1.15",
+  "version": "0.1.20",
   "author": "pagnkelly",
   "publisher": "pagnkelly",
   "icon": "images/logo.png",
@@ -95,7 +95,7 @@
     "grammars": [
       {
         "language": "mpx",
-        "scopeName": "source.vue",
+        "scopeName": "source.mpx",
         "path": "./syntaxes/vue-generated.json",
         "embeddedLanguages": {
           "text.html.basic": "html",
@@ -124,14 +124,14 @@
         "path": "./syntaxes/pug/directives.tmLanguage.json",
         "scopeName": "vue.pug.directives",
         "injectTo": [
-          "source.vue"
+          "source.mpx"
         ]
       },
       {
         "path": "./syntaxes/pug/interpolations.tmLanguage.json",
         "scopeName": "vue.pug.interpolations",
         "injectTo": [
-          "source.vue"
+          "source.mpx"
         ]
       }
     ],
@@ -508,7 +508,7 @@
     "shelljs": "^0.8.3",
     "ts-loader": "^6.2.1",
     "tslint": "^5.18.0",
-    "typescript": "^3.6.3",
+    "typescript": "^4.0.2",
     "vscode": "1.1.29"
   }
 }
