@@ -4,6 +4,11 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.1.21 | 2020-11-01 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.21/vspackage)
+
+- 移除eslint规则`mpx/no-deprecated-html-element-is`
+- 升级typescript版本@4.1.0-beta
+
 ### 0.1.20 | 2020-10-26 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.20/vspackage)
 
 - 修复eslint wx:elif错误提示
