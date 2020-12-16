@@ -44,7 +44,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pagnkelly/vscode-mpx.git"
+    "url": "https://github.com/mpx-ecology/vscode-mpx"
   },
   "categories": [
     "Programming Languages"
