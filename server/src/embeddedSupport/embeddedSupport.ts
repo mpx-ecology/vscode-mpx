@@ -55,7 +55,7 @@ export interface VueDocumentRegions {
   getImportedScripts(): string[];
 }
 
-type RegionType = "template" | "script" | "style" | "custom";
+type RegionType = "template" | "script" | "style" | "custom" | "json";
 
 const defaultLanguageIdForBlockTypes: { [type: string]: string } = {
   template: "vue-html",
