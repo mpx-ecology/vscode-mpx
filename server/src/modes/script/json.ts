@@ -29,8 +29,10 @@ import {
   prettierEslintify,
   prettierTslintify
 } from "../../utils/prettier";
+import { doESLintValidation, createLintEngine } from "./jsonValidation";
 
-const linter = createLintEngine();
+// const linter = createLintEngine();
+const lintEngine = createLintEngine();
 
 export function getJsonMode(
   serviceHost: IServiceHost,
@@ -51,9 +53,9 @@ export function getJsonMode(
       config = c;
     },
     doValidation(document: TextDocument): Diagnostic[] {
-      const jsonDoc = jsonDocuments.refreshAndGet(document);
-      const rawText = jsonDoc.getText();
-      const report = linter.executeOnText(rawText, document.uri);
+      // const jsonDoc = jsonDocuments.refreshAndGet(document);
+      // const rawText = jsonDoc.getText();
+      // const report = linter.executeOnText(rawText, document.uri);
       // return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
       // const tags: DiagnosticTag[] = [];
       // return [<Diagnostic>{
@@ -64,7 +66,18 @@ export function getJsonMode(
       //     code: diag.code,
       //     source: 'Mpx'
       //   }];
-      return [];
+      // return [];
+      const { jsonDoc, service } = updateCurrentVueTextDocument(document);
+      const diagnostics = [];
+      // if (!languageServiceIncludesFile(service, document.uri)) {
+      //   return [];
+      // }
+      if (config.mpx.validation.json) {
+        // const embedded = this.embeddedDocuments.refreshAndGet(document);
+        diagnostics.push(...doESLintValidation(jsonDoc, lintEngine));
+      }
+
+      return diagnostics;
     },
     // getCodeActions?(
     //     document: TextDocument,
@@ -85,18 +98,18 @@ export function getJsonMode(
       range: Range,
       formatParams: FormattingOptions
     ): TextEdit[] {
-      const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
+      const { scriptDoc, service, jsonDoc } = updateCurrentVueTextDocument(doc);
 
       const defaultFormatter =
-        scriptDoc.languageId === "json"
+        jsonDoc.languageId === "json"
           ? config.mpx.format.defaultFormatter.json
-          : config.mpx.format.defaultFormatter.ts;
+          : config.mpx.format.defaultFormatter.js;
 
       if (defaultFormatter === "none") {
         return [];
       }
 
-      const parser = scriptDoc.languageId === "json" ? "json" : "typescript";
+      const parser = jsonDoc.languageId === "json" ? "json" : "babel";
       const needInitialIndent = config.mpx.format.scriptInitialIndent;
       const vlsFormatConfig: VLSFormatConfig = config.mpx.format;
 
@@ -106,7 +119,7 @@ export function getJsonMode(
         defaultFormatter === "prettier-tslint"
       ) {
         const code = doc.getText(range);
-        const filePath = getFileFsPath(scriptDoc.uri);
+        const filePath = getFileFsPath(jsonDoc.uri);
         let doFormat;
         if (defaultFormatter === "prettier-eslint") {
           doFormat = prettierEslintify;
@@ -126,9 +139,9 @@ export function getJsonMode(
       } else {
         const initialIndentLevel = needInitialIndent ? 1 : 0;
         const formatSettings: ts.FormatCodeSettings =
-          scriptDoc.languageId === "javascript"
-            ? config.javascript.format
-            : config.typescript.format;
+          jsonDoc.languageId === "json"
+            ? config.json.format
+            : config.javascript.format;
         const convertedFormatSettings = convertOptions(
           formatSettings,
           {
@@ -139,8 +152,8 @@ export function getJsonMode(
         );
 
         const fileFsPath = getFileFsPath(doc.uri);
-        const start = scriptDoc.offsetAt(range.start);
-        const end = scriptDoc.offsetAt(range.end);
+        const start = jsonDoc.offsetAt(range.start);
+        const end = jsonDoc.offsetAt(range.end);
         const edits = service.getFormattingEditsForRange(
           fileFsPath,
           start,
@@ -158,7 +171,7 @@ export function getJsonMode(
             edit.span.start + edit.span.length <= end
           ) {
             result.push({
-              range: convertRange(scriptDoc, edit.span),
+              range: convertRange(jsonDoc, edit.span),
               newText: edit.newText
             });
           }
@@ -169,18 +182,18 @@ export function getJsonMode(
   };
 }
 
-function createLintEngine() {
-  const SERVER_ROOT = resolve(__dirname, "../../../");
-  const conf = {
-    useEslintrc: false,
-    cwd: SERVER_ROOT,
-    ...configs.recommended,
-    parser: "jsonc-parser"
-  };
-  const cli = new CLIEngine(conf);
+// function createLintEngine() {
+//   const SERVER_ROOT = resolve(__dirname, "../../../");
+//   const conf = {
+//     useEslintrc: false,
+//     cwd: SERVER_ROOT,
+//     ...configs.recommended,
+//     parser: "jsonc-parser"
+//   };
+//   const cli = new CLIEngine(conf);
 
-  return cli;
-}
+//   return cli;
+// }
 
 function convertRange(document: TextDocument, span: ts.TextSpan): Range {
   const startPosition = document.positionAt(span.start);

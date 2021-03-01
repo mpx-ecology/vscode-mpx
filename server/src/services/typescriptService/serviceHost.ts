@@ -66,6 +66,8 @@ export interface IServiceHost {
   ): {
     service: ts.LanguageService;
     scriptDoc: TextDocument;
+    jsonDoc: TextDocument;
+    jsonscriptDoc: TextDocument;
   };
   updateExternalDocument(filePath: string): void;
   dispose(): void;
@@ -82,7 +84,9 @@ export interface IServiceHost {
 export function getServiceHost(
   tsModule: T_TypeScript,
   workspacePath: string,
-  updatedScriptRegionDocuments: LanguageModelCache<TextDocument>
+  updatedScriptRegionDocuments: LanguageModelCache<TextDocument>,
+  updatedJsonRegionDocuments: LanguageModelCache<TextDocument>,
+  updatedJsonscriptRegionDocuments: LanguageModelCache<TextDocument>
 ): IServiceHost {
   patchTS(tsModule);
   const vueSys = getVueSys(tsModule);
@@ -91,6 +95,7 @@ export function getServiceHost(
 
   const versions = new Map<string, number>();
   const localScriptRegionDocuments = new Map<string, TextDocument>();
+  const localJsonscriptRegionDocuments = new Map<string, TextDocument>();
   const nodeModuleSnapshots = new Map<string, ts.IScriptSnapshot>();
   const projectFileSnapshots = new Map<string, ts.IScriptSnapshot>();
   const moduleResolutionCache = new ModuleResolutionCache();
@@ -189,9 +194,29 @@ export function getServiceHost(
       localScriptRegionDocuments.set(fileFsPath, currentScriptDoc);
       versions.set(fileFsPath, (versions.get(fileFsPath) || 0) + 1);
     }
+    // if (
+    //   !currentJsonscriptDoc ||
+    //   doc.uri !== currentJsonscriptDoc.uri ||
+    //   doc.version !== currentJsonscriptDoc.version
+    // ) {
+    //   currentJsonscriptDoc = updatedJsonscriptRegionDocuments.refreshAndGet(doc)!;
+    //   const localLastDoc = localScriptRegionDocuments.get(fileFsPath);
+    //   if (
+    //     localLastDoc &&
+    //     currentJsonscriptDoc.languageId !== localLastDoc.languageId
+    //   ) {
+    //     // if languageId changed, restart the language service; it can't handle file type changes
+    //     jsLanguageService.dispose();
+    //     jsLanguageService = tsModule.createLanguageService(jsHost);
+    //   }
+    //   localScriptRegionDocuments.set(fileFsPath, currentJsonscriptDoc);
+    //   versions.set(fileFsPath, (versions.get(fileFsPath) || 0) + 1);
+    // }
     return {
       service: jsLanguageService,
-      scriptDoc: currentScriptDoc
+      scriptDoc: currentScriptDoc,
+      jsonDoc: updatedJsonRegionDocuments.refreshAndGet(doc)!,
+      jsonscriptDoc: updatedJsonscriptRegionDocuments.refreshAndGet(doc)!
     };
   }
 

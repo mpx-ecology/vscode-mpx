@@ -7,7 +7,13 @@ import {
 import { removeQuotes } from "../utils/strings";
 import { LanguageId } from "./embeddedSupport";
 
-export type RegionType = "template" | "script" | "style" | "custom";
+export type RegionType =
+  | "template"
+  | "script"
+  | "style"
+  | "custom"
+  | "json"
+  | "jsonscript";
 
 export interface EmbeddedRegion {
   languageId: LanguageId;
@@ -52,7 +58,16 @@ export function parseVueDocumentRegions(document: TextDocument) {
               : defaultScriptLang,
             start: scanner.getTokenOffset(),
             end: scanner.getTokenEnd(),
-            type: "custom"
+            type: "json"
+          });
+        } else if (languageIdFromType === "jsonscript") {
+          regions.push({
+            languageId: languageIdFromType
+              ? languageIdFromType
+              : defaultScriptLang,
+            start: scanner.getTokenOffset(),
+            end: scanner.getTokenEnd(),
+            type: "script"
           });
         } else {
           regions.push({
@@ -215,8 +230,14 @@ function getLanguageIdFromLangAttr(lang: string): LanguageId {
   if (languageIdFromType === "ts") {
     languageIdFromType = "typescript";
   }
-  if (/JSON|json/.test(languageIdFromType)) {
+  if (languageIdFromType === "json") {
+    languageIdFromType = "jsonscript";
+  }
+  if (languageIdFromType === "application/json") {
     languageIdFromType = "json";
   }
+  // if (/JSON|json/.test(languageIdFromType)) {
+  //   languageIdFromType = "json";
+  // }
   return languageIdFromType as LanguageId;
 }

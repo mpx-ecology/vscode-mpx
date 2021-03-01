@@ -71,7 +71,8 @@ export class VLS {
     less: true,
     postcss: true,
     javascript: true,
-    json: true
+    json: true,
+    jsonscript: true
   };
 
   private documentFormatterRegistration: Disposable | undefined;
@@ -249,6 +250,7 @@ export class VLS {
     this.validation.less = mpxValidationOptions.style;
     this.validation.javascript = mpxValidationOptions.script;
     this.validation.json = mpxValidationOptions.json;
+    this.validation.jsonscript = mpxValidationOptions.json;
 
     this.languageModes.getAllModes().forEach(m => {
       if (m.configure) {

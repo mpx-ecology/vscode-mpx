@@ -39,6 +39,7 @@ import {
   getPostCSSMode
 } from "../modes/style";
 import { getJavascriptMode } from "../modes/script/javascript";
+import { getJsonscriptMode } from "../modes/script/jsonscript";
 import { getJsonMode } from "../modes/script/json";
 import { VueHTMLMode } from "../modes/template";
 import { getStylusMode } from "../modes/style/stylus";
@@ -122,7 +123,8 @@ export class LanguageModes {
     javascript: nullMode,
     typescript: nullMode,
     json: nullMode,
-    tsx: nullMode
+    tsx: nullMode,
+    jsonscript: nullMode
   };
 
   private documentRegions: LanguageModelCache<VueDocumentRegions>;
@@ -160,10 +162,24 @@ export class LanguageModes {
       const vueDocument = this.documentRegions.refreshAndGet(document);
       return vueDocument.getSingleTypeDocument("script");
     });
+    const jsonRegionDocuments = getLanguageModelCache(10, 60, document => {
+      const vueDocument = this.documentRegions.refreshAndGet(document);
+      return vueDocument.getSingleTypeDocument("json");
+    });
+    const jsonscriptRegionDocuments = getLanguageModelCache(
+      10,
+      60,
+      document => {
+        const vueDocument = this.documentRegions.refreshAndGet(document);
+        return vueDocument.getSingleTypeDocument("jsonscript");
+      }
+    );
     this.serviceHost = getServiceHost(
       tsModule,
       workspacePath,
-      scriptRegionDocuments
+      scriptRegionDocuments,
+      jsonRegionDocuments,
+      jsonscriptRegionDocuments
     );
 
     const vueHtmlMode = new VueHTMLMode(
@@ -174,6 +190,14 @@ export class LanguageModes {
       services.infoService
     );
     const jsMode = await getJavascriptMode(
+      this.serviceHost,
+      this.documentRegions,
+      workspacePath,
+      services.infoService,
+      services.dependencyService
+    );
+
+    const jsonscriptMode = await getJsonscriptMode(
       this.serviceHost,
       this.documentRegions,
       workspacePath,
@@ -192,6 +216,7 @@ export class LanguageModes {
     this.modes["typescript"] = jsMode;
     this.modes["tsx"] = jsMode;
     this.modes["json"] = getJsonMode(this.serviceHost, this.documentRegions);
+    this.modes["jsonscript"] = jsonscriptMode;
   }
 
   getModeAtPosition(
