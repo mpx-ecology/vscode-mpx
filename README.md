@@ -1,6 +1,3 @@
-<p>
-  <h1 align="center">vscode-mpx</h1>
-</p>
 
 <p>
   <h1 align="center">vscode-mpx</h1>
