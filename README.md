@@ -22,7 +22,7 @@
 
 <br />
 
-| Prefix | HTML Snippet Content |
+| Prefix | WXML Snippet Content |
 | ------ | ------------ |
 | `coverImage` | `<cover-image></cover-image>`|
 | `coverView` | `<cover-view></cover-view>`|
@@ -69,7 +69,6 @@
 | `navigationBar"` | `<navigation-bar"></navigation-bar">`|
 | `pageMeta` | `<page-meta></page-meta>`|
 | `progress` | `<progress></progress>`|
-| `pages` | `pages: []` |
 
 <br />
 
@@ -96,15 +95,15 @@ vscode-mpx 支持代码格式化 `html/css/scss/less/postcss/stylus/js/ts/json`.
 
 ```json
 {
-  "vetur.format.defaultFormatter.html": "prettyhtml",
-  "vetur.format.defaultFormatter.css": "prettier",
-  "vetur.format.defaultFormatter.postcss": "prettier",
-  "vetur.format.defaultFormatter.scss": "prettier",
-  "vetur.format.defaultFormatter.less": "prettier",
-  "vetur.format.defaultFormatter.stylus": "stylus-supremacy",
-  "vetur.format.defaultFormatter.js": "prettier",
-  "vetur.format.defaultFormatter.ts": "prettier",
-  "vetur.format.defaultFormatter.json": "prettier"
+  "mpx.format.defaultFormatter.html": "prettyhtml",
+  "mpx.format.defaultFormatter.css": "prettier",
+  "mpx.format.defaultFormatter.postcss": "prettier",
+  "mpx.format.defaultFormatter.scss": "prettier",
+  "mpx.format.defaultFormatter.less": "prettier",
+  "mpx.format.defaultFormatter.stylus": "stylus-supremacy",
+  "mpx.format.defaultFormatter.js": "prettier",
+  "mpx.format.defaultFormatter.ts": "prettier",
+  "mpx.format.defaultFormatter.json": "prettier"
 }
 ```
 
@@ -114,14 +113,14 @@ vscode-mpx 支持代码格式化 `html/css/scss/less/postcss/stylus/js/ts/json`.
 
 ```json
 {
-  "vetur.format.options.tabSize": 2,
-  "vetur.format.options.useTabs": false
+  "mpx.format.options.tabSize": 2,
+  "mpx.format.options.useTabs": false
 }
 ```
 
 可以设置 html 格式化选项:
 ```json
-"vetur.format.defaultFormatterOptions": {
+"mpx.format.defaultFormatterOptions": {
   "prettyhtml": {
     "printWidth": 100, // 1行不超过100个字符
     "singleQuote": false // 是单引号还是双引号
@@ -155,3 +154,5 @@ vscode-mpx 错误检查支持的语法:
 
 
 校验 `<template>` 部分 vscode-mpx 使用 [`eslint-plugin-mpx`](https://github.com/pagnkelly/eslint-plugin-mpx) . 里面包含一些必要的 essential [规则](https://github.com/pagnkelly/eslint-plugin-mpx/blob/master/lib/configs/essential.js)
+
+校验 `<script type="application/json">` 部分 vscode-mpx 使用 [`eslint-plugin-jsonc`](https://github.com/ota-meshi/eslint-plugin-jsonc) . 里面包含一些推荐的 recommended-with-json [规则](https://ota-meshi.github.io/eslint-plugin-jsonc/rules/)
