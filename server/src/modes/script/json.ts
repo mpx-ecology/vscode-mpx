@@ -6,9 +6,6 @@ import {
   TextEdit,
   DiagnosticSeverity
 } from "vscode-languageserver-types";
-import { CLIEngine, Linter } from "eslint";
-import { resolve } from "path";
-// const { rules, configs, processors } = require("eslint-plugin-json");
 
 import { LanguageMode } from "../../embeddedSupport/languageModes";
 import { IServiceHost } from "../../services/typescriptService/serviceHost";
@@ -31,7 +28,6 @@ import {
 } from "../../utils/prettier";
 import { doESLintValidation, createLintEngine } from "./jsonValidation";
 
-// const linter = createLintEngine();
 const lintEngine = createLintEngine();
 
 export function getJsonMode(
@@ -53,31 +49,15 @@ export function getJsonMode(
       config = c;
     },
     doValidation(document: TextDocument): Diagnostic[] {
-      // const jsonDoc = jsonDocuments.refreshAndGet(document);
-      // const rawText = jsonDoc.getText();
-      // const report = linter.executeOnText(rawText, document.uri);
       const { jsonDoc, service } = updateCurrentVueTextDocument(document);
       const diagnostics = [];
       // if (!languageServiceIncludesFile(service, document.uri)) {
       //   return [];
       // }
       if (config.mpx.validation.json) {
-        // const embedded = this.embeddedDocuments.refreshAndGet(document);
         diagnostics.push(...doESLintValidation(jsonDoc, lintEngine));
       }
-
       return diagnostics;
-      // return report.results[0] ? report.results[0].messages.map(toDiagnostic) : [];
-      // const tags: DiagnosticTag[] = [];
-      // return [<Diagnostic>{
-      //     range: convertRange(scriptDoc, diag as ts.TextSpan),
-      //     severity: DiagnosticSeverity.Error,
-      //     message: '1234',
-      //     tags,
-      //     code: diag.code,
-      //     source: 'Mpx'
-      //   }];
-      return [];
     },
     // getCodeActions?(
     //     document: TextDocument,
@@ -181,19 +161,6 @@ export function getJsonMode(
     }
   };
 }
-
-// function createLintEngine() {
-//   const SERVER_ROOT = resolve(__dirname, "../../../");
-//   const conf = {
-//     useEslintrc: false,
-//     cwd: SERVER_ROOT,
-//     ...configs.recommended,
-//     parser: "jsonc-parser"
-//   };
-//   const cli = new CLIEngine(conf);
-
-//   return cli;
-// }
 
 function convertRange(document: TextDocument, span: ts.TextSpan): Range {
   const startPosition = document.positionAt(span.start);
