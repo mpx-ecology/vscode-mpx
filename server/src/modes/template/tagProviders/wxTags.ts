@@ -22,7 +22,16 @@ import wxJson from "./wx";
 const u = undefined;
 
 const wxDirectives = [
-  genAttribute("wx:if", u, "在框架中，使用 `wx:if` 来判断是否需要渲染该代码块"),
+  genAttribute(
+    "wx:ref",
+    u,
+    "Mpx提供了 wx:ref=xxx 来更方便获取 WXML 节点信息的对象。在JS里只需要通过this.$refs.xxx 即可获取节点。"
+  ),
+  genAttribute(
+    "wx:show",
+    u,
+    "与 wx:if 所不同的是不会移除节点，而是设置节点的 style 为 display: none。"
+  ),
   genAttribute(
     "wx:else",
     "v",
@@ -52,6 +61,41 @@ const wxDirectives = [
     "wx:key",
     u,
     "如果列表中项目的位置会动态改变或者有新的项目添加到列表中，并且希望列表中的项目保持自己的特征和状态（如 input 中的输入内容，switch 的选中状态），需要使用 `wx:key` 来指定列表中项目的唯一的标识符"
+  ),
+  genAttribute(
+    "wx:class",
+    u,
+    "我们可以传给 wx:class 一个对象，以动态地切换 class"
+  ),
+  genAttribute(
+    "wx:style",
+    u,
+    "我们可以传给 wx:style 一个对象，以动态地切换 style"
+  ),
+  genAttribute(
+    "wx:model",
+    u,
+    "除了小程序原生指令之外，mpx 基于input事件提供了一个指令 wx:model, 用于双向绑定。"
+  ),
+  genAttribute(
+    "wx:model-prop",
+    u,
+    "wx:model 默认使用 value 属性传值，使用 wx:model-prop 定义 wx:model 指令对应的属性；"
+  ),
+  genAttribute(
+    "wx:model-event",
+    u,
+    "wx:model 默认监听 input 事件，可以使用 wx:model-event 定义 wx:model 指令对应的事件；"
+  ),
+  genAttribute(
+    "wx:model-value-path",
+    u,
+    "指定 wx:model 双向绑定时的取值路径； 并非所有的组件都会按微信的标注格式 event.target.value 来传值，例如 vant 的 input 组件，值是通过抛出 event.target 本身传递的，这时我们可以使用 wx:model-value-path 重新指定取值路径。"
+  ),
+  genAttribute(
+    "wx:model-filter",
+    u,
+    "在使用 wx:model 时我们可能需要像 Vue 的 .trim 、.lazy 这样的修饰符来对双向数据绑定的数据进行过滤和修饰；Mpx 通过增强指令 wx:model-filter 可以实现这一功能； 该指令可以绑定内建的 filter 或者自定义的 filter 方法，该方法接收过滤前的值，返回过滤操作后的值。"
   )
 ];
 
