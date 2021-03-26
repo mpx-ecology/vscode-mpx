@@ -529,10 +529,13 @@ export class VLS {
   doValidate(doc: TextDocument): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
     if (doc.languageId === "mpx") {
+      // 多个标签块不能同时校验，只能一个一个校验，否则重复提示
+      const obj = {} as any;
       this.languageModes
         .getAllLanguageModeRangesInDocument(doc)
         .forEach(lmr => {
-          if (lmr.mode.doValidation && this.validation[lmr.mode.getId()]) {
+          if (lmr.mode.doValidation && this.validation[lmr.mode.getId()] && !obj[lmr.mode.getId()]) {
+            obj[lmr.mode.getId()] = true;
             pushAll(diagnostics, lmr.mode.doValidation(doc));
           }
         });

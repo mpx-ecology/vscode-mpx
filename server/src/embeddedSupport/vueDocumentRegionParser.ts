@@ -47,30 +47,24 @@ export function parseVueDocumentRegions(document: TextDocument) {
       case TokenType.Script:
         if (languageIdFromType === "json") {
           // 目前只支持一个json标签
-          const hasJson = regions.find(item => item.type === "json");
-          if (!hasJson) {
-            regions.push({
-              languageId: languageIdFromType
-                ? languageIdFromType
-                : defaultScriptLang,
-              start: scanner.getTokenOffset(),
-              end: scanner.getTokenEnd(),
-              type: "json"
-            });
-          }
+          regions.push({
+            languageId: languageIdFromType
+              ? languageIdFromType
+              : defaultScriptLang,
+            start: scanner.getTokenOffset(),
+            end: scanner.getTokenEnd(),
+            type: "json"
+          });
         } else {
           // 目前只支持一个script标签
-          const hasScript = regions.find(item => item.type === "script");
-          if (!hasScript) {
-            regions.push({
-              languageId: languageIdFromType
-                ? languageIdFromType
-                : defaultScriptLang,
-              start: scanner.getTokenOffset(),
-              end: scanner.getTokenEnd(),
-              type: "script"
-            });
-          }
+          regions.push({
+            languageId: languageIdFromType
+              ? languageIdFromType
+              : defaultScriptLang,
+            start: scanner.getTokenOffset(),
+            end: scanner.getTokenEnd(),
+            type: "script"
+          });
         }
         languageIdFromType = "";
         break;
