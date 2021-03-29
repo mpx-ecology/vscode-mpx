@@ -160,10 +160,15 @@ export class LanguageModes {
       const vueDocument = this.documentRegions.refreshAndGet(document);
       return vueDocument.getSingleTypeDocument("script");
     });
+    const jsonRegionDocuments = getLanguageModelCache(10, 60, document => {
+      const vueDocument = this.documentRegions.refreshAndGet(document);
+      return vueDocument.getSingleTypeDocument("json");
+    });
     this.serviceHost = getServiceHost(
       tsModule,
       workspacePath,
-      scriptRegionDocuments
+      scriptRegionDocuments,
+      jsonRegionDocuments
     );
 
     const vueHtmlMode = new VueHTMLMode(

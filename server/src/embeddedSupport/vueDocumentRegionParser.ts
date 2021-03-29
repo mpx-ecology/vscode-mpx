@@ -7,7 +7,7 @@ import {
 import { removeQuotes } from "../utils/strings";
 import { LanguageId } from "./embeddedSupport";
 
-export type RegionType = "template" | "script" | "style" | "custom";
+export type RegionType = "template" | "script" | "style" | "custom" | "json";
 
 export interface EmbeddedRegion {
   languageId: LanguageId;
@@ -46,15 +46,17 @@ export function parseVueDocumentRegions(document: TextDocument) {
         break;
       case TokenType.Script:
         if (languageIdFromType === "json") {
+          // 目前只支持一个json标签
           regions.push({
             languageId: languageIdFromType
               ? languageIdFromType
               : defaultScriptLang,
             start: scanner.getTokenOffset(),
             end: scanner.getTokenEnd(),
-            type: "custom"
+            type: "json"
           });
         } else {
+          // 目前只支持一个script标签
           regions.push({
             languageId: languageIdFromType
               ? languageIdFromType
@@ -81,11 +83,7 @@ export function parseVueDocumentRegions(document: TextDocument) {
         lastAttributeName = scanner.getTokenText();
         break;
       case TokenType.AttributeValue:
-        if (
-          lastAttributeName === "lang" ||
-          lastAttributeName === "type" ||
-          lastAttributeName === "name"
-        ) {
+        if (lastAttributeName === "lang" || lastAttributeName === "type") {
           languageIdFromType = getLanguageIdFromLangAttr(
             scanner.getTokenText()
           );
@@ -215,8 +213,11 @@ function getLanguageIdFromLangAttr(lang: string): LanguageId {
   if (languageIdFromType === "ts") {
     languageIdFromType = "typescript";
   }
-  if (/JSON|json/.test(languageIdFromType)) {
+  if (languageIdFromType === "application/json") {
     languageIdFromType = "json";
   }
+  // if (/JSON|json/.test(languageIdFromType)) {
+  //   languageIdFromType = "json";
+  // }
   return languageIdFromType as LanguageId;
 }
