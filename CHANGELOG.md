@@ -4,6 +4,11 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.1.22 | 2021-03-29 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.22/vspackage)
+
+- 增加json模块eslint
+- 解决多script标签检查bug
+
 ### 0.1.21 | 2020-11-01 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.21/vspackage)
 
 - 移除eslint规则`mpx/no-deprecated-html-element-is`
