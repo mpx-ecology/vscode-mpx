@@ -36,13 +36,14 @@
 ```
 ### 小程序指令&API
 尝试在标签内输入小程序指令和API
-> `<view wx:`
+> `<view wx:` // template
 
-> `mpx.navigateTo`
+> `mpx.navigateTo` // script
 ### eslint
 
 在`settings`中可开关响应模块的eslint检查
 
+相关规则文档进行中～
 
 
 ## 贡献
