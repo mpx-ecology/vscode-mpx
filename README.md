@@ -5,6 +5,103 @@
 ## 📖 Usage
 
 ### 格式化
+
+vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS · Less · Wxml  
+
+格式化依赖第三方的包来完成:
+
+- [`prettier`](https://github.com/prettier/prettier): 用来格式化 css/scss/less/js/ts/json/wxml.
+- [`prettier-eslint`](https://github.com/prettier/prettier-eslint): 用来格式化 js.
+- [`stylus-supremacy`](https://github.com/ThisIsManta/stylus-supremacy): 用来 stylus.
+- [`vscode-typescript`](https://github.com/Microsoft/TypeScript): 用来格式化 js/ts. 
+
+您可以在VSCode配置中选择每种语言的默认格式化选项。设置 `mpx.format.defaultFormatter`
+
+**将语言的格式化选项设置为“none”将禁用该语言格式化代码**
+
+当前默认值:
+
+```json
+{
+  "mpx.format.defaultFormatter.html": "prettier",
+  "mpx.format.defaultFormatter.css": "prettier",
+  "mpx.format.defaultFormatter.scss": "prettier",
+  "mpx.format.defaultFormatter.less": "prettier",
+  "mpx.format.defaultFormatter.stylus": "stylus-supremacy",
+  "mpx.format.defaultFormatter.js": "prettier",
+  "mpx.format.defaultFormatter.ts": "prettier",
+  "mpx.format.defaultFormatter.json": "prettier"
+}
+```
+格式化设置，打开编辑器的 settings 进行配置。设置 `mpx.format.defaultFormatterOptions` 选项。
+
+当前默认值:
+
+```
+"mpx.format.defaultFormatterOptions": {
+    "prettyhtml": {
+        "printWidth": 100,
+        "singleQuote": false,
+        "wrapAttributes": false,
+        "sortAttributes": false
+    },
+    "prettier": {
+        "printWidth": 100,
+        "singleQuote": true,
+        "wrapAttributes": false,
+        "sortAttributes": false,
+        "semi": false,
+        "insertSpaceBeforeFunctionParenthesis": true
+    },
+    "stylus-supremacy": {
+        "insertColons": false,
+        "insertSemicolons": false,
+        "insertBraces": false,
+        "insertNewLineAroundImports": true,
+        "insertNewLineAroundBlocks": false
+    }
+}
+```
+
+1、可以设置 Wxml 格式化选项:
+```json
+"mpx.format.defaultFormatterOptions": {
+  "prettyhtml": {
+    "printWidth": 100, // 1行不超过100个字符
+    "singleQuote": false, // 不使用单引号
+    "wrapAttributes": false, // 属性不换行
+    "sortAttributes": false // 属性不排序
+  }
+}
+```
+
+2、可以设置 JS 格式化选项:
+```json
+"mpx.format.defaultFormatterOptions": {
+  "prettier": {
+    "printWidth": 100, // 1行不超过100个字符
+    "singleQuote": true, // 使用单引号
+    "wrapAttributes": false, // 属性不换行
+    "sortAttributes": false, // 属性不排序
+    "semi": false, // 不使用分号结尾
+    "insertSpaceBeforeFunctionParenthesis": true // 函数括号前插入空格
+  }
+}
+```
+
+3、可以设置 stylus 格式化选项:
+```json
+"mpx.format.defaultFormatterOptions": {
+  "stylus-supremacy": {
+    "insertColons": false, // 不使用括号
+    "insertSemicolons": false, // 不使用冒号
+    "insertBraces": false, // 不使用分号
+    "insertNewLineAroundImports": true, // import之后插入空行
+    "insertNewLineAroundBlocks": false // 每个块不添加空行
+  }
+}
+```
+
 ### snippets
 尝试输入以下字符快速生成代码块
 
