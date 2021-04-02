@@ -64,7 +64,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 ```
 
 1、可以设置 Wxml 格式化选项:
-```json
+```
 "mpx.format.defaultFormatterOptions": {
   "prettyhtml": {
     "printWidth": 100, // 1行不超过100个字符
@@ -76,7 +76,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 ```
 
 2、可以设置 JS 格式化选项:
-```json
+```
 "mpx.format.defaultFormatterOptions": {
   "prettier": {
     "printWidth": 100, // 1行不超过100个字符
@@ -90,7 +90,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 ```
 
 3、可以设置 stylus 格式化选项:
-```json
+```
 "mpx.format.defaultFormatterOptions": {
   "stylus-supremacy": {
     "insertColons": false, // 不使用括号
@@ -101,6 +101,19 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
   }
 }
 ```
+除了在编辑器的 settings 中配置，我们还可以通过 `.prettierrc` 文件配置。prettier 支持从项目根目录读取 `.prettierrc` 设置。参考 https://prettier.io/docs/en/configuration.html 文档。（推荐使用 `.prettierrc` 文件配置）
+
+`.prettierrc` 文件可以使用JSON语法编写，比如下面这样：
+
+```
+{
+  "tabWidth": 4,
+  "semi": false,
+  "singleQuote": true
+}
+```
+`.prettierrc` 设置的选项将会在整个 Mpx 文件生效。由于 prettier 不支持 stylus 语法，所以如果配置要配置 stylus 语法只能在编辑器的 settings 中自行配置 `mpx.format.defaultFormatterOptions` 。当两个配置同时存在的时候，文件 `.prettierrc` 优先级最高。
+
 
 ### snippets
 尝试输入以下字符快速生成代码块
