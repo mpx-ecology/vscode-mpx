@@ -194,12 +194,13 @@ export async function getJavascriptMode(
           const { label, detail } = calculateLabelAndDetailTextForPathImport(
             entry
           );
+          const insertText = triggerChar === '.' && entry.insertText ? entry.insertText.slice(4) : entry.insertText;
           return {
             uri: doc.uri,
             position,
             label,
             detail,
-            insertText: entry.insertText,
+            insertText,
             insertTextFormat: InsertTextFormat.Snippet,
             sortText: entry.sortText + index,
             kind: convertKind(entry.kind),

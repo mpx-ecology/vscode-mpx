@@ -2,16 +2,56 @@
   <h1 align="center">vscode-mpx</h1>
 </p>
 
-## 期望功能
+## 📖 Usage
 
-  功能 | 完成度 | 优先级 | 实现难度
-  -- | --- | --- | --
-  语法高亮 | 90% | p0 | Eazy
-  snippets | 90% | p0 | Eazy
-  emmet | 100% | p2 | Medium
-  格式化 | 90% | p0 | Hard
-  eslint | 50% | p0 | Hard
-  定义跳转 | 100% | p0 | Medium
+### 格式化
+### snippets
+尝试输入以下字符快速生成代码块
+
+分为四大类，分别是：`script`,`style`,`template`,`default`
+>`app`,`component`,`javascript`,`page` // script
+
+>`css-scoped`,`css`,`less-scoped`,`less`,`postcss-scoped`,`postcss`,`sass-scoped`,`sass`,`scss-scoped`,`scss`,`stylus-scoped`,`stylus` // style
+
+>`html`,`pug` // template
+
+除了mpx提供的snippets外，用户还可以自定义snippets
+
+>💼工作区。位于<WORKSPACE>/.vscode/mpx/snippets。这些脚手架片段仅在工作空间中可用。
+
+>User️用户数据目录。您可以使用命令打开文件夹Mpx: Open user scaffold snippet folder。这些脚手架片段可在所有工作空间中使用。
+
+>✌Mpx。Mpx提供了一些现成的脚手架片段。
+
+脚手架片段的完成情况按其类别进行排序。工作区>用户> Mpx
+
+您可以使用以下命令自定义后缀并打开/关闭源mpx.completion.scaffoldSnippetSources
+
+```
+"mpx.completion.scaffoldSnippetSources": {
+  "workspace": "💼", // Suffix workspace snippets with `💼`
+  "user": "(️User)", // Suffix workspace snippets with `(User)`
+  "mpx": "" // Disable Mpx's builtin scaffold snippets
+}
+```
+### 小程序指令&API
+尝试在标签内输入小程序指令和API
+> `<view wx:` // template
+
+> `mpx.navigateTo` // script
+### eslint
+
+在`settings`中可开关响应模块的eslint检查
+
+相关规则文档进行中～
+
+### 跳转定义
+
+`command` + `鼠标左键` 查看定义位置
+
+### Emmet
+
+Emmet支持可用于html，css，scss，less，手写笔，sass，而无需对VS Code 1.15.0+进行任何配置。
 
 ## 贡献
 如果有兴趣完成上面的某个功能，欢迎👏提交pr，已经需要提供什么样的功能在issue里提交即可
