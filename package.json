@@ -233,7 +233,7 @@
         },
         "mpx.format.defaultFormatter.html": {
           "type": "string",
-          "default": "prettyhtml",
+          "default": "prettier",
           "enum": [
             "none",
             "prettyhtml",
