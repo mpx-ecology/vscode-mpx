@@ -4,6 +4,12 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+
+### 0.2.1 | 2021-04-02 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.1/vspackage)
+
+- 优化wxapi
+- 增加使用文档
+
 ### 0.1.22 | 2021-03-29 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.1.22/vspackage)
 
 - 增加json模块eslint
