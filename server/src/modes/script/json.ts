@@ -78,10 +78,10 @@ export function getJsonMode(
       range: Range,
       formatParams: FormattingOptions
     ): TextEdit[] {
-      const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
+      const { jsonDoc, service } = updateCurrentVueTextDocument(doc);
 
       const defaultFormatter =
-        scriptDoc.languageId === "json"
+        jsonDoc.languageId === "json"
           ? config.mpx.format.defaultFormatter.json
           : config.mpx.format.defaultFormatter.ts;
 
@@ -89,7 +89,7 @@ export function getJsonMode(
         return [];
       }
 
-      const parser = scriptDoc.languageId === "json" ? "json" : "typescript";
+      const parser = jsonDoc.languageId === "json" ? "json" : "typescript";
       const needInitialIndent = config.mpx.format.scriptInitialIndent;
       const vlsFormatConfig: VLSFormatConfig = config.mpx.format;
 
@@ -99,7 +99,7 @@ export function getJsonMode(
         defaultFormatter === "prettier-tslint"
       ) {
         const code = doc.getText(range);
-        const filePath = getFileFsPath(scriptDoc.uri);
+        const filePath = getFileFsPath(jsonDoc.uri);
         let doFormat;
         if (defaultFormatter === "prettier-eslint") {
           doFormat = prettierEslintify;
@@ -119,7 +119,7 @@ export function getJsonMode(
       } else {
         const initialIndentLevel = needInitialIndent ? 1 : 0;
         const formatSettings: ts.FormatCodeSettings =
-          scriptDoc.languageId === "javascript"
+          jsonDoc.languageId === "javascript"
             ? config.javascript.format
             : config.typescript.format;
         const convertedFormatSettings = convertOptions(
@@ -132,8 +132,8 @@ export function getJsonMode(
         );
 
         const fileFsPath = getFileFsPath(doc.uri);
-        const start = scriptDoc.offsetAt(range.start);
-        const end = scriptDoc.offsetAt(range.end);
+        const start = jsonDoc.offsetAt(range.start);
+        const end = jsonDoc.offsetAt(range.end);
         const edits = service.getFormattingEditsForRange(
           fileFsPath,
           start,
@@ -151,7 +151,7 @@ export function getJsonMode(
             edit.span.start + edit.span.length <= end
           ) {
             result.push({
-              range: convertRange(scriptDoc, edit.span),
+              range: convertRange(jsonDoc, edit.span),
               newText: edit.newText
             });
           }
