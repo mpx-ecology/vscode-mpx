@@ -8,6 +8,8 @@
 
 vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS · Less · Wxml  
 
+**vscode-mpx只能右键选择格式化代码，不能选中部分代码进行格式化.**
+
 格式化依赖第三方的包来完成:
 
 - [`prettier`](https://github.com/prettier/prettier): 用来格式化 css/scss/less/js/ts/json/wxml.
