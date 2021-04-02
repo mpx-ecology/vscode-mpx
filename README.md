@@ -10,10 +10,13 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 
 格式化依赖第三方的包来完成:
 
-- [`prettier`](https://github.com/prettier/prettier): 用来格式化 css/scss/less/js/ts/json/wxml.
-- [`prettier-eslint`](https://github.com/prettier/prettier-eslint): 用来格式化 js.
-- [`stylus-supremacy`](https://github.com/ThisIsManta/stylus-supremacy): 用来 stylus.
-- [`vscode-typescript`](https://github.com/Microsoft/TypeScript): 用来格式化 js/ts. 
+> [`prettier`](https://github.com/prettier/prettier): 用来格式化 css/scss/less/js/ts/json/wxml.
+
+> [`prettier-eslint`](https://github.com/prettier/prettier-eslint): 用来格式化 js.
+
+> [`stylus-supremacy`](https://github.com/ThisIsManta/stylus-supremacy): 用来 stylus.
+
+> [`vscode-typescript`](https://github.com/Microsoft/TypeScript): 用来格式化 js/ts. 
 
 您可以在VSCode配置中选择每种语言的默认格式化选项。设置 `mpx.format.defaultFormatter`
 
@@ -21,23 +24,23 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 
 当前默认值:
 
-```json
-{
-  "mpx.format.defaultFormatter.html": "prettier",
-  "mpx.format.defaultFormatter.css": "prettier",
-  "mpx.format.defaultFormatter.scss": "prettier",
-  "mpx.format.defaultFormatter.less": "prettier",
-  "mpx.format.defaultFormatter.stylus": "stylus-supremacy",
-  "mpx.format.defaultFormatter.js": "prettier",
-  "mpx.format.defaultFormatter.ts": "prettier",
-  "mpx.format.defaultFormatter.json": "prettier"
-}
+```js
+  {
+    "mpx.format.defaultFormatter.html": "prettier",
+    "mpx.format.defaultFormatter.css": "prettier",
+    "mpx.format.defaultFormatter.scss": "prettier",
+    "mpx.format.defaultFormatter.less": "prettier",
+    "mpx.format.defaultFormatter.stylus": "stylus-supremacy",
+    "mpx.format.defaultFormatter.js": "prettier",
+    "mpx.format.defaultFormatter.ts": "prettier",
+    "mpx.format.defaultFormatter.json": "prettier"
+  }
 ```
 格式化设置，打开编辑器的 settings 进行配置。设置 `mpx.format.defaultFormatterOptions` 选项。
 
 当前默认值:
 
-```
+```js
 "mpx.format.defaultFormatterOptions": {
     "prettyhtml": {
         "printWidth": 100,
@@ -64,7 +67,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 ```
 
 1、可以设置 Wxml 格式化选项:
-```json
+```js
 "mpx.format.defaultFormatterOptions": {
   "prettyhtml": {
     "printWidth": 100, // 1行不超过100个字符
@@ -76,7 +79,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 ```
 
 2、可以设置 JS 格式化选项:
-```json
+```js
 "mpx.format.defaultFormatterOptions": {
   "prettier": {
     "printWidth": 100, // 1行不超过100个字符
@@ -90,7 +93,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 ```
 
 3、可以设置 stylus 格式化选项:
-```json
+```js
 "mpx.format.defaultFormatterOptions": {
   "stylus-supremacy": {
     "insertColons": false, // 不使用括号
@@ -124,7 +127,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 
 您可以使用以下命令自定义后缀并打开/关闭源mpx.completion.scaffoldSnippetSources
 
-```
+```js
 "mpx.completion.scaffoldSnippetSources": {
   "workspace": "💼", // Suffix workspace snippets with `💼`
   "user": "(️User)", // Suffix workspace snippets with `(User)`
