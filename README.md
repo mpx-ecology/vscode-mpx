@@ -151,7 +151,7 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 
 ### Emmet
 
-Emmet支持可用于html，css，scss，less，手写笔，sass，而无需对VS Code 1.15.0+进行任何配置。
+Emmet支持可用于html，css，scss，less，stylus，sass，而无需对VS Code 1.15.0+进行任何配置。
 
 ## 贡献
 如果有兴趣完成上面的某个功能，欢迎👏提交pr，已经需要提供什么样的功能在issue里提交即可
