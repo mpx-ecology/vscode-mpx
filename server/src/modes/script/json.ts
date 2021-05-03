@@ -34,10 +34,10 @@ export function getJsonMode(
   serviceHost: IServiceHost,
   documentRegions: LanguageModelCache<VueDocumentRegions>
 ): LanguageMode {
-  const jsonDocuments = getLanguageModelCache<TextDocument>(10, 60, document =>
-    documentRegions.refreshAndGet(document).getSingleLanguageDocument("json")
-  );
-
+  const jsonRegionDocuments = getLanguageModelCache(10, 60, document => {
+    const vueDocument = documentRegions.refreshAndGet(document);
+    return vueDocument.getSingleTypeDocument("json");
+  });
   const { updateCurrentVueTextDocument } = serviceHost;
   let config: any = {};
 
@@ -49,13 +49,18 @@ export function getJsonMode(
       config = c;
     },
     doValidation(document: TextDocument): Diagnostic[] {
-      const { jsonDoc, service } = updateCurrentVueTextDocument(document);
+      // const { jsonDoc, service } = updateCurrentVueTextDocument(document);
       const diagnostics = [];
       // if (!languageServiceIncludesFile(service, document.uri)) {
       //   return [];
       // }
       if (config.mpx.validation.json) {
-        diagnostics.push(...doESLintValidation(jsonDoc, lintEngine));
+        diagnostics.push(
+          ...doESLintValidation(
+            jsonRegionDocuments.refreshAndGet(document)!,
+            lintEngine
+          )
+        );
       }
       return diagnostics;
     },
@@ -78,8 +83,8 @@ export function getJsonMode(
       range: Range,
       formatParams: FormattingOptions
     ): TextEdit[] {
-      const { jsonDoc, service } = updateCurrentVueTextDocument(doc);
-
+      const { service } = updateCurrentVueTextDocument(doc);
+      const jsonDoc = jsonRegionDocuments.refreshAndGet(doc)!;
       const defaultFormatter =
         jsonDoc.languageId === "json"
           ? config.mpx.format.defaultFormatter.json

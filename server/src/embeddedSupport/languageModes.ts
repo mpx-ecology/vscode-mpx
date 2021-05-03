@@ -39,6 +39,7 @@ import {
   getPostCSSMode
 } from "../modes/style";
 import { getJavascriptMode } from "../modes/script/javascript";
+import { getJsonscriptMode } from "../modes/script/jsonscript";
 import { getJsonMode } from "../modes/script/json";
 import { VueHTMLMode } from "../modes/template";
 import { getStylusMode } from "../modes/style/stylus";
@@ -122,12 +123,14 @@ export class LanguageModes {
     javascript: nullMode,
     typescript: nullMode,
     json: nullMode,
-    tsx: nullMode
+    tsx: nullMode,
+    jsonscript: nullMode
   };
 
   private documentRegions: LanguageModelCache<VueDocumentRegions>;
   private modelCaches: LanguageModelCache<any>[];
   private serviceHost: IServiceHost;
+  private jsonScriptserviceHost: IServiceHost;
 
   constructor() {
     this.documentRegions = getLanguageModelCache<VueDocumentRegions>(
@@ -160,15 +163,11 @@ export class LanguageModes {
       const vueDocument = this.documentRegions.refreshAndGet(document);
       return vueDocument.getSingleTypeDocument("script");
     });
-    const jsonRegionDocuments = getLanguageModelCache(10, 60, document => {
-      const vueDocument = this.documentRegions.refreshAndGet(document);
-      return vueDocument.getSingleTypeDocument("json");
-    });
+
     this.serviceHost = getServiceHost(
       tsModule,
       workspacePath,
-      scriptRegionDocuments,
-      jsonRegionDocuments
+      scriptRegionDocuments
     );
 
     const vueHtmlMode = new VueHTMLMode(
@@ -186,6 +185,31 @@ export class LanguageModes {
       services.dependencyService
     );
 
+    /**
+     * Documents where everything outside `<script>~ is replaced with whitespace
+     */
+    const jsonScriptRegionDocuments = getLanguageModelCache(
+      10,
+      60,
+      document => {
+        const vueDocument = this.documentRegions.refreshAndGet(document);
+        return vueDocument.getSingleTypeDocument("jsonscript");
+      }
+    );
+
+    this.jsonScriptserviceHost = getServiceHost(
+      tsModule,
+      workspacePath,
+      jsonScriptRegionDocuments
+    );
+    const jsonScriptMode = await getJsonscriptMode(
+      this.jsonScriptserviceHost,
+      this.documentRegions,
+      workspacePath,
+      services.infoService,
+      services.dependencyService
+    );
+
     this.modes["mpx"] = getVueMode(workspacePath, globalSnippetDir);
     this.modes["vue-html"] = vueHtmlMode;
     this.modes["css"] = getCSSMode(this.documentRegions);
@@ -197,6 +221,7 @@ export class LanguageModes {
     this.modes["typescript"] = jsMode;
     this.modes["tsx"] = jsMode;
     this.modes["json"] = getJsonMode(this.serviceHost, this.documentRegions);
+    this.modes["jsonscript"] = jsonScriptMode;
   }
 
   getModeAtPosition(

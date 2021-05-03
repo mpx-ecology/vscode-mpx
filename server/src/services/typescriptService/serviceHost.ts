@@ -66,7 +66,6 @@ export interface IServiceHost {
   ): {
     service: ts.LanguageService;
     scriptDoc: TextDocument;
-    jsonDoc: TextDocument;
   };
   updateExternalDocument(filePath: string): void;
   dispose(): void;
@@ -83,8 +82,7 @@ export interface IServiceHost {
 export function getServiceHost(
   tsModule: T_TypeScript,
   workspacePath: string,
-  updatedScriptRegionDocuments: LanguageModelCache<TextDocument>,
-  updatedJsonRegionDocuments: LanguageModelCache<TextDocument>
+  updatedScriptRegionDocuments: LanguageModelCache<TextDocument>
 ): IServiceHost {
   patchTS(tsModule);
   const vueSys = getVueSys(tsModule);
@@ -193,8 +191,7 @@ export function getServiceHost(
     }
     return {
       service: jsLanguageService,
-      scriptDoc: currentScriptDoc,
-      jsonDoc: updatedJsonRegionDocuments.refreshAndGet(doc)!
+      scriptDoc: currentScriptDoc
     };
   }
 
@@ -444,7 +441,6 @@ export function getServiceHost(
           const rawVueFileText = tsModule.sys.readFile(fileFsPath) || "";
           fileText = parseVueScript(rawVueFileText);
         }
-
         return {
           getText: (start, end) => fileText.substring(start, end),
           getLength: () => fileText.length,

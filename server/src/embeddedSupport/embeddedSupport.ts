@@ -17,6 +17,7 @@ export type LanguageId =
   | "javascript"
   | "typescript"
   | "json"
+  | "jsonscript"
   | "tsx";
 
 export interface LanguageRange extends Range {
@@ -55,7 +56,13 @@ export interface VueDocumentRegions {
   getImportedScripts(): string[];
 }
 
-type RegionType = "template" | "script" | "style" | "custom" | "json";
+type RegionType =
+  | "template"
+  | "script"
+  | "style"
+  | "custom"
+  | "json"
+  | "jsonscript";
 
 const defaultLanguageIdForBlockTypes: { [type: string]: string } = {
   template: "vue-html",

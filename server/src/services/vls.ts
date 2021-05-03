@@ -249,6 +249,7 @@ export class VLS {
     this.validation.less = mpxValidationOptions.style;
     this.validation.javascript = mpxValidationOptions.script;
     this.validation.json = mpxValidationOptions.json;
+    this.validation.jsonscript = mpxValidationOptions.json;
 
     this.languageModes.getAllModes().forEach(m => {
       if (m.configure) {
@@ -530,12 +531,10 @@ export class VLS {
     const diagnostics: Diagnostic[] = [];
     if (doc.languageId === "mpx") {
       // 多个标签块不能同时校验，只能一个一个校验，否则重复提示
-      const obj = {} as any;
       this.languageModes
         .getAllLanguageModeRangesInDocument(doc)
         .forEach(lmr => {
-          if (lmr.mode.doValidation && this.validation[lmr.mode.getId()] && !obj[lmr.mode.getId()]) {
-            obj[lmr.mode.getId()] = true;
+          if (lmr.mode.doValidation && this.validation[lmr.mode.getId()]) {
             pushAll(diagnostics, lmr.mode.doValidation(doc));
           }
         });

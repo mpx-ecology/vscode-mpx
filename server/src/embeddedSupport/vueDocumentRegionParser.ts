@@ -7,7 +7,13 @@ import {
 import { removeQuotes } from "../utils/strings";
 import { LanguageId } from "./embeddedSupport";
 
-export type RegionType = "template" | "script" | "style" | "custom" | "json";
+export type RegionType =
+  | "template"
+  | "script"
+  | "style"
+  | "custom"
+  | "json"
+  | "jsonscript";
 
 export interface EmbeddedRegion {
   languageId: LanguageId;
@@ -55,6 +61,15 @@ export function parseVueDocumentRegions(document: TextDocument) {
             end: scanner.getTokenEnd(),
             type: "json"
           });
+        } else if (languageIdFromType === "jsonscript") {
+          regions.push({
+            languageId: languageIdFromType
+              ? languageIdFromType
+              : defaultScriptLang,
+            start: scanner.getTokenOffset(),
+            end: scanner.getTokenEnd(),
+            type: "jsonscript"
+          });
         } else {
           // 目前只支持一个script标签
           regions.push({
@@ -83,7 +98,11 @@ export function parseVueDocumentRegions(document: TextDocument) {
         lastAttributeName = scanner.getTokenText();
         break;
       case TokenType.AttributeValue:
-        if (lastAttributeName === "lang" || lastAttributeName === "type") {
+        if (
+          lastAttributeName === "lang" ||
+          lastAttributeName === "type" ||
+          lastAttributeName === "name"
+        ) {
           languageIdFromType = getLanguageIdFromLangAttr(
             scanner.getTokenText()
           );
@@ -209,15 +228,12 @@ function getLanguageIdFromLangAttr(lang: string): LanguageId {
   let languageIdFromType = removeQuotes(lang);
   if (languageIdFromType === "jade") {
     languageIdFromType = "pug";
-  }
-  if (languageIdFromType === "ts") {
+  } else if (languageIdFromType === "ts") {
     languageIdFromType = "typescript";
-  }
-  if (languageIdFromType === "application/json") {
+  } else if (languageIdFromType === "application/json") {
     languageIdFromType = "json";
+  } else if (languageIdFromType === "json") {
+    languageIdFromType = "jsonscript";
   }
-  // if (/JSON|json/.test(languageIdFromType)) {
-  //   languageIdFromType = "json";
-  // }
   return languageIdFromType as LanguageId;
 }

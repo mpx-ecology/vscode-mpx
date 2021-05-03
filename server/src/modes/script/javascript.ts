@@ -122,7 +122,6 @@ export async function getJavascriptMode(
       if (!languageServiceIncludesFile(service, doc.uri)) {
         return [];
       }
-
       const fileFsPath = getFileFsPath(doc.uri);
       const rawScriptDiagnostics = [
         ...service.getSyntacticDiagnostics(fileFsPath),
@@ -194,7 +193,10 @@ export async function getJavascriptMode(
           const { label, detail } = calculateLabelAndDetailTextForPathImport(
             entry
           );
-          const insertText = triggerChar === '.' && entry.insertText ? entry.insertText.slice(4) : entry.insertText;
+          const insertText =
+            triggerChar === "." && entry.insertText
+              ? entry.insertText.slice(4)
+              : entry.insertText;
           return {
             uri: doc.uri,
             position,
