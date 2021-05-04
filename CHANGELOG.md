@@ -4,6 +4,9 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.2.2 | 2021-05-04 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.2/vspackage)
+
+- 修复`name=json`Eslint影响ts模块问题
 
 ### 0.2.1 | 2021-04-02 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.1/vspackage)
 
