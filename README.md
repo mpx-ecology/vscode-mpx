@@ -2,6 +2,21 @@
   <h1 align="center">vscode-mpx</h1>
 </p>
 
+## 🔧 Quick Start
+
+Install [vscode-mpx](https://marketplace.visualstudio.com/items?itemName=pagnkelly.mpx).
+
+[mpx官网](https://mpxjs.cn/)
+
+## 💼 Features
+
+* 格式化
+* 高亮
+* eslint
+* emmet
+* 跳转定义
+* 自动补全
+
 ## 📖 Usage
 
 ### 格式化
