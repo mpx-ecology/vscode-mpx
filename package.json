@@ -437,6 +437,11 @@
           "default": false,
           "description": "Whether to have initial indent for <style> region"
         },
+        "mpx.format.mpxIndentScriptAndStyle": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to indent the code inside <script> and <style> tags in mpx files"
+        },
         "mpx.format.scriptInitialIndent": {
           "type": "boolean",
           "default": false,

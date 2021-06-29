@@ -8,6 +8,7 @@ export interface VLSFormatConfig {
   };
   scriptInitialIndent: boolean;
   styleInitialIndent: boolean;
+  mpxIndentScriptAndStyle: boolean;
   options: {
     tabSize: number;
     useTabs: boolean;
