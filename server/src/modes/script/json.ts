@@ -113,7 +113,7 @@ export function getJsonMode(
         } else {
           doFormat = prettierify;
         }
-        return doFormat(
+        const currentCode = doFormat(
           code,
           filePath,
           range,
@@ -121,6 +121,22 @@ export function getJsonMode(
           parser,
           needInitialIndent
         );
+        // 为了加上空格
+        if (vlsFormatConfig.mpxIndentScriptAndStyle) {
+          const tabSize = " ".repeat(vlsFormatConfig.options.tabSize);
+          currentCode.forEach((item: { newText: string }) => {
+            item.newText = item.newText
+              .split("\n")
+              .map(line => {
+                if (line.length) {
+                  return tabSize + line;
+                }
+                return line;
+              })
+              .join("\n");
+          });
+        }
+        return currentCode;
       } else {
         const initialIndentLevel = needInitialIndent ? 1 : 0;
         const formatSettings: ts.FormatCodeSettings =

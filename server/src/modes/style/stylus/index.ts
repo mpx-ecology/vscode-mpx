@@ -128,7 +128,10 @@ export function getStylusMode(
         inputText,
         formattingOptions
       );
-
+      // 加上空格
+      if (vlsFormatConfig.mpxIndentScriptAndStyle) {
+        baseIndent = " ".repeat(vlsFormatConfig.options.tabSize);
+      }
       // Add the base indentation and correct the new line characters
       const outputText = formattedText
         .split(/\n/)

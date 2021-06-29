@@ -37,6 +37,7 @@ const wxDirectives = [
     "v",
     "也可以用 `wx:elif` 和 `wx:else` 来添加一个 else 块"
   ),
+  genAttribute("wx:if", u, "在框架中，使用 `wx:if` 来判断是否需要渲染该代码块"),
   genAttribute(
     "wx:elif",
     u,
