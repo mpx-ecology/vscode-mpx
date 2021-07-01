@@ -175,6 +175,9 @@ vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS
 
 相关规则文档进行中～
 
+配置eslint在script模块生效可参考
+https://github.com/mpx-ecology/vscode-mpx/issues/35
+
 ### 跳转定义
 
 `command` + `鼠标左键` 查看定义位置

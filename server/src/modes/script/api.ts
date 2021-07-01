@@ -561,7 +561,8 @@ export default {
       sortText: "4",
       source:
         "将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口",
-      insertText: "mpx.setStorageSync('${1:key}','${2:data}')\n});"
+      insertText:
+        "try {\n  mpx.setStorageSync('${1:key}','${2:data}')\n} catch (e) { };"
     },
     {
       name: "mpx.getStorage",
