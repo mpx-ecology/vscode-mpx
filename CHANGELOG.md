@@ -4,6 +4,9 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.2.4 | 2021-07-01 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.4/vspackage)
+- 修复高亮问题
+
 ### 0.2.3 | 2021-06-29 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.3/vspackage)
 - 修改format的默认缩进，`<style><javascript><json>`的内容都将默认根据设置的tabsize进行缩进，不再是0缩进，可配置`mpxIndentScriptAndStyle`修改
 
