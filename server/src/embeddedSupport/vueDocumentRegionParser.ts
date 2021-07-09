@@ -234,6 +234,8 @@ function getLanguageIdFromLangAttr(lang: string): LanguageId {
     languageIdFromType = "json";
   } else if (languageIdFromType === "json") {
     languageIdFromType = "jsonscript";
+  } else if (languageIdFromType === "text/ecmascript-6") {
+    languageIdFromType = "javascript";
   }
   return languageIdFromType as LanguageId;
 }

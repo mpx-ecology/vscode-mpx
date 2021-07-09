@@ -162,9 +162,12 @@ export function getSingleTypeDocument(
     .join("\n");
 
   let langId: string = defaultLanguageIdForBlockTypes[type];
-
+  let hasJson = false;
   for (const r of regions) {
-    if (r.type === type) {
+    if (r.type === type && !hasJson) {
+      if (type === 'json') {
+        hasJson = true;
+      }
       newContent =
         newContent.slice(0, r.start) +
         oldContent.slice(r.start, r.end) +
