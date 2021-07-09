@@ -90,12 +90,19 @@
           ".mpx"
         ],
         "configuration": "./languages/vue-language-configuration.json"
+      },
+      {
+        "id": "vue-html",
+        "aliases": [
+          "Vue-html"
+        ],
+        "configuration": "./languages/vue-html-language-configuration.json"
       }
     ],
     "grammars": [
       {
         "language": "mpx",
-        "scopeName": "source.mpx",
+        "scopeName": "source.vue",
         "path": "./syntaxes/vue-generated.json",
         "embeddedLanguages": {
           "text.html.basic": "html",
@@ -118,6 +125,14 @@
           "source.json": "json",
           "source.php": "php",
           "source.graphql": "graphql"
+        }
+      },
+      {
+        "language": "vue-html",
+        "scopeName": "text.html.vue-html",
+        "path": "./syntaxes/vue-html.tmLanguage.json",
+        "embeddedLanguages": {
+          "source.js": "javascript"
         }
       }
     ],

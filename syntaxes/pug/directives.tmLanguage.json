@@ -3,7 +3,7 @@
   "injectionSelector": "L:meta.tag.other -text.html.vue-html",
   "patterns": [
     {
-      "include": "source.mpx#vue-directives"
+      "include": "source.vue#vue-directives"
     }
   ]
 }
