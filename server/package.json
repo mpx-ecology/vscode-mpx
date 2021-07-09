@@ -30,7 +30,7 @@
     "eslint-plugin-mpx": "^0.0.19",
     "gridsome-helper-json": "^1.0.3",
     "js-beautify": "^1.10.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "nuxt-helper-json": "^1.0.0",
     "parse-gitignore": "^1.0.1",
     "prettier": "^1.18.2",
