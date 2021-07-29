@@ -28,6 +28,8 @@
 
 &ensp;&ensp;与其他语言插件无异，提供相应代码的高亮，因为Mpx分为四个模块，所以每个模块都有相应的语法高亮，还包括注释快捷键，也区分了相应模块，比如`<template>`中使用的是html的高亮，且注释是`<!-- -->`,而`<script>`中就是`js`的高亮，注释是`//`
 
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-0.png)
+
 ### emmet
 
 &ensp;&ensp;早在使用sublime时就在使用emmet插件，以提高写HTML的效率。
@@ -38,14 +40,20 @@
 
 &ensp;&ensp;不仅仅是`<template>`模块，css，scss，less，stylus，sass模块也有相应的快捷指令
 
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-200258.gif)
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-200331.gif)
+
 ### 跳转定义
 
 &ensp;&ensp;command + 鼠标左键 查看定义位置，也可以在当前文件查看内容，决定是否跳转
 
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-200848.gif)
 
 ### 自动补全
 
 &ensp;&ensp;毕竟Mpx是个小程序的框架，对于微信和支付宝的api快速补全snippets没有怎么能行，可在`<script>`中通过键入部分文字插入相应的代码块
+
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-201858.gif)
 
 ### eslint
 
@@ -63,6 +71,8 @@
 
 `<json>`模块同tempalte，用到了一个eslint插件`eslint-plugin-jsonc`来检测json的部分
 
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-202133@2x.png)
+
 部分二可参照此[链接](https://github.com/mpx-ecology/vscode-mpx/issues/35)配置
 
 
@@ -71,6 +81,8 @@
 &ensp;&ensp;插件仓库最初由我建立，后面加入吴贤强同学，完成了格式化，json模块等等的开发，谢志鹏同学完成了ts相关的开发,让我们的插件的进度得以发展迅速，感谢小伙伴的努力。
 
 ### 项目框架
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/tre.png)
+项目整体基于语言服务器协议（LSP），语言服务器协议采用JSON-RPC作为最基本的消息格式。我们在serve层实现我们的功能，通过client端来调用。vscode提供LSP的库更加便于我们实现给予协议的接口，在服务层处理这些复杂的交互相比端来处理更具有优势。
 
 期间的确遇到了很多问题，比如
 
