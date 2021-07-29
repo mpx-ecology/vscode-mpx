@@ -43,6 +43,28 @@
 ![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-200258.gif)
 ![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-200331.gif)
 
+
+提示组件标签
+
+我们可以像编写 html 一样，只要输入对应的单词就会出现对应的标签，比如输入的是 view ，然后按下 tab 键，即可输入 `<view></view>` 标签。
+
+<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/tishi1.png" width="500" alt="图片名称" />
+
+组件指令提示
+
+指令的提示类似于 vue 文件一样，只要输入对应的指令前缀就会出现对应的完整指令，比如输入的是 wx ，然后按下 tab 键，就可以输入 wx:if="" 指令。
+<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/tishi2.png" width="500" alt="图片名称" />
+
+组件属性提示
+
+微信小程序的每个组件都有一些属性选项，在编写组件的时候输入前缀就会出现完整的属性，并且包含了属性的说明和属性的类型。
+<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/tishi3.png" width="500" alt="图片名称" />
+
+组件事件提示
+
+给组件绑定事件，也是只需要输入事件的前缀，就会出现完整的事件列表，然后按下 tab 键，即可输入 bindtap="" 类似的事件。
+<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/tishi4.png" width="500" alt="图片名称" />
+
 ### 跳转定义
 
 &ensp;&ensp;command + 鼠标左键 查看定义位置，也可以在当前文件查看内容，决定是否跳转
@@ -74,6 +96,44 @@
 ![image](https://gift-static.hongyibo.com.cn/static/kfpub/6168/QQ20210728-202133@2x.png)
 
 部分二可参照此[链接](https://github.com/mpx-ecology/vscode-mpx/issues/35)配置
+
+### 代码格式化
+
+支持代码格式化 JavaScript  (ts)· JSON · CSS (less/scss/stylus) · WXML，通过鼠标右键选择代码格式化文档。
+
+<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/format.png" width="300" alt="图片名称" />
+
+
+默认每个区块都是调用 Prettier 这个库来完成格式化的，当然也可以在设置中切换成使用其他库。
+
+<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/format2.png" width="300" alt="图片名称" />
+
+如果切换成 none 将会禁用格式化。
+
+Prettier 支持从项目根目录读取 .prettierrc 配置文件。配置选项可以参考 [官方](https://prettier.io/docs/en/configuration.html) 文档。.prettierrc 文件可以使用 JSON 语法编写，比如下面这样：
+
+```
+{
+  "tabWidth": 4,
+  "semi": false,
+  "singleQuote": true
+}
+```
+
+注意：由于 Prettier 这个库不支持格式化 stylus 语法，所以 stylus 的格式化使用另外一个 stylus-supremacy 库，配置 stylus 格式化规则只能在编辑器的 settings 中配置。
+```
+"mpx.format.defaultFormatterOptions": {
+  "stylus-supremacy": {
+    "insertColons": false, // 不使用括号
+    "insertSemicolons": false, // 不使用冒号
+    "insertBraces": false, // 不使用分号
+    "insertNewLineAroundImports": true, // import之后插入空行
+    "insertNewLineAroundBlocks": false // 每个块不添加空行
+  }
+}
+```
+总结一下，配置格式化有两种方式，一种是使用 .prettierrc 文件的形式配置，另一种是在编辑器的 settings 中自行配置，通过 mpx.format.defaultFormatterOptions 选项。
+
 
 
 ## 开发历程
@@ -124,6 +184,10 @@ eslint主要作用于javascript模块和template模块
 第三个问题
 
 首先eslint会拿到我们的文本内容，用`mpx-eslint-parser`这个parser解析，然后找到javascript模块和template模块，会先对javascript模块进行解析，用的是eslint默认用的解析器`espree`,然后`espree`执行完成的最后一个钩子中，再去解析template模版，用的是`mpx-eslint-parser`中实现的对template的一个解析。
+
+### 格式化
+
+关于格式化的实现原理介绍：目前比较流行的格式化库有 Prettier，但是把完整的 Mpx 文件代码传给 Prettier 是无法直接格式化的，我们需要分区块进行格式化，也就是把 `<template>` `<script>` `<style>` 每个部分里面的内容分别传给 Prettier 去处理。在提取每个区块的时候，会把其他的区块内容全部转换为空格，因为我们在格式化的时候，要保证每个区块的位置不发生变化，只是里面的内容发生变化。
 
 ## 最后
 
