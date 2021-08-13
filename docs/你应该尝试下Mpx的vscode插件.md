@@ -101,12 +101,11 @@
 
 支持代码格式化 JavaScript  (ts)· JSON · CSS (less/scss/stylus) · WXML，通过鼠标右键选择代码格式化文档。
 
-<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/format.png" width="300" alt="图片名称" />
-
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/3547/format.png)
 
 默认每个区块都是调用 Prettier 这个库来完成格式化的，当然也可以在设置中切换成使用其他库。
 
-<img src="https://gift-static.hongyibo.com.cn/static/kfpub/3547/format2.png" width="300" alt="图片名称" />
+![image](https://gift-static.hongyibo.com.cn/static/kfpub/3547/format2.png)
 
 如果切换成 none 将会禁用格式化。
 
