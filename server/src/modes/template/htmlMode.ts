@@ -95,7 +95,6 @@ export class HTMLMode implements LanguageMode {
         getComponentInfoTagProvider(info.componentInfo.childComponents)
       );
     }
-
     return doComplete(
       embedded,
       position,

@@ -29,7 +29,7 @@ const wxDirectives = [
   ),
   genAttribute(
     "wx:show",
-    u,
+    "s",
     "与 wx:if 所不同的是不会移除节点，而是设置节点的 style 为 display: none。"
   ),
   genAttribute(
@@ -37,15 +37,19 @@ const wxDirectives = [
     "v",
     "也可以用 `wx:elif` 和 `wx:else` 来添加一个 else 块"
   ),
-  genAttribute("wx:if", u, "在框架中，使用 `wx:if` 来判断是否需要渲染该代码块"),
+  genAttribute(
+    "wx:if",
+    "s",
+    "在框架中，使用 `wx:if` 来判断是否需要渲染该代码块"
+  ),
   genAttribute(
     "wx:elif",
-    u,
+    "s",
     "也可以用 `wx:elif` 和 `wx:else` 来添加一个 else 块"
   ),
   genAttribute(
     "wx:for",
-    u,
+    "s",
     "在组件上使用 `wx:for` 控制属性绑定一个数组，即可使用数组中各项的数据重复渲染该组件"
   ),
   genAttribute(
@@ -65,17 +69,17 @@ const wxDirectives = [
   ),
   genAttribute(
     "wx:class",
-    u,
+    "s",
     "我们可以传给 wx:class 一个对象，以动态地切换 class"
   ),
   genAttribute(
     "wx:style",
-    u,
+    "s",
     "我们可以传给 wx:style 一个对象，以动态地切换 style"
   ),
   genAttribute(
     "wx:model",
-    u,
+    "s",
     "除了小程序原生指令之外，mpx 基于input事件提供了一个指令 wx:model, 用于双向绑定。"
   ),
   genAttribute(

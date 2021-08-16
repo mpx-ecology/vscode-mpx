@@ -222,7 +222,9 @@ export function doComplete(
           return;
         }
         let codeSnippet = attribute;
-        if (type !== "v" && value.length) {
+        if (type === "s" && value.length) {
+          codeSnippet = codeSnippet + '="{{$1}}"';
+        } else if (type !== "v" && value.length) {
           codeSnippet = codeSnippet + value;
         }
         result.items.push({
