@@ -4,7 +4,10 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-### 0.2.4 | 2021-07-09 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.5/vspackage)
+### 0.2.6 | 2021-10-18 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.6/vspackage)
+- 优化微信指令格式
+
+### 0.2.5 | 2021-07-09 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.5/vspackage)
 - 修复注释bug
 - 修改snipptes的bug
 
