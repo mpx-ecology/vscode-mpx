@@ -89,7 +89,11 @@
         "extensions": [
           ".mpx"
         ],
-        "configuration": "./languages/vue-language-configuration.json"
+        "configuration": "./languages/vue-language-configuration.json",
+        "icon": {
+          "light": "./images/logop.png",
+          "dark": "./images/logop.png"
+        }
       },
       {
         "id": "vue-html",
