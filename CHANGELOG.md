@@ -4,6 +4,9 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.2.7 | 2022-03-11 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.7/vspackage)
+- 增加文件图标
+
 ### 0.2.6 | 2021-10-18 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.6/vspackage)
 - 优化微信指令格式
 
