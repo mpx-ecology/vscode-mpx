@@ -80,7 +80,6 @@ export class VLS {
     this.documentService = new DocumentService(this.lspConnection);
     this.vueInfoService = new VueInfoService();
     this.dependencyService = new DependencyService();
-
     this.languageModes = new LanguageModes();
   }
 

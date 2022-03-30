@@ -593,7 +593,7 @@ export async function getJavascriptMode(
       }
 
       const parser =
-        scriptDoc.languageId === "javascript" ? "babylon" : "typescript";
+        scriptDoc.languageId === "javascript" ? "babel" : "typescript";
       const needInitialIndent = config.mpx.format.scriptInitialIndent;
       const vlsFormatConfig: VLSFormatConfig = config.mpx.format;
 
@@ -623,10 +623,10 @@ export async function getJavascriptMode(
         // 为了加上空格
         if (vlsFormatConfig.mpxIndentScriptAndStyle) {
           const tabSize = " ".repeat(vlsFormatConfig.options.tabSize);
-          currentCode.forEach((item:{newText:string}) => {
+          currentCode.forEach((item: { newText: string }) => {
             item.newText = item.newText
               .split("\n")
-              .map((line) => {
+              .map(line => {
                 if (line.length) {
                   return tabSize + line;
                 }

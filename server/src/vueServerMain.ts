@@ -17,8 +17,8 @@ console.log = (a, f = false) => {
   connection.console.log(JSON.stringify(a));
 };
 console.error = connection.console.error.bind(connection.console);
-
 const vls = new VLS(connection);
+
 connection.onInitialize(
   async (params: InitializeParams): Promise<InitializeResult> => {
     await vls.init(params);
