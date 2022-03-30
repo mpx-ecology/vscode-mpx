@@ -1,12 +1,13 @@
 import * as assert from "assert";
 import {
   CompletionList,
-  TextDocument,
   CompletionItemKind,
   Position,
   CompletionItem,
-  TextEdit
+  TextEdit,
+  InsertReplaceEdit
 } from "vscode-languageserver-types";
+import { TextDocument } from "vscode-languageserver-textdocument";
 
 export interface CompletionTestSetup {
   doComplete(doc: TextDocument, pos: Position): CompletionList;
@@ -47,14 +48,19 @@ export class CompletionAsserter {
       matches.length,
       1,
       label +
-        " should only existing once: Actual: " +
+        " should exist once: Actual: " +
         items.map(c => c.label).join(", ")
     );
     this.lastMatch = matches[0];
     return this;
   }
   withDoc(doc: string) {
-    assert.equal(this.lastMatch.documentation, doc);
+    const documentation = this.lastMatch.documentation;
+    if (typeof documentation === "object" && documentation !== null) {
+      assert.equal(documentation.value, doc);
+    } else {
+      assert.equal(documentation, doc);
+    }
     return this;
   }
   withKind(kind: CompletionItemKind) {
@@ -78,8 +84,25 @@ export class CompletionAsserter {
   }
 }
 
-function applyEdits(document: TextDocument, edits: TextEdit[]): string {
+function applyEdits(
+  document: TextDocument,
+  edits: (TextEdit | InsertReplaceEdit | undefined)[]
+): string {
   let text = document.getText();
+
+  const textEdits = edits.filter(isTextEdit);
+  const textReplaceEdits = edits.filter(isInsertReplaceEdit);
+
+  text = applyTextEdits(document, text, textEdits);
+  text = applyInsertReplaceEdits(document, text, textReplaceEdits);
+  return text;
+}
+
+function applyTextEdits(
+  document: TextDocument,
+  text: string,
+  edits: TextEdit[]
+) {
   const sortedEdits = edits.sort(
     (a, b) =>
       document.offsetAt(b.range.start) - document.offsetAt(a.range.start)
@@ -96,5 +119,30 @@ function applyEdits(document: TextDocument, edits: TextEdit[]): string {
       text.substring(endOffset, text.length);
     lastOffset = startOffset;
   });
+
   return text;
+}
+
+function applyInsertReplaceEdits(
+  document: TextDocument,
+  text: string,
+  edits: InsertReplaceEdit[]
+) {
+  if (edits.length > 0) {
+    throw new Error("applyInsertReplaceEdits is not implemented");
+  }
+
+  return text;
+}
+
+function isTextEdit(
+  value: TextEdit | InsertReplaceEdit | undefined
+): value is TextEdit {
+  return !!value && "range" in value;
+}
+
+function isInsertReplaceEdit(
+  value: TextEdit | InsertReplaceEdit | undefined
+): value is InsertReplaceEdit {
+  return !!value && ("insert" in value || "replace" in value);
 }

@@ -6,7 +6,7 @@ import {
   DocumentFormattingParams,
   DocumentLinkParams,
   FileChangeType,
-  IConnection,
+  Connection,
   TextDocumentPositionParams,
   ColorPresentationParams,
   InitializeParams,
@@ -14,6 +14,7 @@ import {
   TextDocumentSyncKind,
   DocumentFormattingRequest,
   Disposable,
+  DocumentSymbolParams,
   CodeActionParams
 } from "vscode-languageserver";
 import {
@@ -24,18 +25,15 @@ import {
   Diagnostic,
   DocumentHighlight,
   DocumentLink,
-  DocumentSymbolParams,
   Hover,
   Location,
   SignatureHelp,
   SymbolInformation,
-  TextDocument,
-  TextDocumentChangeEvent,
   TextEdit,
   ColorPresentation,
   Range
 } from "vscode-languageserver-types";
-
+import { TextDocument } from 'vscode-languageserver-textdocument';
 import Uri from "vscode-uri";
 import {
   LanguageModes,
@@ -76,7 +74,7 @@ export class VLS {
 
   private documentFormatterRegistration: Disposable | undefined;
 
-  constructor(private lspConnection: IConnection) {
+  constructor(private lspConnection: Connection) {
     this.documentService = new DocumentService(this.lspConnection);
     this.vueInfoService = new VueInfoService();
     this.dependencyService = new DependencyService();
@@ -209,7 +207,7 @@ export class VLS {
 
   private setupFileChangeListeners() {
     this.documentService.onDidChangeContent(
-      (change: TextDocumentChangeEvent) => {
+      (change) => {
         this.triggerValidation(change.document);
       }
     );

@@ -2,7 +2,7 @@ import {
   createConnection,
   InitializeParams,
   InitializeResult
-} from "vscode-languageserver";
+} from "vscode-languageserver/node";
 import { VLS } from "./services/vls";
 
 const connection =
@@ -30,5 +30,5 @@ connection.onInitialize(
     };
   }
 );
-
+debugger;
 vls.listen();
