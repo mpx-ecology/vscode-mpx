@@ -4,6 +4,11 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.2.8 | 2022-03-30 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.8/vspackage)
+
+- 修复[js模块格式化问题](https://github.com/mpx-ecology/vscode-mpx/issues/51)
+- 修复stylus报错
+
 ### 0.2.7 | 2022-03-11 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.7/vspackage)
 - 增加文件图标
 
