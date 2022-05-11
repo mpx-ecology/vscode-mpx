@@ -425,7 +425,8 @@
               "wrapAttributes": false,
               "sortAttributes": false,
               "semi": false,
-              "insertSpaceBeforeFunctionParenthesis": true
+              "insertSpaceBeforeFunctionParenthesis": true,
+              "trailingComma": "none"
             },
             "stylus-supremacy": {
               "insertColons": false,
