@@ -19,6 +19,10 @@ Install [vscode-mpx](https://marketplace.visualstudio.com/items?itemName=pagnkel
 
 ## 📖 Usage
 
+### 高亮
+
+如果遇到高亮的任何问题，可以尝试把vetur插件禁用掉，看看是否生效
+
 ### 格式化
 
 vscode-mpx 支持代码格式化 JavaScript · TypeScript · JSON · CSS · SCSS · Less · Wxml  
