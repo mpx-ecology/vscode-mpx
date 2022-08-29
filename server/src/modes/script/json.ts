@@ -4,9 +4,11 @@ import {
   Range,
   FormattingOptions,
   TextEdit,
-  DiagnosticSeverity
+  DiagnosticSeverity,
+  Position,
+  Definition
 } from "vscode-languageserver-types";
-
+import Uri from "vscode-uri";
 import { LanguageMode } from "../../embeddedSupport/languageModes";
 import { IServiceHost } from "../../services/typescriptService/serviceHost";
 import {
@@ -27,6 +29,7 @@ import {
   prettierTslintify
 } from "../../utils/prettier";
 import { doESLintValidation, createLintEngine } from "./jsonValidation";
+import { languageServiceIncludesFile } from "./javascript";
 
 const lintEngine = createLintEngine();
 
@@ -74,8 +77,53 @@ export function getJsonMode(
     // doResolve?(document: TextDocument, item: CompletionItem): CompletionItem;
     // doHover?(document: TextDocument, position: Position): Hover;
 
-    // findDefinition?(document: TextDocument, position: Position): Definition;
+    findDefinition(doc: TextDocument, position: Position): Definition {
+      const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
+      if (!languageServiceIncludesFile(service, doc.uri)) {
+        return [];
+      }
+      const fileFsPath = getFileFsPath(doc.uri);
+      const definitions = service.getDefinitionAtPosition(
+        fileFsPath,
+        scriptDoc.offsetAt(position)
+      );
+      console.log(definitions);
 
+      // Add suffix to process this doc as vue template.
+      console.log(doc.getText(), "dddd");
+      const fake = TextDocument.create(
+        doc.uri + ".js",
+        doc.languageId,
+        doc.version,
+        doc.getText()
+      );
+
+      const d = service.findReferences(
+        getFileFsPath(fake.uri),
+        scriptDoc.offsetAt(position)
+      );
+      console.log(d);
+      console.log("d");
+      if (!definitions) {
+        return [];
+      }
+
+      const definitionResults: Definition = [];
+      const program = service.getProgram();
+      if (!program) {
+        return [];
+      }
+      definitions.forEach(d => {
+        const definitionTargetDoc = getSourceDoc(d.fileName, program);
+        definitionResults.push({
+          uri: Uri.file(d.fileName).toString(),
+          range: convertRange(definitionTargetDoc, d.textSpan)
+        });
+      });
+      console.log(definitionResults);
+      console.log("json");
+      return definitionResults;
+    },
     onDocumentRemoved(document: TextDocument) {},
     dispose() {},
     format(
@@ -200,4 +248,9 @@ function convertOptions(
     indentSize: options.tabSize,
     baseIndentSize: options.tabSize * initialIndentLevel
   });
+}
+
+function getSourceDoc(fileName: string, program: ts.Program): TextDocument {
+  const sourceFile = program.getSourceFile(fileName)!;
+  return TextDocument.create(fileName, "mpx", 0, sourceFile.getFullText());
 }
