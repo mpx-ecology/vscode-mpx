@@ -90,7 +90,8 @@ export function getJsonMode(
       console.log(definitions);
 
       // Add suffix to process this doc as vue template.
-      console.log(doc.getText(), "dddd");
+      console.log(doc.getText());
+      console.log('dddd');
       const fake = TextDocument.create(
         doc.uri + ".js",
         doc.languageId,
