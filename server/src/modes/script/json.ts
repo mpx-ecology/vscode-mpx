@@ -87,23 +87,30 @@ export function getJsonMode(
         fileFsPath,
         scriptDoc.offsetAt(position)
       );
-      console.log(definitions);
-
-      // Add suffix to process this doc as vue template.
-      console.log(doc.getText());
-      console.log('dddd');
-      const fake = TextDocument.create(
-        doc.uri + ".js",
-        doc.languageId,
-        doc.version,
-        doc.getText()
-      );
-
-      const d = service.findReferences(
-        getFileFsPath(fake.uri),
-        scriptDoc.offsetAt(position)
-      );
-      console.log(d);
+      const offset = scriptDoc.offsetAt(position);
+      const left = offset;
+      const right = offset;
+      const jsondoc = jsonRegionDocuments.refreshAndGet(doc);
+      let text = jsondoc.getText();
+      text = text.replace(/\s*/g, '');
+      // text = text.replace(/(\")*/g, '"')
+      console.log(text);
+      const usemap = JSON.parse(text);
+      console.log(usemap.usingComponents);
+      const s = service.getBreakpointStatementAtPosition(fileFsPath, scriptDoc.offsetAt(position));
+      console.log(s);
+      // if (offset) {
+      //   while (text[left] !== '"' || text[left] !== "'") {
+      //     left--
+      //   }
+      //   while (text[right] !== '"' || text[right] !== "'") {
+      //     right++
+      //   }
+      // }
+      // const r = service.getSmartSelectionRange(fileFsPath, scriptDoc.offsetAt(position))
+      // console.log(left)
+      // console.log(right)
+      // console.log(r)
       console.log("d");
       if (!definitions) {
         return [];
