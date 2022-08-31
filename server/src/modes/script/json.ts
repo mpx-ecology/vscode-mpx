@@ -30,7 +30,7 @@ import {
 } from "../../utils/prettier";
 import { doESLintValidation, createLintEngine } from "./jsonValidation";
 import { languageServiceIncludesFile } from "./javascript";
-
+import * as path from "path";
 const lintEngine = createLintEngine();
 
 export function getJsonMode(
@@ -88,49 +88,55 @@ export function getJsonMode(
         scriptDoc.offsetAt(position)
       );
       const offset = scriptDoc.offsetAt(position);
-      const left = offset;
-      const right = offset;
+      let left = offset;
+      let right = offset;
       const jsondoc = jsonRegionDocuments.refreshAndGet(doc);
       let text = jsondoc.getText();
+      console.log(offset);
+      if (offset) {
+        while (text[left] !== '\"' && text[left] !== "\'") {
+          left--;
+        }
+        while (text[right] !== '\"' && text[right] !== "\'") {
+          right++;
+        }
+      }
+
+      console.log(left);
+      console.log(right);
+      console.log(text[left]);
+      console.log(text[right]);
+      const startPosition = doc.positionAt(left + 1);
+      const endPosition = doc.positionAt(right);
+      const range = Range.create(startPosition, endPosition);
+      const imkey = doc.getText(range);
+      console.log(imkey);
       text = text.replace(/\s*/g, '');
       // text = text.replace(/(\")*/g, '"')
       console.log(text);
       const usemap = JSON.parse(text);
+      const usingComponents = usemap.usingComponents;
       console.log(usemap.usingComponents);
-      const s = service.getBreakpointStatementAtPosition(fileFsPath, scriptDoc.offsetAt(position));
-      console.log(s);
-      // if (offset) {
-      //   while (text[left] !== '"' || text[left] !== "'") {
-      //     left--
-      //   }
-      //   while (text[right] !== '"' || text[right] !== "'") {
-      //     right++
-      //   }
-      // }
-      // const r = service.getSmartSelectionRange(fileFsPath, scriptDoc.offsetAt(position))
-      // console.log(left)
-      // console.log(right)
-      // console.log(r)
-      console.log("d");
-      if (!definitions) {
-        return [];
+      let p = '';
+      if (usingComponents[imkey]) {
+        p = usingComponents[imkey];
       }
+      const vals = Object.values(usemap.usingComponents);
 
-      const definitionResults: Definition = [];
-      const program = service.getProgram();
-      if (!program) {
-        return [];
+      if (vals.includes(imkey)) {
+        p = imkey;
       }
-      definitions.forEach(d => {
-        const definitionTargetDoc = getSourceDoc(d.fileName, program);
-        definitionResults.push({
-          uri: Uri.file(d.fileName).toString(),
-          range: convertRange(definitionTargetDoc, d.textSpan)
-        });
-      });
-      console.log(definitionResults);
-      console.log("json");
-      return definitionResults;
+      const currentPath = path.dirname(doc.uri);
+      const dPath = path.join(currentPath, p);
+      console.log(dPath);
+      const dp = getFileFsPath(dPath);
+      console.log(dp);
+      return [
+        {
+          uri: Uri.file(dp + '.mpx').toString(),
+          range: Range.create(doc.positionAt(0), doc.positionAt(0))
+        }
+      ];
     },
     onDocumentRemoved(document: TextDocument) {},
     dispose() {},
