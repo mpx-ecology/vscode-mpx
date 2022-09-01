@@ -296,7 +296,7 @@ function convertOptions(
   });
 }
 
-function checkFilePath(filePath: string) {
+export function checkFilePath(filePath: string) {
   const filePaths = [filePath, filePath + ".mpx"];
   let dp = "";
   for (let i = 0; i < filePaths.length; i++) {
