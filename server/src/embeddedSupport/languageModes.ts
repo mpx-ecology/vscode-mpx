@@ -220,7 +220,11 @@ export class LanguageModes {
     this.modes["javascript"] = jsMode;
     this.modes["typescript"] = jsMode;
     this.modes["tsx"] = jsMode;
-    this.modes["json"] = getJsonMode(this.serviceHost, this.documentRegions);
+    this.modes["json"] = getJsonMode(
+      this.serviceHost,
+      this.documentRegions,
+      workspacePath
+    );
     this.modes["jsonscript"] = jsonScriptMode;
   }
 

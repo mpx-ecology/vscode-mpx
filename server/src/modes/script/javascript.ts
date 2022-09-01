@@ -475,8 +475,6 @@ export async function getJavascriptMode(
           range: convertRange(definitionTargetDoc, d.textSpan)
         });
       });
-      console.log(definitionResults);
-      console.log('js');
       return definitionResults;
     },
     findReferences(doc: TextDocument, position: Position): Location[] {
