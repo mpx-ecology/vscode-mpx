@@ -93,10 +93,14 @@ export function getJsonMode(
       let right = offset;
       // 找位置
       if (offset) {
-        while (text[left] !== '"' && text[left] !== "'") {
+        while (left > 0 && text[left] !== '"' && text[left] !== "'") {
           left--;
         }
-        while (text[right] !== '"' && text[right] !== "'") {
+        while (
+          right < text.length &&
+          text[right] !== '"' &&
+          text[right] !== "'"
+        ) {
           right++;
         }
       }
@@ -105,11 +109,29 @@ export function getJsonMode(
       const endPosition = doc.positionAt(right);
       const range = Range.create(startPosition, endPosition);
       const pointText = doc.getText(range);
+
+      // 是相对路径直接处理
+      if (pointText.startsWith(".")) {
+        const currentPath = path.dirname(doc.uri);
+        let dPath = path.join(currentPath, pointText);
+        dPath = checkFilePath(dPath);
+        if (dPath) {
+          return [
+            {
+              uri: Uri.file(dPath).toString(),
+              range: Range.create(doc.positionAt(0), doc.positionAt(0))
+            }
+          ];
+        }
+      }
+      // 不是相对路径只检查pages和usingComponents
       // format text 去掉空格
       text = text.replace(/\s*/g, "");
       // 找出usingComponents
       const usemap = JSON.parse(text);
       const usingComponents = usemap.usingComponents;
+      const pages = usemap.pages || [];
+
       // p就是所点击的路径
       // 第一种情况是点击的是usingComponents对象的key
       let p = "";
@@ -117,10 +139,15 @@ export function getJsonMode(
         p = usingComponents[pointText];
       }
       // 第二种点击的是usingComponents对象的value
-      const vals = Object.values(usemap.usingComponents);
-      if (vals.includes(pointText)) {
+      // 或者是pages下的
+      const usingComponentsValues = Object.values(usemap.usingComponents);
+      if (
+        usingComponentsValues.includes(pointText) ||
+        pages.includes(pointText)
+      ) {
         p = pointText;
       }
+
       // path分两种，一种是node_modules下的，一种是相对于当前目录的
       let dPath = "";
       if (p.startsWith(".")) {
@@ -129,17 +156,16 @@ export function getJsonMode(
       } else {
         dPath = path.join(workspacePath + "/node_modules", p);
       }
-      // 对于没有拼写完成的路径，做好兼容拼接
-      dPath = dPath.endsWith(".mpx") ? dPath : dPath + ".mpx";
-      // 点击到不是路径的地方，无效文件则不处理
-      const dp = getFileFsPath(dPath);
-      if (!fs.existsSync(dp)) {
+
+      dPath = checkFilePath(dPath);
+
+      if (!dPath) {
         return [];
       }
 
       return [
         {
-          uri: Uri.file(dp).toString(),
+          uri: Uri.file(dPath).toString(),
           range: Range.create(doc.positionAt(0), doc.positionAt(0))
         }
       ];
@@ -270,7 +296,14 @@ function convertOptions(
   });
 }
 
-function getSourceDoc(fileName: string, program: ts.Program): TextDocument {
-  const sourceFile = program.getSourceFile(fileName)!;
-  return TextDocument.create(fileName, "mpx", 0, sourceFile.getFullText());
+function checkFilePath(filePath: string) {
+  const filePaths = [filePath, filePath + ".mpx"];
+  let dp = "";
+  for (let i = 0; i < filePaths.length; i++) {
+    dp = getFileFsPath(filePaths[i]);
+    if (fs.existsSync(dp)) {
+      return dp;
+    }
+  }
+  return "";
 }
