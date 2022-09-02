@@ -4,9 +4,11 @@ import {
   Range,
   FormattingOptions,
   TextEdit,
-  DiagnosticSeverity
+  DiagnosticSeverity,
+  Position,
+  Definition
 } from "vscode-languageserver-types";
-
+import Uri from "vscode-uri";
 import { LanguageMode } from "../../embeddedSupport/languageModes";
 import { IServiceHost } from "../../services/typescriptService/serviceHost";
 import {
@@ -27,12 +29,15 @@ import {
   prettierTslintify
 } from "../../utils/prettier";
 import { doESLintValidation, createLintEngine } from "./jsonValidation";
-
+import { languageServiceIncludesFile } from "./javascript";
+import * as path from "path";
+import * as fs from "fs";
 const lintEngine = createLintEngine();
 
 export function getJsonMode(
   serviceHost: IServiceHost,
-  documentRegions: LanguageModelCache<VueDocumentRegions>
+  documentRegions: LanguageModelCache<VueDocumentRegions>,
+  workspacePath: string | undefined
 ): LanguageMode {
   const jsonRegionDocuments = getLanguageModelCache(10, 60, document => {
     const vueDocument = documentRegions.refreshAndGet(document);
@@ -74,8 +79,97 @@ export function getJsonMode(
     // doResolve?(document: TextDocument, item: CompletionItem): CompletionItem;
     // doHover?(document: TextDocument, position: Position): Hover;
 
-    // findDefinition?(document: TextDocument, position: Position): Definition;
+    findDefinition(doc: TextDocument, position: Position): Definition {
+      const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
+      if (!languageServiceIncludesFile(service, doc.uri)) {
+        return [];
+      }
+      // 获取json的文案
+      const jsondoc = jsonRegionDocuments.refreshAndGet(doc);
+      let text = jsondoc.getText();
+      // 获取当前位置，用于找出当前所点选的单词
+      const offset = scriptDoc.offsetAt(position);
+      let left = offset;
+      let right = offset;
+      // 找位置
+      if (offset) {
+        while (left > 0 && text[left] !== '"' && text[left] !== "'") {
+          left--;
+        }
+        while (
+          right < text.length &&
+          text[right] !== '"' &&
+          text[right] !== "'"
+        ) {
+          right++;
+        }
+      }
+      // 找出单词
+      const startPosition = doc.positionAt(left + 1);
+      const endPosition = doc.positionAt(right);
+      const range = Range.create(startPosition, endPosition);
+      const pointText = doc.getText(range);
 
+      // 是相对路径直接处理
+      if (pointText.startsWith(".")) {
+        const currentPath = path.dirname(doc.uri);
+        let dPath = path.join(currentPath, pointText);
+        dPath = checkFilePath(dPath);
+        if (dPath) {
+          return [
+            {
+              uri: Uri.file(dPath).toString(),
+              range: Range.create(doc.positionAt(0), doc.positionAt(0))
+            }
+          ];
+        }
+      }
+      // 不是相对路径只检查pages和usingComponents
+      // format text 去掉空格
+      text = text.replace(/\s*/g, "");
+      // 找出usingComponents
+      const usemap = JSON.parse(text);
+      const usingComponents = usemap.usingComponents;
+      const pages = usemap.pages || [];
+
+      // p就是所点击的路径
+      // 第一种情况是点击的是usingComponents对象的key
+      let p = "";
+      if (usingComponents[pointText]) {
+        p = usingComponents[pointText];
+      }
+      // 第二种点击的是usingComponents对象的value
+      // 或者是pages下的
+      const usingComponentsValues = Object.values(usemap.usingComponents);
+      if (
+        usingComponentsValues.includes(pointText) ||
+        pages.includes(pointText)
+      ) {
+        p = pointText;
+      }
+
+      // path分两种，一种是node_modules下的，一种是相对于当前目录的
+      let dPath = "";
+      if (p.startsWith(".")) {
+        const currentPath = path.dirname(doc.uri);
+        dPath = path.join(currentPath, p);
+      } else {
+        dPath = path.join(workspacePath + "/node_modules", p);
+      }
+
+      dPath = checkFilePath(dPath);
+
+      if (!dPath) {
+        return [];
+      }
+
+      return [
+        {
+          uri: Uri.file(dPath).toString(),
+          range: Range.create(doc.positionAt(0), doc.positionAt(0))
+        }
+      ];
+    },
     onDocumentRemoved(document: TextDocument) {},
     dispose() {},
     format(
@@ -200,4 +294,16 @@ function convertOptions(
     indentSize: options.tabSize,
     baseIndentSize: options.tabSize * initialIndentLevel
   });
+}
+
+export function checkFilePath(filePath: string) {
+  const filePaths = [filePath, filePath + ".mpx"];
+  let dp = "";
+  for (let i = 0; i < filePaths.length; i++) {
+    dp = getFileFsPath(filePaths[i]);
+    if (fs.existsSync(dp)) {
+      return dp;
+    }
+  }
+  return "";
 }

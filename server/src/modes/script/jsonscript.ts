@@ -1,9 +1,21 @@
+import * as ts from "typescript";
+import Uri from "vscode-uri";
+import * as path from "path";
 import { getJavascriptMode } from "./javascript";
 import { LanguageModelCache } from "../../embeddedSupport/languageModelCache";
 import { VueDocumentRegions } from "../../embeddedSupport/embeddedSupport";
 import { IServiceHost } from "../../services/typescriptService/serviceHost";
 import { VueInfoService } from "../../services/vueInfoService";
 import { DependencyService } from "../../services/dependencyService";
+import {
+  Position,
+  TextDocument,
+  Definition,
+  Range
+} from "vscode-languageserver-types";
+import { languageServiceIncludesFile } from "./javascript";
+import { checkFilePath } from "./json";
+import { getFileFsPath, getFilePath } from "../../utils/paths";
 
 export async function getJsonscriptMode(
   serviceHost: IServiceHost,
@@ -20,5 +32,52 @@ export async function getJsonscriptMode(
     dependencyService
   );
   jsMode.getId = () => "jsonscript";
+  const { updateCurrentVueTextDocument } = serviceHost;
+  const rawFindDefinition = jsMode.findDefinition as (
+    document: TextDocument,
+    position: Position
+  ) => Definition;
+  function findDefinition(doc: TextDocument, position: Position): Definition {
+    const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
+    if (!languageServiceIncludesFile(service, doc.uri)) {
+      return [];
+    }
+    const fileFsPath = getFileFsPath(doc.uri);
+    const range = service.getSmartSelectionRange(
+      fileFsPath,
+      scriptDoc.offsetAt(position)
+    );
+
+    const pointText = doc.getText(convertRange(scriptDoc, range.textSpan));
+    const result: any = [];
+
+    if (pointText.includes("/")) {
+      let dPath = "";
+      if (pointText.startsWith(".")) {
+        const currentPath = path.dirname(doc.uri);
+        dPath = path.join(currentPath, pointText);
+      } else {
+        dPath = path.join(workspacePath + "/node_modules", pointText);
+      }
+
+      dPath = checkFilePath(dPath);
+      if (dPath) {
+        result.push({
+          uri: Uri.file(dPath).toString(),
+          range: Range.create(doc.positionAt(0), doc.positionAt(0))
+        });
+      }
+    }
+
+    const rawResult = rawFindDefinition(doc, position);
+    return result.concat(rawResult);
+  }
+  jsMode.findDefinition = findDefinition;
   return jsMode;
+}
+
+function convertRange(document: TextDocument, span: ts.TextSpan): Range {
+  const startPosition = document.positionAt(span.start);
+  const endPosition = document.positionAt(span.start + span.length);
+  return Range.create(startPosition, endPosition);
 }
