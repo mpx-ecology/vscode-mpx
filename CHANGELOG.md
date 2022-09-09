@@ -4,7 +4,11 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-### 0.2.10 | 2022-09-2 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.10/vspackage)
+### 0.2.11 | 2022-09-09 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.11/vspackage)
+
+- compositionAPI支持，eslint插件更新
+
+### 0.2.10 | 2022-09-02 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.10/vspackage)
 
 - 增加json模块定义跳转功能(`<script type="application/json">`)中组件名,路径均可跳转，(`<script name="json">`)仅支持路径。
 
