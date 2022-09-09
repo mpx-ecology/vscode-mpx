@@ -4,6 +4,10 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.2.12 | 2022-09-09 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.12/vspackage)
+
+- 修复eslint问题
+
 ### 0.2.11 | 2022-09-09 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.11/vspackage)
 
 - compositionAPI支持，eslint插件更新
