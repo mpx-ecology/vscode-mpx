@@ -1,0 +1,17 @@
+<script setup>
+  
+</script>
+
+<template>
+  ${0}
+</template>
+
+<style lang="stylus">
+
+</style>
+
+<script type="application/json">
+  {
+    "usingComponents": {}
+  }
+</script>
