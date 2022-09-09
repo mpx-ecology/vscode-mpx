@@ -46,7 +46,7 @@ export function createLintEngine() {
   return new CLIEngine({
     useEslintrc: false,
     cwd: SERVER_ROOT,
-    ...configs["composition-api-essential"],
+    ...configs.base,
     ...configs["mpx-essential"]
   });
 }
