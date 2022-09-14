@@ -1377,13 +1377,13 @@ eslint-plugin-jsonc@^1.1.0:
     jsonc-eslint-parser "^1.0.0"
     natural-compare "^1.4.0"
 
-eslint-plugin-mpx@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.npmmirror.com/eslint-plugin-mpx/-/eslint-plugin-mpx-0.2.1.tgz#bfe1911e490be79328434652cf0ba04a0ee5dab3"
-  integrity sha512-I+Rd8iLmy7fUQPUxBlKy0FLacaG/350azvm3erQadOMjiYqHjWtwu24HSATEd9JIn9K1e6J1mWvc4bRruynkdw==
+eslint-plugin-mpx@0.0.23:
+  version "0.0.23"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/eslint-plugin-mpx/-/eslint-plugin-mpx-0.0.23.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-plugin-mpx%2F-%2Feslint-plugin-mpx-0.0.23.tgz#9fac71cc30a6345afe3900c6fbbca465c5a2b8a2"
+  integrity sha1-n6xxzDCmNFr+OQDG+7ykZcWiuKI=
   dependencies:
     eslint-utils "^2.1.0"
-    mpx-eslint-parser "0.0.9"
+    mpx-eslint-parser "0.0.8"
     natural-compare "^1.4.0"
     semver "^7.3.2"
     vue-eslint-parser "^7.1.0"
@@ -3062,10 +3062,10 @@ mout@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/mout/-/mout-0.5.0.tgz#ff967566a90f29595e9cb8b6e7800a5b56635583"
 
-mpx-eslint-parser@0.0.9:
-  version "0.0.9"
-  resolved "https://registry.npmmirror.com/mpx-eslint-parser/-/mpx-eslint-parser-0.0.9.tgz#430388e1835283ce18a70205054afd9818905d42"
-  integrity sha512-7d6mH+Re76TKzLY6IiHCqYwHGl/CBqrN4wm0tJeyRn5PtZ3pj16Ym9B3Sf1ivux3rRVourY7pxbbER4YhkzLPw==
+mpx-eslint-parser@0.0.8:
+  version "0.0.8"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/mpx-eslint-parser/-/mpx-eslint-parser-0.0.8.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fmpx-eslint-parser%2F-%2Fmpx-eslint-parser-0.0.8.tgz#79d9b876e5e8ebd0c20da36862df636bf4ecee1a"
+  integrity sha1-edm4duXo69DCDaNoYt9ja/Ts7ho=
   dependencies:
     debug "^4.1.1"
     eslint-scope "^5.0.0"

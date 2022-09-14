@@ -27,7 +27,7 @@
     "element-helper-json": "^2.0.6",
     "eslint": "^7.8.1",
     "eslint-plugin-jsonc": "^1.1.0",
-    "eslint-plugin-mpx": "^0.2.1",
+    "eslint-plugin-mpx": "0.0.23",
     "gridsome-helper-json": "^1.0.3",
     "js-beautify": "^1.10.0",
     "lodash": "^4.17.21",
