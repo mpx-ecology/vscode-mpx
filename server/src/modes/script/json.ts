@@ -108,7 +108,7 @@ export function getJsonMode(
       const startPosition = doc.positionAt(left + 1);
       const endPosition = doc.positionAt(right);
       const range = Range.create(startPosition, endPosition);
-      const pointText = doc.getText(range);
+      const pointText = doc.getText(range).split("?")[0];
 
       // 是相对路径直接处理
       if (pointText.startsWith(".")) {
