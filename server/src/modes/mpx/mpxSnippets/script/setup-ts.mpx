@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  
+  defineProps({})
+  defineExpose({})
 </script>
 
 <template>

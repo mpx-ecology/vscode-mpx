@@ -1,5 +1,6 @@
 <script setup>
-  
+  defineProps({})
+  defineExpose({})
 </script>
 
 <template>
