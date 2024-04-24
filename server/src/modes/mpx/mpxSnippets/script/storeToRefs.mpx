@@ -1,0 +1,3 @@
+const XXX = useXXX()
+const { aaa } = storeToRefs(XXX)
+const { bbb } = XXX
