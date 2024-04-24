@@ -4,6 +4,12 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.2.14 | 2024-04-24 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.14/vspackage)
+
+- 修复跳转定义问题
+- 增加snipptes setup-ts-single & storeToRefs
+- 增加template跳转定义功能
+
 ### 0.2.13 | 2022-09-14 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.13/vspackage)
 
 - 修复eslint globals问题
