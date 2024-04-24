@@ -169,7 +169,10 @@ export class LanguageModes {
       workspacePath,
       scriptRegionDocuments
     );
-
+    const jsonRegionDocuments = getLanguageModelCache(10, 60, document => {
+      const vueDocument = this.documentRegions.refreshAndGet(document);
+      return vueDocument.getSingleTypeDocument("json");
+    });
     const vueHtmlMode = new VueHTMLMode(
       tsModule,
       this.serviceHost,
@@ -206,6 +209,7 @@ export class LanguageModes {
       this.jsonScriptserviceHost,
       this.documentRegions,
       workspacePath,
+      jsonScriptRegionDocuments,
       services.infoService,
       services.dependencyService
     );
@@ -222,8 +226,9 @@ export class LanguageModes {
     this.modes["tsx"] = jsMode;
     this.modes["json"] = getJsonMode(
       this.serviceHost,
-      this.documentRegions,
-      workspacePath
+      jsonRegionDocuments,
+      workspacePath,
+      services.infoService
     );
     this.modes["jsonscript"] = jsonScriptMode;
   }

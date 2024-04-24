@@ -19,7 +19,7 @@ export interface ComponentInfo {
   definition?: Definition;
 
   childComponents?: ChildComponent[];
-
+  childMap?: any;
   /**
    * Todo: Extract type info in cases like
    * props: {

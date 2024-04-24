@@ -320,6 +320,7 @@ export function injectVueTemplate(
 
   // wrap render code with a function decralation
   // with `this` type of component.
+
   const statements = renderBlock.map(exp =>
     tsModule.createExpressionStatement(exp)
   );

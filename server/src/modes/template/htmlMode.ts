@@ -45,12 +45,13 @@ export class HTMLMode implements LanguageMode {
   private config: any = {};
 
   private lintEngine = createLintEngine();
-
+  private workspacePath = "";
   constructor(
     documentRegions: LanguageModelCache<VueDocumentRegions>,
     workspacePath: string | undefined,
     private vueInfoService?: VueInfoService
   ) {
+    this.workspacePath = workspacePath || "";
     this.tagProviderSettings = getTagProviderSettings(workspacePath);
     this.enabledTagProviders = getEnabledTagProviders(this.tagProviderSettings);
     this.embeddedDocuments = getLanguageModelCache<TextDocument>(
@@ -148,6 +149,7 @@ export class HTMLMode implements LanguageMode {
       embedded,
       position,
       this.vueDocuments.refreshAndGet(embedded),
+      this.workspacePath,
       info
     );
   }

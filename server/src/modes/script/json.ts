@@ -19,6 +19,7 @@ import {
   VueDocumentRegions,
   LanguageRange
 } from "../../embeddedSupport/embeddedSupport";
+import { VueInfoService } from "../../services/vueInfoService";
 import { VLSFormatConfig } from "../../config";
 import { getFileFsPath, getFilePath } from "../../utils/paths";
 import * as ts from "typescript";
@@ -36,13 +37,10 @@ const lintEngine = createLintEngine();
 
 export function getJsonMode(
   serviceHost: IServiceHost,
-  documentRegions: LanguageModelCache<VueDocumentRegions>,
-  workspacePath: string | undefined
+  jsonRegionDocuments: LanguageModelCache<TextDocument>,
+  workspacePath: string | undefined,
+  vueInfoService?: VueInfoService
 ): LanguageMode {
-  const jsonRegionDocuments = getLanguageModelCache(10, 60, document => {
-    const vueDocument = documentRegions.refreshAndGet(document);
-    return vueDocument.getSingleTypeDocument("json");
-  });
   const { updateCurrentVueTextDocument } = serviceHost;
   let config: any = {};
 
@@ -52,6 +50,25 @@ export function getJsonMode(
     },
     configure(c: any) {
       config = c;
+    },
+    updateFileInfo(doc: TextDocument): void {
+      if (!vueInfoService) {
+        return;
+      }
+      // 获取json的文案
+      const jsondoc = jsonRegionDocuments.refreshAndGet(doc);
+      let text = jsondoc.getText();
+      text = text.replace(/\s*/g, "");
+      // 找出usingComponents
+      const usemap = JSON.parse(text);
+      const usingComponents = usemap.usingComponents;
+      if (usingComponents) {
+        vueInfoService.updateInfo(doc, {
+          componentInfo: {
+            childMap: usingComponents
+          }
+        });
+      }
     },
     doValidation(document: TextDocument): Diagnostic[] {
       // const { jsonDoc, service } = updateCurrentVueTextDocument(document);
@@ -87,6 +104,7 @@ export function getJsonMode(
       // 获取json的文案
       const jsondoc = jsonRegionDocuments.refreshAndGet(doc);
       let text = jsondoc.getText();
+
       // 获取当前位置，用于找出当前所点选的单词
       const offset = scriptDoc.offsetAt(position);
       let left = offset;
@@ -143,7 +161,8 @@ export function getJsonMode(
       const usingComponentsValues = Object.values(usemap.usingComponents);
       if (
         usingComponentsValues.includes(pointText) ||
-        pages.includes(pointText)
+        pages.includes(pointText) ||
+        p === ""
       ) {
         p = pointText;
       }
@@ -156,7 +175,6 @@ export function getJsonMode(
       } else {
         dPath = path.join(workspacePath + "/node_modules", p);
       }
-
       dPath = checkFilePath(dPath);
 
       if (!dPath) {
@@ -297,7 +315,8 @@ function convertOptions(
 }
 
 export function checkFilePath(filePath: string) {
-  const filePaths = [filePath, filePath + ".mpx"];
+  filePath = filePath.replace(/\?.*/, "");
+  const filePaths = [filePath + ".mpx", filePath + "/index.mpx", filePath];
   let dp = "";
   for (let i = 0; i < filePaths.length; i++) {
     dp = getFileFsPath(filePaths[i]);

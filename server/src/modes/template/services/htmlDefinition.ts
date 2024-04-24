@@ -9,7 +9,8 @@ import {
 } from "vscode-languageserver-types";
 import { VueFileInfo } from "../../../services/vueInfoService";
 import URI from "vscode-uri";
-
+import * as path from "path";
+import { checkFilePath } from "../../script/json";
 const TRIVIAL_TOKEN = [
   TokenType.StartTagOpen,
   TokenType.EndTagOpen,
@@ -20,6 +21,7 @@ export function findDefinition(
   document: TextDocument,
   position: Position,
   htmlDocument: HTMLDocument,
+  workspacePath: string,
   vueFileInfo?: VueFileInfo
 ): Definition {
   const offset = document.offsetAt(position);
@@ -34,21 +36,31 @@ export function findDefinition(
     open: boolean
   ): Definition {
     tag = tag.toLowerCase();
-
-    if (vueFileInfo && vueFileInfo.componentInfo.childComponents) {
-      for (const cc of vueFileInfo.componentInfo.childComponents) {
-        if (tag === cc.name) {
-          if (cc.definition) {
-            const loc: Location = {
-              uri: URI.file(cc.definition.path).toString(),
-              // Todo: Resolve actual default export range
-              range: Range.create(0, 0, 0, 0)
-            };
-            return loc;
-          }
-        }
+    if (
+      vueFileInfo &&
+      vueFileInfo.componentInfo.childMap &&
+      vueFileInfo.componentInfo.childMap[tag]
+    ) {
+      const childPath = vueFileInfo.componentInfo.childMap[tag];
+      let dPath = "";
+      if (childPath.startsWith(".")) {
+        const currentPath = path.dirname(document.uri);
+        dPath = path.join(currentPath, childPath);
+      } else {
+        dPath = path.join(workspacePath + "/node_modules", childPath);
       }
+      dPath = checkFilePath(dPath);
+      if (!dPath) {
+        return [];
+      }
+      return [
+        {
+          uri: URI.file(dPath).toString(),
+          range: Range.create(document.positionAt(0), document.positionAt(0))
+        }
+      ];
     }
+
     return [];
   }
 

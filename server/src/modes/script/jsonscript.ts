@@ -21,6 +21,7 @@ export async function getJsonscriptMode(
   serviceHost: IServiceHost,
   documentRegions: LanguageModelCache<VueDocumentRegions>,
   workspacePath: string | undefined,
+  jsonScriptRegionDocuments: LanguageModelCache<TextDocument>,
   vueInfoService?: VueInfoService,
   dependencyService?: DependencyService
 ) {
@@ -59,7 +60,6 @@ export async function getJsonscriptMode(
       } else {
         dPath = path.join(workspacePath + "/node_modules", pointText);
       }
-
       dPath = checkFilePath(dPath);
       if (dPath) {
         result.push({
@@ -73,6 +73,25 @@ export async function getJsonscriptMode(
     return result.concat(rawResult);
   }
   jsMode.findDefinition = findDefinition;
+  jsMode.updateFileInfo = (doc: TextDocument) => {
+    if (!vueInfoService) {
+      return;
+    }
+    const jsondoc = jsonScriptRegionDocuments.refreshAndGet(doc);
+    let text = jsondoc.getText();
+    text = text.replace(/\s*/g, "");
+    const res = text.match(/usingComponents:(\{.*?\})/);
+
+    if (res && res[1]) {
+      const jsonText = res[1].replace(/'/g, '"');
+      const usingComponents = JSON.parse(jsonText);
+      vueInfoService.updateInfo(doc, {
+        componentInfo: {
+          childMap: usingComponents
+        }
+      });
+    }
+  };
   return jsMode;
 }
 
