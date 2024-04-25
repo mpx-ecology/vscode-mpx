@@ -35,7 +35,6 @@ export function findDefinition(
     range: Range,
     open: boolean
   ): Definition {
-    tag = tag.toLowerCase();
     if (
       vueFileInfo &&
       vueFileInfo.componentInfo.childMap &&
