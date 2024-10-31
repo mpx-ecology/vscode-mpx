@@ -83,7 +83,7 @@ export async function getJsonscriptMode(
     const res = text.match(/usingComponents:(\{.*\})/);
     if (res && res[1]) {
       const jsonText = res[1].replace(/'/g, '"');
-      const pathList: null | RegExpMatchArray | [] =
+      const pathList: RegExpMatchArray | [] =
         jsonText.match(/[^({|}|,)]*:"[^"]*"/g) || [];
       const usingComponents: any = {};
       pathList.forEach(item => {
