@@ -80,11 +80,23 @@ export async function getJsonscriptMode(
     const jsondoc = jsonScriptRegionDocuments.refreshAndGet(doc);
     let text = jsondoc.getText();
     text = text.replace(/\s*/g, "");
-    const res = text.match(/usingComponents:(\{.*?\})/);
-
+    const res = text.match(/usingComponents:(\{.*\})/);
     if (res && res[1]) {
       const jsonText = res[1].replace(/'/g, '"');
-      const usingComponents = JSON.parse(jsonText);
+      const pathList: null | RegExpMatchArray | [] =
+        jsonText.match(/[^({|}|,)]*:"[^"]*"/g) || [];
+      const usingComponents: any = {};
+      pathList.forEach(item => {
+        if (item.slice(0, 2) !== "//") {
+          const splitPath = item.split(":");
+          if (splitPath.length > 1) {
+            const [k, v] = splitPath;
+            const key = k.replace(/"/g, "");
+            const value = v.replace(/"/g, "");
+            usingComponents[key] = value;
+          }
+        }
+      });
       vueInfoService.updateInfo(doc, {
         componentInfo: {
           childMap: usingComponents
