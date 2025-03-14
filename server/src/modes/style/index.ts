@@ -184,7 +184,7 @@ function getStyleMode(
         range
       );
     },
-    format(document, currRange, formattingOptions) {
+    async format(document, currRange, formattingOptions) {
       const vlsFormatConfig = config.mpx.format as VLSFormatConfig;
       if (config.mpx.format.defaultFormatter[languageId] === "none") {
         return [];
@@ -198,7 +198,7 @@ function getStyleMode(
         scss: "scss",
         less: "less"
       };
-      const currentCode = prettierify(
+      const currentCode = await prettierify(
         value,
         getFileFsPath(document.uri),
         range,

@@ -275,10 +275,10 @@ export class VLS {
    * Language Features
    */
 
-  onDocumentFormatting({
+  async onDocumentFormatting({
     textDocument,
     options
-  }: DocumentFormattingParams): TextEdit[] {
+  }: DocumentFormattingParams): Promise<TextEdit[]> {
     const doc = this.documentService.getDocument(textDocument.uri)!;
 
     const modeRanges = this.languageModes.getAllLanguageModeRangesInDocument(
@@ -287,24 +287,45 @@ export class VLS {
     const allEdits: TextEdit[] = [];
 
     const errMessages: string[] = [];
-
-    modeRanges.forEach(modeRange => {
-      if (modeRange.mode && modeRange.mode.format) {
-        try {
-          const edits = modeRange.mode.format(
-            doc,
-            this.toSimpleRange(modeRange),
-            options
-          );
-          for (const edit of edits) {
-            allEdits.push(edit);
+    // modeRanges.forEach(modeRange => {
+    //   if (modeRange.mode && modeRange.mode.format) {
+    //     try {
+    //       const edits = modeRange.mode.format(
+    //         doc,
+    //         this.toSimpleRange(modeRange),
+    //         options
+    //       );
+    //       for (const edit of edits) {
+    //         allEdits.push(edit);
+    //       }
+    //     } catch (err) {
+    //       errMessages.push(err.toString());
+    //     }
+    //   }
+    // });
+    const allEditsRes = await Promise.all(
+      modeRanges.map(modeRange => {
+        if (modeRange.mode && modeRange.mode.format) {
+          try {
+            return modeRange.mode.format(
+              doc,
+              this.toSimpleRange(modeRange),
+              options
+            );
+          } catch (err) {
+            errMessages.push(err.toString());
           }
-        } catch (err) {
-          errMessages.push(err.toString());
+        }
+        return Promise.resolve([]);
+      })
+    );
+    allEditsRes.forEach((edits: any) => {
+      if (edits) {
+        for (const edit of edits) {
+          allEdits.push(edit);
         }
       }
     });
-
     if (errMessages.length !== 0) {
       this.displayErrorMessage(
         'Formatting failed: "' + errMessages.join("\n") + '"'

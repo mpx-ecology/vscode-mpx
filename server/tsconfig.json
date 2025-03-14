@@ -4,7 +4,7 @@
     "composite": true,
     "outDir": "./dist",
     "rootDir": "src",
-    "lib": ["es2015", "es2016.array.include"],
+    "lib": ["es2015", "es2016.array.include", "dom"],
     // Most classes in VLS are asynchronously initialized
     "strictPropertyInitialization": false
   },

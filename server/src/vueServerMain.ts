@@ -10,7 +10,7 @@ const connection =
     ? createConnection(process.stdin, process.stdout)
     : createConnection();
 
-console.log = (a, f = false) => {
+console.log = (a: any, f = false) => {
   if (f) {
     return connection.console.log(a);
   }

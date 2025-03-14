@@ -46,12 +46,10 @@ export interface PrettierConfig {
 
 export interface Prettier {
   format(text: string, options?: Partial<PrettierConfig>): string;
-  resolveConfig: {
-    sync(
-      filePath: string,
-      options?: { useCache: boolean }
-    ): Partial<PrettierConfig> | null;
-  };
+  resolveConfig(
+    fileUrlOrPath: string | URL,
+    options?: { useCache: boolean }
+  ): Promise<Partial<PrettierConfig> | null>;
   clearConfigCache(): void;
   readonly version: string;
 }

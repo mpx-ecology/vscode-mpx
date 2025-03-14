@@ -92,7 +92,7 @@ export interface LanguageMode {
     document: TextDocument,
     range: Range,
     options: FormattingOptions
-  ): TextEdit[];
+  ): Promise<TextEdit[]>;
   findDocumentColors?(document: TextDocument): ColorInformation[];
   getColorPresentations?(
     document: TextDocument,

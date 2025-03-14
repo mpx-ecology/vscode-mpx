@@ -190,11 +190,11 @@ export function getJsonMode(
     },
     onDocumentRemoved(document: TextDocument) {},
     dispose() {},
-    format(
+    async format(
       doc: TextDocument,
       range: Range,
       formatParams: FormattingOptions
-    ): TextEdit[] {
+    ): Promise<TextEdit[]> {
       const { service } = updateCurrentVueTextDocument(doc);
       const jsonDoc = jsonRegionDocuments.refreshAndGet(doc)!;
       const defaultFormatter =
@@ -225,7 +225,7 @@ export function getJsonMode(
         } else {
           doFormat = prettierify;
         }
-        const currentCode = doFormat(
+        const currentCode = await doFormat(
           code,
           filePath,
           range,

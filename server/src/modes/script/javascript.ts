@@ -576,11 +576,11 @@ export async function getJavascriptMode(
       const uriMapping = createUriMappingForEdits(response.edits, service);
       return createApplyCodeActionCommand("", uriMapping);
     },
-    format(
+    async format(
       doc: TextDocument,
       range: Range,
       formatParams: FormattingOptions
-    ): TextEdit[] {
+    ): Promise<TextEdit[]> {
       const { scriptDoc, service } = updateCurrentVueTextDocument(doc);
 
       const defaultFormatter =
@@ -612,7 +612,7 @@ export async function getJavascriptMode(
         } else {
           doFormat = prettierify;
         }
-        const currentCode = doFormat(
+        const currentCode = await doFormat(
           code,
           filePath,
           range,

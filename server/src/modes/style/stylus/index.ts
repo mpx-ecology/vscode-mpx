@@ -74,7 +74,7 @@ export function getStylusMode(
       const embedded = embeddedDocuments.refreshAndGet(document);
       return stylusHover(embedded, position);
     },
-    format(document, range, formatParams) {
+    async format(document, range, formatParams) {
       if (config.mpx.format.defaultFormatter.stylus === "none") {
         return [];
       }

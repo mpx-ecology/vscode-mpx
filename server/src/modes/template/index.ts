@@ -75,12 +75,12 @@ export class VueHTMLMode implements LanguageMode {
   findDocumentSymbols(document: TextDocument) {
     return this.htmlMode.findDocumentSymbols(document);
   }
-  format(
+  async format(
     document: TextDocument,
     range: Range,
     formattingOptions: FormattingOptions
   ) {
-    return this.htmlMode.format(document, range, formattingOptions);
+    return await this.htmlMode.format(document, range, formattingOptions);
   }
   findReferences(document: TextDocument, position: Position): Location[] {
     return this.vueInterpolationMode.findReferences(document, position);

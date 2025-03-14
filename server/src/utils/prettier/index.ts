@@ -11,24 +11,24 @@ import { indentSection } from "../strings";
 import { requireLocalPkg } from "./requirePkg";
 import { VLSFormatConfig } from "../../config";
 
-export function prettierify(
+export async function prettierify(
   code: string,
   fileFsPath: string,
   range: Range,
   vlsFormatConfig: VLSFormatConfig,
   parser: ParserOption,
   initialIndent: boolean
-): TextEdit[] {
+): Promise<TextEdit[]> {
   try {
     const prettier = requireLocalPkg(fileFsPath, "prettier") as Prettier;
-    const prettierOptions = getPrettierOptions(
+    const prettierOptions = await getPrettierOptions(
       prettier,
       fileFsPath,
       parser,
       vlsFormatConfig
     );
 
-    const prettierifiedCode = prettier.format(code, prettierOptions);
+    const prettierifiedCode = await prettier.format(code, prettierOptions);
     return [
       toReplaceTextedit(
         prettierifiedCode,
@@ -44,14 +44,14 @@ export function prettierify(
   }
 }
 
-export function prettierEslintify(
+export async function prettierEslintify(
   code: string,
   fileFsPath: string,
   range: Range,
   vlsFormatConfig: VLSFormatConfig,
   parser: ParserOption,
   initialIndent: boolean
-): TextEdit[] {
+): Promise<TextEdit[]> {
   try {
     const prettier = requireLocalPkg(fileFsPath, "prettier") as Prettier;
     const prettierEslint = requireLocalPkg(
@@ -59,7 +59,7 @@ export function prettierEslintify(
       "prettier-eslint"
     ) as PrettierEslintFormat;
 
-    const prettierOptions = getPrettierOptions(
+    const prettierOptions = await getPrettierOptions(
       prettier,
       fileFsPath,
       parser,
@@ -86,20 +86,20 @@ export function prettierEslintify(
     return [];
   }
 }
-export function prettierTslintify(
+export async function prettierTslintify(
   code: string,
   fileFsPath: string,
   range: Range,
   vlsFormatConfig: VLSFormatConfig,
   parser: ParserOption,
   initialIndent: boolean
-): TextEdit[] {
+): Promise<TextEdit[]> {
   try {
     const prettier = requireLocalPkg(fileFsPath, "prettier") as Prettier;
     const prettierTslint = requireLocalPkg(fileFsPath, "prettier-tslint")
       .format as PrettierTslintFormat;
 
-    const prettierOptions = getPrettierOptions(
+    const prettierOptions = await getPrettierOptions(
       prettier,
       fileFsPath,
       parser,
@@ -127,13 +127,13 @@ export function prettierTslintify(
     return [];
   }
 }
-function getPrettierOptions(
+async function getPrettierOptions(
   prettierModule: Prettier,
   fileFsPath: string,
   parser: ParserOption,
   vlsFormatConfig: VLSFormatConfig
 ) {
-  const prettierrcOptions = prettierModule.resolveConfig.sync(fileFsPath, {
+  const prettierrcOptions = await prettierModule.resolveConfig(fileFsPath, {
     useCache: false
   });
 

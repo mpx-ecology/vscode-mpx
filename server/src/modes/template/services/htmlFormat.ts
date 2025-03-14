@@ -23,11 +23,11 @@ type PrettyHtmlConfig = IPrettyHtml extends (
 const TEMPLATE_HEAD = "<template>";
 const TEMPLATE_TAIL = "</template>";
 
-export function htmlFormat(
+export async function htmlFormat(
   document: TextDocument,
   currRange: Range,
   vlsFormatConfig: VLSFormatConfig
-): TextEdit[] {
+): Promise<TextEdit[]> {
   if (vlsFormatConfig.defaultFormatter.html === "none") {
     return [];
   }
@@ -38,13 +38,13 @@ export function htmlFormat(
   let beautifiedHtml: string;
 
   if (vlsFormatConfig.defaultFormatter.html === "prettyhtml") {
-    beautifiedHtml = formatWithPrettyHtml(
+    beautifiedHtml = await formatWithPrettyHtml(
       getFileFsPath(document.uri),
       originalSource,
       vlsFormatConfig
     );
   } else if (vlsFormatConfig.defaultFormatter.html === "prettier") {
-    const prettierResult = formatWithPrettier(
+    const prettierResult = await formatWithPrettier(
       originalSource,
       getFileFsPath(document.uri),
       currRange,
@@ -72,14 +72,14 @@ export function htmlFormat(
   ];
 }
 
-function formatWithPrettyHtml(
+async function formatWithPrettyHtml(
   fileFsPath: string,
   input: string,
   vlsFormatConfig: VLSFormatConfig
-): string {
+): Promise<string> {
   const prettier = requireLocalPkg(fileFsPath, "prettier") as Prettier;
   const prettierrcOptions =
-    prettier.resolveConfig.sync(fileFsPath, { useCache: false }) || null;
+    (await prettier.resolveConfig(fileFsPath, { useCache: false })) || null;
 
   const prettyhtml: IPrettyHtml = requireLocalPkg(
     fileFsPath,
@@ -110,7 +110,7 @@ function formatWithJsBeautify(
   return htmlBeautify(input, htmlFormattingOptions);
 }
 
-function formatWithPrettier(
+async function formatWithPrettier(
   code: string,
   fileFsPath: string,
   range: Range,

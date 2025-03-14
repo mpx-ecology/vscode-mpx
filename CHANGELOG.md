@@ -4,6 +4,10 @@
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 0.2.17 | 2025-03-14 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.17/vspackage)
+
+- 升级prettier版本 2=>3，低于3版本将不再支持
+
 ### 0.2.16 | 2024-10-31 | [VSIX](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/pagnkelly/vsextensions/mpx/0.2.16/vspackage)
 
 - 修复name=json模块转化报错，导致服务宕机

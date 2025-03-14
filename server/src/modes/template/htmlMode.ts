@@ -132,7 +132,7 @@ export class HTMLMode implements LanguageMode {
       this.vueDocuments.refreshAndGet(document)
     );
   }
-  format(
+  async format(
     document: TextDocument,
     range: Range,
     formattingOptions: FormattingOptions
